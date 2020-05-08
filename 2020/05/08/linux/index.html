@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>linux | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[toc] linux相关配置和操作1. 常见命令  tar  1234#打包tar -zcvf FileName.tar dirName#解包tar -zxvf FileName.tar   unzip  1unzip [-o 覆盖 |-n 不覆盖] FileName.zip [-d Dirname 指定位置] #解压      2. LAMP安装和配置  安装  123sudo apt-get">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux">
+<meta property="og:url" content="http://yoursite.com/2020/05/08/linux/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[toc] linux相关配置和操作1. 常见命令  tar  1234#打包tar -zcvf FileName.tar dirName#解包tar -zxvf FileName.tar   unzip  1unzip [-o 覆盖 |-n 不覆盖] FileName.zip [-d Dirname 指定位置] #解压      2. LAMP安装和配置  安装  123sudo apt-get">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-08T06:22:13.435Z">
+<meta property="article:modified_time" content="2020-04-21T13:21:37.189Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-linux" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/08/linux/" class="article-date">
+  <time datetime="2020-05-08T06:22:13.435Z" itemprop="datePublished">2020-05-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="linux相关配置和操作"><a href="#linux相关配置和操作" class="headerlink" title="linux相关配置和操作"></a>linux相关配置和操作</h1><h2 id="1-常见命令"><a href="#1-常见命令" class="headerlink" title="1. 常见命令"></a>1. 常见命令</h2><ul>
+<li><ol>
+<li>tar</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#打包</span></span><br><span class="line">tar -zcvf FileName.tar dirName</span><br><span class="line"><span class="comment">#解包</span></span><br><span class="line">tar -zxvf FileName.tar</span><br></pre></td></tr></table></figure>
+</li>
+<li><ol start="2">
+<li>unzip</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip [-o 覆盖 |-n 不覆盖] FileName.zip [-d Dirname 指定位置] #解压</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="2-LAMP安装和配置"><a href="#2-LAMP安装和配置" class="headerlink" title="2. LAMP安装和配置"></a>2. LAMP安装和配置</h2><ul>
+<li><ol>
+<li>安装</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update              # 获取最新资源包</span><br><span class="line">sudo tasksel install lamp-server #安装lamp</span><br><span class="line">sudo tasksel remove lamp-server  #一键卸载lamp</span><br></pre></td></tr></table></figure>
+
+
+
+
+</li>
+</ul>
+<h2 id="3-LINUX用户操作"><a href="#3-LINUX用户操作" class="headerlink" title="3.  LINUX用户操作"></a>3.  LINUX用户操作</h2><ul>
+<li><strong>添加用户组</strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">groupadd groupname</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>添加用户</strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">useradd username -m -s /bin/bash -d /home/username -g groupname</span><br><span class="line"></span><br><span class="line"><span class="comment">#参数说明：</span></span><br><span class="line">-s /sbin/nologin设置不能登陆-s /bin/<span class="literal">false</span>(老方法) 也行</span><br><span class="line">-d 设置用户主目录</span><br><span class="line">-g 用户组</span><br><span class="line">-m 创建用户目录</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>更改用户登录权限</strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加用户登录权限</span></span><br><span class="line">usermod -s /bin/bash username</span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁用用户登录权限</span></span><br><span class="line">usermod -s /sbin/nologin username</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>设置密码</strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">passwd username</span><br><span class="line"><span class="comment"># enter password:....</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除用户</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userdel username</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-linux启动级别"><a href="#4-linux启动级别" class="headerlink" title="4. linux启动级别"></a>4. linux启动级别</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">init0-6（启动级别）</span><br><span class="line">一. init是Linux系统操作中不可缺少的程序之一。</span><br><span class="line">　　所谓的init进程，它是一个由内核启动的用户级进程。</span><br><span class="line">　　内核自行启动（已经被载入内存，开始运行，并已初始化所有的设备驱动程序和数据结构等）之后，就通过启动一个用户级程序init的方式，完成引导进程。所以,init始终是第一个进程（其进程编号始终为1）。</span><br><span class="line">　　内核会在过去曾使用过init的几个地方查找它，它的正确位置（对Linux系统来说）是/sbin/init。如果内核找不到init，它就会试着运行/bin/sh，如果运行失败，系统的启动也会失败。</span><br><span class="line">二. init一共分为7个级别，这7个级别的所代表的含义如下</span><br><span class="line">0：停机或者关机（千万不能将initdefault设置为0）</span><br><span class="line">1：单用户模式，只root用户进行维护</span><br><span class="line">2：多用户模式，不能使用NFS(Net File System)</span><br><span class="line">3：完全多用户模式（标准的运行级别）</span><br><span class="line">4：安全模式</span><br><span class="line">5：图形化（即图形界面）</span><br><span class="line">6：重启（千万不要把initdefault设置为6）</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/08/linux/" data-id="ck9xtbhzq0001twuq7oajf0rq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/05/08/mysql/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          mysql
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/05/08/JSCode/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JSCode</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/08/phpCode/">phpCode</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/08/mysql/">mysql</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/08/linux/">linux</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/08/JSCode/">JSCode</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
