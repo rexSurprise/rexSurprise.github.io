@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
 
-  
-  <title>rexRexSurprise</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="rexRexSurprise的个人博客~">
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"atc96.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Rex_Surprise的个人博客~">
 <meta property="og:type" content="website">
-<meta property="og:title" content="rexRexSurprise">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="rexRexSurprise">
-<meta property="og:description" content="rexRexSurprise的个人博客~">
+<meta property="og:title" content="Rex_Surprise">
+<meta property="og:url" content="https://atc96.top/index.html">
+<meta property="og:site_name" content="Rex_Surprise">
+<meta property="og:description" content="Rex_Surprise的个人博客~">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Rex_Surprise">
 <meta property="article:tag" content="个人博客">
@@ -20,445 +33,510 @@
 <meta property="article:tag" content="rex">
 <meta property="article:tag" content="RexSurprise">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="rexRexSurprise" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<link rel="canonical" href="https://atc96.top/">
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">rexRexSurprise</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Welcome to rexRexSurprise!</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-phpCode" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/08/phpCode/" class="article-date">
-  <time datetime="2020-05-08T06:22:13.475Z" itemprop="datePublished">2020-05-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/08/phpCode/">phpCode</a>
-    </h1>
-  
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[TOC]</p>
-<h1 id="PHP工具代码"><a href="#PHP工具代码" class="headerlink" title="PHP工具代码"></a>PHP工具代码</h1><h2 id="1-php文件上传错误检测"><a href="#1-php文件上传错误检测" class="headerlink" title="1. php文件上传错误检测"></a>1. php文件上传错误检测</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_error</span><span class="params">($file)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> ($file[<span class="string">'error'</span>] &gt; <span class="number">0</span>) &#123;   </span><br><span class="line">		    <span class="keyword">switch</span> ($file[<span class="string">'error'</span>])  </span><br><span class="line">		    &#123;  </span><br><span class="line">		        <span class="keyword">case</span> <span class="number">1</span>:  </span><br><span class="line">		            <span class="keyword">exit</span>(<span class="string">'上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值'</span>);  </span><br><span class="line">		            <span class="keyword">break</span>;  </span><br><span class="line">		        <span class="keyword">case</span> <span class="number">2</span>:  </span><br><span class="line">		            <span class="keyword">exit</span>(<span class="string">'上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值'</span>);  </span><br><span class="line">		            <span class="keyword">break</span>;  </span><br><span class="line">		        <span class="keyword">case</span> <span class="number">3</span>:  </span><br><span class="line">		            <span class="keyword">exit</span>(<span class="string">'文件只有部分被上传'</span>);  </span><br><span class="line">		            <span class="keyword">break</span>;  </span><br><span class="line">		        <span class="keyword">case</span> <span class="number">4</span>: </span><br><span class="line">		            <span class="keyword">exit</span>(<span class="string">'没有文件被上传'</span>);  </span><br><span class="line">		            <span class="keyword">break</span>;  </span><br><span class="line">		        <span class="keyword">case</span> <span class="number">5</span>:  </span><br><span class="line">		            <span class="keyword">exit</span>(<span class="string">'上传文件大小为0'</span>);  </span><br><span class="line">		            <span class="keyword">break</span>;  </span><br><span class="line">		    &#125;  </span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
 
-<h2 id="2-PHP-base64编码"><a href="#2-PHP-base64编码" class="headerlink" title="2.PHP base64编码"></a>2.PHP base64编码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">base64Code</span><span class="params">($str,$isEncode=false)</span></span></span><br><span class="line"><span class="function"></span>&#123;	<span class="comment">//true编码 false解码</span></span><br><span class="line">    <span class="keyword">return</span> $isEncode ? rawurldecode(base64_decode($str)): rawurlencode(base64_encode($str));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3-PHP数据库简单包装类"><a href="#3-PHP数据库简单包装类" class="headerlink" title="3.PHP数据库简单包装类"></a>3.PHP数据库简单包装类</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 数据库管理类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DBManager</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $m_conn;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">$this</span>-&gt;m_conn = <span class="keyword">new</span> mysqli(<span class="string">'localhost'</span>,<span class="string">'username'</span>,<span class="string">'password'</span>,<span class="string">'databaseName'</span>);</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;m_conn-&gt;connect_error) &#123;</span><br><span class="line">			<span class="keyword">$this</span>-&gt;m_conn-&gt;close();</span><br><span class="line">		    <span class="keyword">exit</span>(<span class="string">"数据库连接失败: "</span> . <span class="keyword">$this</span>-&gt;m_conn-&gt;connect_error);</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//查询</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">select</span><span class="params">($tab, $cols=<span class="string">'*'</span>,$where=<span class="string">'1'</span>,$ext=<span class="string">''</span>)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$sql = <span class="string">"select &#123;$cols&#125; from &#123;$tab&#125; where &#123;$where&#125; &#123;$ext&#125;"</span>;</span><br><span class="line">		$result = <span class="keyword">$this</span>-&gt;m_conn-&gt;query($sql);</span><br><span class="line">		<span class="keyword">if</span>(!$result) <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;m_conn-&gt;error;</span><br><span class="line">		<span class="keyword">if</span> ($result-&gt;num_rows &gt; <span class="number">0</span>) &#123;</span><br><span class="line">	    	$i = <span class="number">0</span>;</span><br><span class="line">	    	<span class="keyword">while</span>($row = $result-&gt;fetch_assoc()) &#123;</span><br><span class="line">		        $data[$i] = $row;</span><br><span class="line">		        $i++;</span><br><span class="line">		    &#125;</span><br><span class="line">		    <span class="keyword">return</span> $data;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="keyword">return</span> <span class="string">''</span>;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//插入</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">insert</span><span class="params">($tab, $vals, $cols=<span class="string">''</span>)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$sql = <span class="string">"insert into &#123;$tab&#125; (&#123;$cols&#125;) values(&#123;$vals&#125;)"</span>;</span><br><span class="line">		<span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;m_conn-&gt;query($sql))</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;m_conn-&gt;error;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//更新</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">update</span><span class="params">($tab,$col,$val,$where=<span class="string">'1'</span>)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$sql = <span class="string">"update &#123;$tab&#125; set &#123;$col&#125; = '&#123;$val&#125;' where &#123;$where&#125;"</span>;</span><br><span class="line">		<span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;m_conn-&gt;query($sql))</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;m_conn-&gt;error;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//删除</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">delete</span><span class="params">($tab,$where)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$sql = <span class="string">"delete from &#123;$tab&#125; where &#123;$where&#125;"</span>;</span><br><span class="line">		<span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;m_conn-&gt;query($sql))</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;m_conn-&gt;error;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//清空表</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">clear</span><span class="params">($tab)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$sql = <span class="string">"truncate table &#123;$tab&#125;"</span>;</span><br><span class="line">		<span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;m_conn-&gt;query($sql))</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;m_conn-&gt;error;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//联合查询</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">join_select</span><span class="params">($user,$cols=<span class="string">'*'</span>,$on=<span class="string">'1'</span>, $start=<span class="number">0</span>, $num =<span class="number">10000</span>)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$sql = <span class="string">"SELECT &#123;$cols&#125; FROM `fileinfo` JOIN `userinfo` ON fileinfo.uid = userinfo.uid AND (fshare='1' OR uname='&#123;$user&#125;') AND &#123;$on&#125; LIMIT &#123;$start&#125;,&#123;$num&#125;;"</span>;</span><br><span class="line">		$result = <span class="keyword">$this</span>-&gt;m_conn-&gt;query($sql);</span><br><span class="line">		<span class="keyword">if</span>(!$result) <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;m_conn-&gt;error;</span><br><span class="line">		<span class="keyword">if</span> ($result-&gt;num_rows &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			$i = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">while</span>($row = $result-&gt;fetch_assoc()) &#123;</span><br><span class="line">				$data[$i] = $row;</span><br><span class="line">				$i++;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> $data;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="keyword">return</span> <span class="string">''</span>;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//数量查询</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">($tab,$where=<span class="string">'1'</span>,$join = false)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>($join)</span><br><span class="line">			$res =  <span class="keyword">$this</span>-&gt;join_select(<span class="string">'count(*)'</span>,$where);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			$res =  <span class="keyword">$this</span>-&gt;select(<span class="string">"&#123;$tab&#125;"</span>,<span class="string">'count(*)'</span>,$where);</span><br><span class="line">		<span class="keyword">return</span> $res[<span class="number">0</span>][<span class="string">'count(*)'</span>];</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//关键字查询</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">keywordQuery</span><span class="params">($user,$kw,$cols=<span class="string">'*'</span>,$start = <span class="number">0</span>,$num = <span class="number">1000</span>)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$on = <span class="string">"(fname LIKE '%&#123;$kw&#125;%' OR</span></span><br><span class="line"><span class="string">		 		fpath LIKE '%&#123;$kw&#125;%' OR </span></span><br><span class="line"><span class="string">		 		fdate LIKE '%&#123;$kw&#125;%' OR</span></span><br><span class="line"><span class="string">		 		foperation LIKE '%&#123;$kw&#125;%' OR</span></span><br><span class="line"><span class="string">		 		ftext LIKE '%&#123;$kw&#125;%' OR</span></span><br><span class="line"><span class="string">		 		fsuffix LIKE '%&#123;$kw&#125;%' OR</span></span><br><span class="line"><span class="string">		 		uname LIKE '%&#123;$kw&#125;%')"</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;join_select($user,$cols,$on,$start,$num);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="4-PHP下载文件"><a href="#4-PHP下载文件" class="headerlink" title="4. PHP下载文件"></a>4. PHP下载文件</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/08/phpCode/" data-id="ck9xw9srl0002ckuq5xti1mj8" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-mysql" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/08/mysql/" class="article-date">
-  <time datetime="2020-05-08T06:22:13.455Z" itemprop="datePublished">2020-05-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/08/mysql/">mysql</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[TOC]</p>
-<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="1-Mysql外键"><a href="#1-Mysql外键" class="headerlink" title="1. Mysql外键"></a>1. Mysql外键</h2><h3 id="1-外键设计"><a href="#1-外键设计" class="headerlink" title="1. 外键设计"></a>1. 外键设计</h3><ol>
-<li><p>创建一个用户表 (<strong>被关联表</strong>)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> userinfo(uid <span class="built_in">int</span>  primary <span class="keyword">key</span> auto_increment <span class="keyword">not</span> <span class="literal">NULL</span>, </span><br><span class="line">                      <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="literal">NULL</span> , ...);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建一个数据表 (<strong>关联表</strong>)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> userdata(did <span class="built_in">int</span> primary <span class="keyword">key</span> auto_increment <span class="keyword">not</span> <span class="literal">NULL</span>,</span><br><span class="line">                      <span class="keyword">data</span> <span class="built_in">text</span> ...,</span><br><span class="line">                      <span class="comment">--指定该表的某个字段与其他表为外键关系</span></span><br><span class="line">                      udid <span class="built_in">int</span> <span class="keyword">not</span> <span class="literal">NULL</span>,</span><br><span class="line">                      <span class="keyword">foreign</span> <span class="keyword">key</span>(udid) <span class="keyword">references</span> userinfo(uid));</span><br><span class="line">                      <span class="comment">--这样udid与 `userinfo` 表的uid构成外键关系</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="2-数据操作"><a href="#2-数据操作" class="headerlink" title="2. 数据操作"></a>2. 数据操作</h3><ol>
-<li><p>插入数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> - 1.必须先插入被关联表(userinfo)的数据，再插入关联表(userdata)的数据。</span><br><span class="line"><span class="comment">-- userinfo 表插入数据</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> userinfo(uid,<span class="keyword">name</span>,...) <span class="keyword">values</span>(<span class="literal">NULL</span>,<span class="string">'root'</span>,...);</span><br><span class="line">...</span><br><span class="line"><span class="comment">-- userdata 表插入数据</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> userdata(did,<span class="keyword">data</span>,udid) <span class="keyword">values</span>(<span class="literal">NULL</span>,<span class="string">'data....'</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment">--如果关联表(userdata)插入的uid在被关联表(userinfo)中不存在会报错</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<ol start="2">
-<li><p>更新数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> userdata <span class="keyword">set</span> udid=<span class="number">999</span> <span class="keyword">where</span> did=<span class="number">1</span>;</span><br><span class="line"><span class="comment">--需要注意的是当你设置的udid在userinfo表中找不到的时候会报错</span></span><br><span class="line"><span class="comment">--同时还要注意did的主键约束</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<ol start="3">
-<li><p>删除数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 要先删除已关联表字段(userdata)，才能修改被关联表(userinfo)中的关联uid字段。</span></span><br><span class="line"><span class="comment">-- 如果关联表(userinfo) uid 已经被关联了，那删除是就会报错</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<ol start="4">
-<li><p>高级查询</p>
-<ul>
-<li><p>内连接查询</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> userdata <span class="keyword">join</span> userinfo <span class="keyword">on</span> userdata.udid = userinfo.uid;</span><br><span class="line"><span class="comment">-- 结果会连在一起</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">-   外连接查询 (__分为左连接和右连接 __)</span><br><span class="line">    </span><br><span class="line">    ```sql</span><br><span class="line">    <span class="comment">-- 1.左连接</span></span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> userdata <span class="keyword">left</span> <span class="keyword">join</span> userinfo <span class="keyword">on</span> userdata.udid = userinfo.uid;</span><br><span class="line">    <span class="comment">-- 2.右连接</span></span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> userdata <span class="keyword">right</span> <span class="keyword">join</span> userinfo <span class="keyword">on</span> userdata.udid = userinfo.uid;</span><br><span class="line">    <span class="comment">-- 所谓左连接和右连接 无非是用哪个表做参考</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-   联合查询</span><br><span class="line">```sql</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> userdata <span class="keyword">union</span> <span class="keyword">select</span> * <span class="keyword">from</span> userinfo</span><br><span class="line"><span class="string">``</span><span class="string">`</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">-   子查询</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">sql</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (<span class="keyword">select</span> * <span class="keyword">from</span> userdata) <span class="keyword">as</span> newName;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">DISTINCT</span>  * <span class="keyword">from</span> userdata <span class="keyword">where</span> udid <span class="keyword">in</span> (<span class="keyword">select</span> * <span class="keyword">from</span> userinfo);</span><br><span class="line"><span class="comment">-- DISTINCT表示去重的意思</span></span><br><span class="line">```</span><br></pre></td></tr></table></figure>
-
-
-<p>​    </p>
-<h2 id="2-Linux下Mysql数据导入导出"><a href="#2-Linux下Mysql数据导入导出" class="headerlink" title="2. Linux下Mysql数据导入导出"></a>2. Linux下Mysql数据导入导出</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">首先linux 下查看mysql相关目录</span><br><span class="line">root@ubuntu14:~# whereis mysql</span><br><span class="line">mysql:</span><br><span class="line">/usr/bin/mysql---- mysql的运行路径</span><br><span class="line">/etc/mysql</span><br><span class="line">/usr/lib/mysql----- mysql的安装路径</span><br><span class="line">/usr/bin/X11/mysql</span><br><span class="line">/usr/share/mysql</span><br><span class="line">/usr/share/man/man1/mysql.1.gz</span><br><span class="line">此外还有一个：</span><br><span class="line">var/lib/mysql --------mysql数据库data文件的存放路径</span><br><span class="line"></span><br><span class="line">确定了运行路径，执行导入、导出mysql数据库命令</span><br><span class="line">一、导出数据库用mysqldump命令</span><br><span class="line">（注意:先cd到mysql的运行路径下，再执行一下命令）：</span><br><span class="line">1、导出数据和表结构：</span><br><span class="line">mysqldump -u用户名 -p密码 数据库名 &gt; 数据库名.sql</span><br><span class="line">mysqldump -uroot -p dbname &gt; dbname .sql</span><br><span class="line">敲回车后会提示输入密码</span><br><span class="line">2、只导出表结构</span><br><span class="line">mysqldump -u用户名 -p密码 -d 数据库名 &gt; 数据库名.sql</span><br><span class="line">mysqldump -uroot -p -d dbname &gt; dbname .sql</span><br><span class="line"></span><br><span class="line">二、导入数据库</span><br><span class="line">1、首先建空数据库</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash">create database dbname ;</span></span><br><span class="line">2、导入数据库</span><br><span class="line">方法一：</span><br><span class="line">（1）选择数据库</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash">use dbname ;</span></span><br><span class="line">（2）设置数据库编码</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"><span class="built_in">set</span> names utf8;</span></span><br><span class="line">（3）导入数据（注意sql文件的路径）</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"><span class="built_in">source</span> /home/xxxx/dbname .sql;</span></span><br><span class="line">方法二：</span><br><span class="line">mysql -u用户名 -p密码 数据库名 &lt; 数据库名.sql</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/08/mysql/" data-id="ck9xw9srj0001ckuqcdlgdn0w" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-linux" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/08/linux/" class="article-date">
-  <time datetime="2020-05-08T06:22:13.435Z" itemprop="datePublished">2020-05-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/08/linux/">linux</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="linux相关配置和操作"><a href="#linux相关配置和操作" class="headerlink" title="linux相关配置和操作"></a>linux相关配置和操作</h1><h2 id="1-常见命令"><a href="#1-常见命令" class="headerlink" title="1. 常见命令"></a>1. 常见命令</h2><ul>
-<li><ol>
-<li>tar</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#打包</span></span><br><span class="line">tar -zcvf FileName.tar dirName</span><br><span class="line"><span class="comment">#解包</span></span><br><span class="line">tar -zxvf FileName.tar</span><br></pre></td></tr></table></figure>
-</li>
-<li><ol start="2">
-<li>unzip</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip [-o 覆盖 |-n 不覆盖] FileName.zip [-d Dirname 指定位置] #解压</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<h2 id="2-LAMP安装和配置"><a href="#2-LAMP安装和配置" class="headerlink" title="2. LAMP安装和配置"></a>2. LAMP安装和配置</h2><ul>
-<li><ol>
-<li>安装</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update              # 获取最新资源包</span><br><span class="line">sudo tasksel install lamp-server #安装lamp</span><br><span class="line">sudo tasksel remove lamp-server  #一键卸载lamp</span><br></pre></td></tr></table></figure>
-
-
-
-
-</li>
-</ul>
-<h2 id="3-LINUX用户操作"><a href="#3-LINUX用户操作" class="headerlink" title="3.  LINUX用户操作"></a>3.  LINUX用户操作</h2><ul>
-<li><strong>添加用户组</strong></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">groupadd groupname</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>添加用户</strong></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">useradd username -m -s /bin/bash -d /home/username -g groupname</span><br><span class="line"></span><br><span class="line"><span class="comment">#参数说明：</span></span><br><span class="line">-s /sbin/nologin设置不能登陆-s /bin/<span class="literal">false</span>(老方法) 也行</span><br><span class="line">-d 设置用户主目录</span><br><span class="line">-g 用户组</span><br><span class="line">-m 创建用户目录</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>更改用户登录权限</strong></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加用户登录权限</span></span><br><span class="line">usermod -s /bin/bash username</span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁用用户登录权限</span></span><br><span class="line">usermod -s /sbin/nologin username</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>设置密码</strong></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">passwd username</span><br><span class="line"><span class="comment"># enter password:....</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>删除用户</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userdel username</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-linux启动级别"><a href="#4-linux启动级别" class="headerlink" title="4. linux启动级别"></a>4. linux启动级别</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">init0-6（启动级别）</span><br><span class="line">一. init是Linux系统操作中不可缺少的程序之一。</span><br><span class="line">　　所谓的init进程，它是一个由内核启动的用户级进程。</span><br><span class="line">　　内核自行启动（已经被载入内存，开始运行，并已初始化所有的设备驱动程序和数据结构等）之后，就通过启动一个用户级程序init的方式，完成引导进程。所以,init始终是第一个进程（其进程编号始终为1）。</span><br><span class="line">　　内核会在过去曾使用过init的几个地方查找它，它的正确位置（对Linux系统来说）是/sbin/init。如果内核找不到init，它就会试着运行/bin/sh，如果运行失败，系统的启动也会失败。</span><br><span class="line">二. init一共分为7个级别，这7个级别的所代表的含义如下</span><br><span class="line">0：停机或者关机（千万不能将initdefault设置为0）</span><br><span class="line">1：单用户模式，只root用户进行维护</span><br><span class="line">2：多用户模式，不能使用NFS(Net File System)</span><br><span class="line">3：完全多用户模式（标准的运行级别）</span><br><span class="line">4：安全模式</span><br><span class="line">5：图形化（即图形界面）</span><br><span class="line">6：重启（千万不要把initdefault设置为6）</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/08/linux/" data-id="ck9xw9srm0003ckuq5c0f4w36" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JSCode" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/08/JSCode/" class="article-date">
-  <time datetime="2020-05-08T06:22:13.434Z" itemprop="datePublished">2020-05-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/08/JSCode/">JSCode</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="javascript工具代码"><a href="#javascript工具代码" class="headerlink" title="javascript工具代码"></a>javascript工具代码</h1><h2 id="1-JS面对对象写法"><a href="#1-JS面对对象写法" class="headerlink" title="1. JS面对对象写法"></a>1. JS面对对象写法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">window</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//cardManager表示类名</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">cardManager</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> cardManager.prototype.init();</span><br><span class="line">    &#125;</span><br><span class="line">    cardManager.prototype = &#123;</span><br><span class="line">          <span class="keyword">constructor</span> : cardManager,</span><br><span class="line">          init : function () &#123;</span><br><span class="line">          &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    cardManager.prototype.init.prototype = cardManager.prototype;</span><br><span class="line">    <span class="built_in">window</span>.cardManager = cardManager;</span><br><span class="line">&#125;)(<span class="built_in">window</span>);</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-下载文件到本地函数"><a href="#2-下载文件到本地函数" class="headerlink" title="2. 下载文件到本地函数"></a>2. 下载文件到本地函数</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下载文件到本地</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">download</span>(<span class="params">filename, content</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> urlObject = <span class="built_in">window</span>.URL || <span class="built_in">window</span>.webkitURL || <span class="built_in">window</span>;    </span><br><span class="line">    <span class="keyword">var</span> downloadData = <span class="keyword">new</span> Blob([content]);  </span><br><span class="line">    <span class="keyword">var</span> save_link = <span class="built_in">document</span>.createElementNS(<span class="string">"http://www.w3.org/1999/xhtml"</span>, <span class="string">"a"</span>)   </span><br><span class="line">    save_link.href = rlObject.createObjectURL(downloadData);     </span><br><span class="line">    save_link.download = filename;  </span><br><span class="line">    <span class="keyword">var</span> ev = <span class="built_in">document</span>.createEvent(<span class="string">"MouseEvents"</span>);    			</span><br><span class="line">    ev.initMouseEvent(<span class="string">"click"</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="built_in">window</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">null</span>);    				</span><br><span class="line">    save_link.dispatchEvent(ev);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-base64编码函数"><a href="#3-base64编码函数" class="headerlink" title="3. base64编码函数"></a>3. base64编码函数</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//b64编码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">base64Code</span>(<span class="params">str,isEncode=true</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//true编码 false解码</span></span><br><span class="line">  <span class="keyword">return</span> isEncode ? btoa(<span class="built_in">encodeURIComponent</span>(str)) : <span class="built_in">decodeURIComponent</span>(atob(str));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-检查url函数"><a href="#4-检查url函数" class="headerlink" title="4. 检查url函数"></a>4. 检查url函数</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_url</span>(<span class="params">_url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> str=_url;</span><br><span class="line">    <span class="keyword">var</span> Expression=<span class="regexp">/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&amp;=]*)?/</span>;</span><br><span class="line">    <span class="keyword">var</span> objExp=<span class="keyword">new</span> <span class="built_in">RegExp</span>(Expression);</span><br><span class="line">    <span class="keyword">if</span>(objExp.test(str)==<span class="literal">true</span>)<span class="keyword">return</span> <span class="literal">true</span>;<span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-检查url函数plus"><a href="#5-检查url函数plus" class="headerlink" title="5. 检查url函数plus"></a>5. 检查url函数plus</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isURL</span>(<span class="params">str_url</span>) </span>&#123;<span class="comment">// 验证url</span></span><br><span class="line">	<span class="keyword">var</span> strRegex = <span class="string">"^((https|http|ftp|rtsp|mms)?://)"</span></span><br><span class="line">	+ <span class="string">"?(([0-9a-z_!~*'().&amp;=+$%-]+: )?[0-9a-z_!~*'().&amp;=+$%-]+@)?"</span> <span class="comment">// ftp的user@</span></span><br><span class="line">	+ <span class="string">"(([0-9]&#123;1,3&#125;\.)&#123;3&#125;[0-9]&#123;1,3&#125;"</span> <span class="comment">// IP形式的URL- 199.194.52.184</span></span><br><span class="line">	+ <span class="string">"|"</span> <span class="comment">// 允许IP和DOMAIN（域名）</span></span><br><span class="line">	+ <span class="string">"([0-9a-z_!~*'()-]+\.)*"</span> <span class="comment">// 域名- www.</span></span><br><span class="line">	+ <span class="string">"([0-9a-z][0-9a-z-]&#123;0,61&#125;)?[0-9a-z]\."</span> <span class="comment">// 二级域名</span></span><br><span class="line">	+ <span class="string">"[a-z]&#123;2,6&#125;)"</span> <span class="comment">// first level domain- .com or .museum</span></span><br><span class="line">	+ <span class="string">"(:[0-9]&#123;1,4&#125;)?"</span> <span class="comment">// 端口- :80</span></span><br><span class="line">	+ <span class="string">"((/?)|"</span> <span class="comment">// a slash isn't required if there is no file name</span></span><br><span class="line">	+ <span class="string">"(/[0-9a-z_!~*'().;?:@&amp;=+$,%#-]+)+/?)$"</span>;</span><br><span class="line">	<span class="keyword">var</span> re = <span class="keyword">new</span> <span class="built_in">RegExp</span>(strRegex);</span><br><span class="line">	<span class="keyword">return</span> re.test(str_url);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="6-js读取本地文件"><a href="#6-js读取本地文件" class="headerlink" title="6. js读取本地文件"></a>6. js读取本地文件</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//js 读取文件</span></span><br><span class="line"><span class="comment">//files是一个input['type="file"']	</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsReadFiles</span>(<span class="params">files</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (files.length) &#123;</span><br><span class="line">        <span class="keyword">var</span> file = files[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();<span class="comment">//new一个FileReader实例</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="regexp">/text+/</span>.test(file.type)) &#123;<span class="comment">//判断文件类型，是不是text类型</span></span><br><span class="line">            reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                $(<span class="string">'body'</span>).append(<span class="string">'&lt;pre&gt;'</span> + <span class="keyword">this</span>.result + <span class="string">'&lt;/pre&gt;'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">             reader.readAsText(file);</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="regexp">/image+/</span>.test(file.type)) &#123;<span class="comment">//判断文件是不是imgage类型</span></span><br><span class="line">             reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                 $(<span class="string">'body'</span>).append(<span class="string">'&lt;img src="'</span> + <span class="keyword">this</span>.result + <span class="string">'"/&gt;'</span>);</span><br><span class="line">             &#125;</span><br><span class="line">             reader.readAsDataURL(file);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="7-js读取文本防止乱码的实现"><a href="#7-js读取文本防止乱码的实现" class="headerlink" title="7. js读取文本防止乱码的实现"></a>7. js读取文本防止乱码的实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readFile</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> reader,$body,type,arr,suffix;</span><br><span class="line">        reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">        $body = $(<span class="string">'body'</span>);</span><br><span class="line">        type = file.type;</span><br><span class="line">        arr = file.name.split(<span class="string">'.'</span>);</span><br><span class="line">        suffix = arr[arr.length <span class="number">-1</span>];</span><br><span class="line">        <span class="keyword">if</span>(type.indexOf(<span class="string">'text'</span>)!= <span class="number">-1</span> || suffix == <span class="string">'md'</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            reader.readAsText(file);</span><br><span class="line">            reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="keyword">this</span>.result.indexOf(<span class="string">'�'</span>) != <span class="number">-1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">                    reader.readAsText(file,<span class="string">'gb2312'</span>);</span><br><span class="line">                    reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                        $body.prop(<span class="string">'res'</span>,<span class="keyword">this</span>.result);</span><br><span class="line">                    &#125;;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> $body.prop(<span class="string">'res'</span>,<span class="keyword">this</span>.result);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> suffix;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="8-jquery实时监控输入框"><a href="#8-jquery实时监控输入框" class="headerlink" title="8. jquery实时监控输入框"></a>8. jquery实时监控输入框</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'body'</span>).on(<span class="string">'propetychange input'</span>, <span class="string">'输入框选择器'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">			<span class="comment">//jscode...</span></span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="9-生成随机RGBA颜色"><a href="#9-生成随机RGBA颜色" class="headerlink" title="9. 生成随机RGBA颜色"></a>9. 生成随机RGBA颜色</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomRgbaColor</span>(<span class="params">a=<span class="number">1</span></span>) </span>&#123; <span class="comment">//a表示透明度 0~1 之间 随机可以传递函数[Math.random()]</span></span><br><span class="line">                <span class="keyword">var</span> r = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">256</span>);</span><br><span class="line">                <span class="keyword">var</span> g = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">256</span>);</span><br><span class="line">                <span class="keyword">var</span> b = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">256</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="string">`rgba(<span class="subst">$&#123;r&#125;</span>,<span class="subst">$&#123;g&#125;</span>,<span class="subst">$&#123;b&#125;</span>,<span class="subst">$&#123;a&#125;</span>)`</span>; <span class="comment">//返回rgba(r,g,b,a)格式颜色</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="10-格式化获得当前时间"><a href="#10-格式化获得当前时间" class="headerlink" title="10.格式化获得当前时间"></a>10.格式化获得当前时间</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//得到当前时间并格式化</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCurrentTime</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">var</span> myDate,year,mon,date,h,m,s,week,weeks;</span><br><span class="line">       myDate = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">       year = myDate.getFullYear(); <span class="comment">//获取当前年</span></span><br><span class="line">       mon = myDate.getMonth() + <span class="number">1</span>; <span class="comment">//获取当前月</span></span><br><span class="line">       date = myDate.getDate(); <span class="comment">//获取当前日</span></span><br><span class="line">       h = myDate.getHours();<span class="comment">//获取当前小时数(0-23)</span></span><br><span class="line">       m = myDate.getMinutes();<span class="comment">//获取当前分钟数(0-59)</span></span><br><span class="line">       s = myDate.getSeconds();<span class="comment">//获取当前秒</span></span><br><span class="line">       week = myDate.getDay(); <span class="comment">//获取当前星期</span></span><br><span class="line">       mon = toDouble(mon);</span><br><span class="line">       date = toDouble(date);</span><br><span class="line">       h = toDouble(h);</span><br><span class="line">       m= toDouble(m);</span><br><span class="line">       s = toDouble(s);</span><br><span class="line">       weeks = [<span class="string">"星期日"</span>, <span class="string">"星期一"</span>, <span class="string">"星期二"</span>, <span class="string">"星期三"</span>, <span class="string">"星期四"</span>, <span class="string">"星期五"</span>, <span class="string">"星期六"</span>];</span><br><span class="line">       <span class="keyword">return</span> (<span class="string">`<span class="subst">$&#123;year&#125;</span>-<span class="subst">$&#123;mon&#125;</span>-<span class="subst">$&#123;date&#125;</span> <span class="subst">$&#123;h&#125;</span>:<span class="subst">$&#123;m&#125;</span>:<span class="subst">$&#123;s&#125;</span> <span class="subst">$&#123;weeks[week]&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">toDouble</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> n &gt; <span class="number">9</span> ? n : <span class="string">'0'</span> + n;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="11-左右滑动动画"><a href="#11-左右滑动动画" class="headerlink" title="11. 左右滑动动画"></a>11. 左右滑动动画</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//左右滑动动画</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">slideAbout</span>(<span class="params">$jqObj,speed=<span class="number">300</span>,success=(e</span>)=&gt;</span>&#123;&#125;) &#123;</span><br><span class="line">    $jqObj.animate(&#123;<span class="attr">width</span>:<span class="string">'show'</span>&#125;,speed,<span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">        success(e);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="12-滚动条到指定位置滑动效果"><a href="#12-滚动条到指定位置滑动效果" class="headerlink" title="12. 滚动条到指定位置滑动效果"></a>12. 滚动条到指定位置滑动效果</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//滚动条到指定位置滑动效果</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">scrollAnimate</span>(<span class="params">$container,$target,speed=<span class="number">300</span></span>)</span>&#123;</span><br><span class="line">    $container.animate(&#123;<span class="attr">scrollTop</span>: getPosition($target[<span class="number">0</span>]).top&#125;, speed);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取元素到文档区域的坐标</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getPosition</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> actualLeft = element.offsetLeft,</span><br><span class="line">            actualTop = element.offsetTop,</span><br><span class="line">            current = element.offsetParent; <span class="comment">// 取得元素的offsetParent</span></span><br><span class="line">        <span class="comment">// 一直循环直到根元素</span></span><br><span class="line">        <span class="keyword">while</span> (current !== <span class="literal">null</span>) &#123;</span><br><span class="line">            actualLeft += current.offsetLeft;</span><br><span class="line">            actualTop += current.offsetTop;</span><br><span class="line">            current = current.offsetParent;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 返回包含left、top坐标的对象</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            left: actualLeft,</span><br><span class="line">            top: actualTop</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="13-滚动条监控"><a href="#13-滚动条监控" class="headerlink" title="13. 滚动条监控"></a>13. 滚动条监控</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">windowEvent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// scrollEvent</span></span><br><span class="line">    $(<span class="built_in">window</span>).scroll(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> dst = $(<span class="built_in">document</span>).scrollTop();</span><br><span class="line">        <span class="comment">//jscode...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="14-textarea输入Tab的处理"><a href="#14-textarea输入Tab的处理" class="headerlink" title="14. textarea输入Tab的处理"></a>14. textarea输入Tab的处理</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTabEvent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            $(<span class="string">"textarea"</span>).on(<span class="string">'keydown'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(e.keyCode === <span class="number">9</span>)&#123;</span><br><span class="line">                    e.preventDefault();</span><br><span class="line">                    <span class="keyword">let</span></span><br><span class="line">                        indent = <span class="string">'    '</span>, <span class="comment">//空格数可选</span></span><br><span class="line">                        start = <span class="keyword">this</span>.selectionStart,</span><br><span class="line">                        end = <span class="keyword">this</span>.selectionEnd,</span><br><span class="line">                        selected = <span class="built_in">window</span>.getSelection().toString();</span><br><span class="line">                    selected = indent + selected.replace(<span class="regexp">/\n/g</span>,<span class="string">'\n'</span>+indent);</span><br><span class="line">                    <span class="keyword">this</span>.value = <span class="keyword">this</span>.value.substring(<span class="number">0</span>,start) + selected + <span class="keyword">this</span>.value.substring(end);</span><br><span class="line">                    <span class="keyword">this</span>.setSelectionRange(start+indent.length,start+selected.length);</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/08/JSCode/" data-id="ck9xw9sre0000ckuq2zgwbguk" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
+  <title>Rex_Surprise</title>
   
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
 
-  
-    
 
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li></ul>
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Rex_Surprise" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
+  <div class="site-meta">
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2020/05/08/phpCode/">phpCode</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/08/mysql/">mysql</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/08/linux/">linux</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/08/JSCode/">JSCode</a>
-          </li>
-        
-      </ul>
-    </div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Rex_Surprise</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to rexSurprise!</p>
   </div>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 Rex_Surprise<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
 </nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
 
-
-<script src="/js/script.js"></script>
-
-
-
-
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
   </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/rexSurprise" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://atc96.top/JSCode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rex_Surprise">
+      <meta itemprop="description" content="Rex_Surprise的个人博客~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rex_Surprise">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/JSCode/" class="post-title-link" itemprop="url">javascript工具代码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-05 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-05T00:00:00+08:00">2020-05-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-09 11:12:03" itemprop="dateModified" datetime="2020-05-09T11:12:03+08:00">2020-05-09</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/JSCode/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/JSCode/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- toc -->
+
+<ul>
+<li><a href="#javascript工具代码">javascript工具代码</a><ul>
+<li><a href="#1-js面对对象写法">1. JS面对对象写法</a></li>
+<li><a href="#2-下载文件到本地函数">2. 下载文件到本地函数</a></li>
+<li><a href="#3-base64编码函数">3. base64编码函数</a></li>
+<li><a href="#4-检查url函数">4. 检查url函数</a></li>
+<li><a href="#5-检查url函数plus">5. 检查url函数plus</a></li>
+<li><a href="#6-js读取本地文件">6. js读取本地文件</a></li>
+<li><a href="#7-js读取文本防止乱码的实现">7. js读取文本防止乱码的实现</a></li>
+<li><a href="#8-jquery实时监控输入框">8. jquery实时监控输入框</a></li>
+<li><a href="#9-生成随机rgba颜色">9. 生成随机RGBA颜色</a></li>
+<li><a href="#10格式化获得当前时间">10.格式化获得当前时间</a></li>
+<li><a href="#11-左右滑动动画">11. 左右滑动动画</a></li>
+<li><a href="#12-滚动条到指定位置滑动效果">12. 滚动条到指定位置滑动效果</a></li>
+<li><a href="#13-滚动条监控">13. 滚动条监控</a></li>
+<li><a href="#14-textarea输入tab的处理">14. textarea输入Tab的处理</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/JSCode/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Rex_Surprise"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Rex_Surprise</p>
+  <div class="site-description" itemprop="description">Rex_Surprise的个人博客~</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/rexSurprise" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;rexSurprise" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_44911239" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_44911239" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://fanyi.baidu.com/" title="http:&#x2F;&#x2F;fanyi.baidu.com" rel="noopener" target="_blank">百度翻译</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://39.97.126.84/" title="http:&#x2F;&#x2F;39.97.126.84" rel="noopener" target="_blank">我的小站</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rex_Surprise</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '5lI8es3hCNbfGw1bfoVdtl4Y-gzGzoHsz',
+      appKey     : 'RB9CwHU5LBvHFAGzGa8M8fcO',
+      placeholder: "谈谈你的看法(支持Markdown)",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-CN' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
 </body>
 </html>
