@@ -66,4 +66,61 @@
         <tag>JS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>kali安装Docker</title>
+    <url>/Docker-Install/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#kali安装docker">kali安装Docker</a><ul>
+<li><a href="#1-安装docker">1. 安装Docker</a></li>
+<li><a href="#2-使用ustc的docker镜像">2. 使用ustc的docker镜像</a></li>
+<li><a href="#4-docker容器管理相关命令">4. docker容器管理相关命令</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="kali安装docker">kali安装Docker</span></h1><h2><span id="1-安装docker">1. 安装Docker</span></h2><ul>
+<li><p>最好先配置一下国内的源</p>
+</li>
+<li><pre><code class="bash">vim /etc/apt/sources.list
+<span class="comment"># 版本不同，需要的可能不同</span>
+<span class="comment"># 我用的是清华大学的源：</span>
+deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
+deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">-   </span>配置好源之后执行 <span class="code">`apt-get update`</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-   </span>更新一下源信息</span><br><span class="line"></span><br><span class="line"><span class="bullet">-   </span>然后直接就可以安装了</span><br><span class="line"></span><br><span class="line"><span class="bullet">-   </span><span class="code">```</span>bash</span><br><span class="line"><span class="code">    apt-get install docker docker-compose -y</span></span><br></pre></td></tr></table></figure></code></pre>
+</li>
+<li><p>安装完了： <code>docker -v</code>  验证是否完成安装</p>
+</li>
+<li><p>成功之后启动 <em>docker</em> 服务: <code>/etc/init.d/docker start</code>  OR <code>service docker start</code></p>
+</li>
+<li><p>就可以启动docker服务了</p>
+</li>
+<li><p>如果想开机启动：<code>sudo update-rc.d  docker enable</code></p>
+</li>
+</ul>
+<h2><span id="2-使用ustc的docker镜像">2. 使用ustc的docker镜像</span></h2><ul>
+<li><p>这是镜像地址</p>
+</li>
+<li><p><a href="http://mirrors.ustc.edu.cn/" target="_blank" rel="noopener">http://mirrors.ustc.edu.cn/</a></p>
+</li>
+<li><p>配置docker镜像地址</p>
+</li>
+<li><pre><code class="bash">vim /etc/docker/daemon.json <span class="comment"># 打开的是一个新文件</span>
+<span class="comment"># 写入：</span>
+{ <span class="string">"registry-mirrors"</span>: [<span class="string">"https://docker.mirrors.ustc.edu.cn"</span>] }
+<figure class="highlight vala"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">-   保存退出即可</span><br><span class="line"></span><br><span class="line"><span class="meta">##  3. docker镜像管理相关命令</span></span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line"><span class="meta">#查找镜像 </span></span><br><span class="line">docker search &lt;name&gt;</span><br><span class="line"><span class="meta">#下载镜像 </span></span><br><span class="line">docker pull &lt;name&gt;</span><br><span class="line"><span class="meta">#列出镜像 </span></span><br><span class="line">docker image ls | images</span><br><span class="line"><span class="meta">#删除镜像 </span></span><br><span class="line">docker image rm &lt;name&gt;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+<h2><span id="4-docker容器管理相关命令">4. docker容器管理相关命令</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#运行容器 </span></span><br><span class="line">docker run -it centos /bin/bash</span><br><span class="line"><span class="comment">#后台运行 </span></span><br><span class="line">docker run -dit centos /bin/bash</span><br><span class="line"><span class="comment">#列出容器 </span></span><br><span class="line">docker container ls 或者 docker ps</span><br><span class="line"><span class="comment">#终止容器 </span></span><br><span class="line">docker stop 852</span><br><span class="line"><span class="comment">##启动容器 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入容器 </span></span><br><span class="line">docker <span class="built_in">exec</span> -it 8529 bash</span><br><span class="line"><span class="comment">#导入导出 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除容器 d</span></span><br><span class="line">ocker container rm &lt;CONTAINER ID&gt;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
 </search>
