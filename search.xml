@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Docker的安装</title>
+    <url>/Docker-Install/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#docker的安装">Docker的安装</a><ul>
+<li><a href="#1-安装docker">1. 安装Docker</a><ul>
+<li><a href="#11-debianubuntu安装docker">1.1 Debian&amp;Ubuntu安装Docker</a></li>
+<li><a href="#12-centos安装docker">1.2 Centos安装Docker</a></li>
+</ul>
+</li>
+<li><a href="#2-使用ustc的docker镜像">2. 使用ustc的docker镜像</a></li>
+<li><a href="#3-docker镜像管理相关命令">3. docker镜像管理相关命令</a></li>
+<li><a href="#4-docker容器管理相关命令">4. docker容器管理相关命令</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="docker的安装">Docker的安装</span></h1><h2><span id="1-安装docker">1. 安装Docker</span></h2><h3><span id="11-debianampubuntu安装docker">1.1 Debian&amp;Ubuntu安装Docker</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 卸载之前安装的docker</span></span><br><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br><span class="line"><span class="comment"># 2. 更新 apt 包索引</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"><span class="comment"># 3. 安装 apt 依赖包，用于通过HTTPS来获取仓库:</span></span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg-agent \</span><br><span class="line">    software-properties-common</span><br><span class="line"><span class="comment"># 4. 添加 Docker 的官方 GPG 密钥：</span></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line"><span class="comment"># 5. 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88\</span></span><br><span class="line"><span class="comment"># 	通过搜索指纹的后8个字符，验证您现在是否拥有带有指纹的密钥。</span></span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"><span class="comment"># 6. 使用以下指令设置稳定版仓库</span></span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">  <span class="variable">$(lsb_release -cs)</span> stable"</span></span><br><span class="line"><span class="comment"># 7. 安装Docker Engine-Community</span></span><br><span class="line">sudo apt-get update;sudo apt-get install docker-ce docker-ce-cli containerd.io -y</span><br><span class="line"><span class="comment"># 8. 测试 Docker 是否安装成功</span></span><br><span class="line">docker -v</span><br><span class="line"><span class="comment"># 9. 成功之后启动 docker 服务</span></span><br><span class="line">/etc/init.d/docker start </span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">service docker start</span><br><span class="line"><span class="comment"># 10. 如果想开机启动：</span></span><br><span class="line">sudo update-rc.d  docker <span class="built_in">enable</span></span><br></pre></td></tr></table></figure>
+<h3><span id="12-centos安装docker">1.2 Centos安装Docker</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新一下源信息</span></span><br><span class="line">sudo yum update</span><br><span class="line"><span class="comment"># 安装一下修改源的依赖</span></span><br><span class="line">sudo yum install yum-utils device-mapper-persistent-data lvm2 -y</span><br><span class="line"><span class="comment"># 修改安装docker的源</span></span><br><span class="line">sudo yum-config-manager  --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"><span class="comment"># 开始安装docker</span></span><br><span class="line">sudo yum install docker-ce -y</span><br><span class="line"><span class="comment">#安装完了验证是否完成安装</span></span><br><span class="line">docker -v</span><br><span class="line"><span class="comment"># 启动docker服务</span></span><br><span class="line">systemctl start docker</span><br><span class="line"><span class="comment"># 关闭docker服务</span></span><br><span class="line">systemctl stop docker</span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">systemctl status docker</span><br><span class="line"><span class="comment"># 开机启动</span></span><br><span class="line">systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+
+<p>​    </p>
+<h2><span id="2-使用ustc的docker镜像">2. 使用ustc的docker镜像</span></h2><ul>
+<li><p>这是镜像地址</p>
+</li>
+<li><p><a href="http://mirrors.ustc.edu.cn/" target="_blank" rel="noopener">http://mirrors.ustc.edu.cn/</a></p>
+</li>
+<li><p>配置docker镜像地址</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json <span class="comment"># 打开的是一个新文件</span></span><br><span class="line"><span class="comment"># 写入：</span></span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">"registry-mirrors"</span>: [<span class="string">"https://docker.mirrors.ustc.edu.cn"</span>] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>保存退出即可</p>
+</li>
+</ul>
+<h2><span id="3-docker镜像管理相关命令">3. docker镜像管理相关命令</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查找镜像 </span></span><br><span class="line">docker search &lt;name&gt;</span><br><span class="line"><span class="comment">#下载镜像 </span></span><br><span class="line">docker pull &lt;name&gt;</span><br><span class="line"><span class="comment">#列出镜像 </span></span><br><span class="line">docker image ls | images</span><br><span class="line"><span class="comment">#删除镜像 </span></span><br><span class="line">docker image rm &lt;name&gt;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="4-docker容器管理相关命令">4. docker容器管理相关命令</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#运行容器 </span></span><br><span class="line">docker run -it centos /bin/bash</span><br><span class="line"><span class="comment">#后台运行 </span></span><br><span class="line">docker run -dit centos /bin/bash</span><br><span class="line"><span class="comment">#列出容器 </span></span><br><span class="line">docker container ls 或者 docker ps</span><br><span class="line"><span class="comment">#终止容器 </span></span><br><span class="line">docker stop 852</span><br><span class="line"><span class="comment">##启动容器 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入容器 </span></span><br><span class="line">docker <span class="built_in">exec</span> -it 8529 bash</span><br><span class="line"><span class="comment">#导入导出 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除容器 d</span></span><br><span class="line">ocker container rm &lt;CONTAINER ID&gt;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>javascript工具代码</title>
     <url>/JSCode/</url>
     <content><![CDATA[<!-- toc -->
@@ -67,55 +116,6 @@
       </categories>
       <tags>
         <tag>JS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker的安装</title>
-    <url>/Docker-Install/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#docker的安装">Docker的安装</a><ul>
-<li><a href="#1-安装docker">1. 安装Docker</a><ul>
-<li><a href="#11-debianubuntu安装docker">1.1 Debian&amp;Ubuntu安装Docker</a></li>
-<li><a href="#12-centos安装docker">1.2 Centos安装Docker</a></li>
-</ul>
-</li>
-<li><a href="#2-使用ustc的docker镜像">2. 使用ustc的docker镜像</a></li>
-<li><a href="#3-docker镜像管理相关命令">3. docker镜像管理相关命令</a></li>
-<li><a href="#4-docker容器管理相关命令">4. docker容器管理相关命令</a></li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-
-<a id="more"></a>
-
-<h1><span id="docker的安装">Docker的安装</span></h1><h2><span id="1-安装docker">1. 安装Docker</span></h2><h3><span id="11-debianampubuntu安装docker">1.1 Debian&amp;Ubuntu安装Docker</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 卸载之前安装的docker</span></span><br><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br><span class="line"><span class="comment"># 2. 更新 apt 包索引</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"><span class="comment"># 3. 安装 apt 依赖包，用于通过HTTPS来获取仓库:</span></span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg-agent \</span><br><span class="line">    software-properties-common</span><br><span class="line"><span class="comment"># 4. 添加 Docker 的官方 GPG 密钥：</span></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line"><span class="comment"># 5. 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88\</span></span><br><span class="line"><span class="comment"># 	通过搜索指纹的后8个字符，验证您现在是否拥有带有指纹的密钥。</span></span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"><span class="comment"># 6. 使用以下指令设置稳定版仓库</span></span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">  <span class="variable">$(lsb_release -cs)</span> stable"</span></span><br><span class="line"><span class="comment"># 7. 安装Docker Engine-Community</span></span><br><span class="line">sudo apt-get update;sudo apt-get install docker-ce docker-ce-cli containerd.io -y</span><br><span class="line"><span class="comment"># 8. 测试 Docker 是否安装成功</span></span><br><span class="line">docker -v</span><br><span class="line"><span class="comment"># 9. 成功之后启动 docker 服务</span></span><br><span class="line">/etc/init.d/docker start </span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">service docker start</span><br><span class="line"><span class="comment"># 10. 如果想开机启动：</span></span><br><span class="line">sudo update-rc.d  docker <span class="built_in">enable</span></span><br></pre></td></tr></table></figure>
-<h3><span id="12-centos安装docker">1.2 Centos安装Docker</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新一下源信息</span></span><br><span class="line">sudo yum update</span><br><span class="line"><span class="comment"># 安装一下修改源的依赖</span></span><br><span class="line">sudo yum install yum-utils device-mapper-persistent-data lvm2 -y</span><br><span class="line"><span class="comment"># 修改安装docker的源</span></span><br><span class="line">sudo yum-config-manager  --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"><span class="comment"># 开始安装docker</span></span><br><span class="line">sudo yum install docker-ce -y</span><br><span class="line"><span class="comment">#安装完了验证是否完成安装</span></span><br><span class="line">docker -v</span><br><span class="line"><span class="comment"># 启动docker服务</span></span><br><span class="line">systemctl start docker</span><br><span class="line"><span class="comment"># 关闭docker服务</span></span><br><span class="line">systemctl stop docker</span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">systemctl status docker</span><br><span class="line"><span class="comment"># 开机启动</span></span><br><span class="line">systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
-
-<p>​    </p>
-<h2><span id="2-使用ustc的docker镜像">2. 使用ustc的docker镜像</span></h2><ul>
-<li><p>这是镜像地址</p>
-</li>
-<li><p><a href="http://mirrors.ustc.edu.cn/" target="_blank" rel="noopener">http://mirrors.ustc.edu.cn/</a></p>
-</li>
-<li><p>配置docker镜像地址</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/docker/daemon.json <span class="comment"># 打开的是一个新文件</span></span><br><span class="line"><span class="comment"># 写入：</span></span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">"registry-mirrors"</span>: [<span class="string">"https://docker.mirrors.ustc.edu.cn"</span>] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>保存退出即可</p>
-</li>
-</ul>
-<h2><span id="3-docker镜像管理相关命令">3. docker镜像管理相关命令</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查找镜像 </span></span><br><span class="line">docker search &lt;name&gt;</span><br><span class="line"><span class="comment">#下载镜像 </span></span><br><span class="line">docker pull &lt;name&gt;</span><br><span class="line"><span class="comment">#列出镜像 </span></span><br><span class="line">docker image ls | images</span><br><span class="line"><span class="comment">#删除镜像 </span></span><br><span class="line">docker image rm &lt;name&gt;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="4-docker容器管理相关命令">4. docker容器管理相关命令</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#运行容器 </span></span><br><span class="line">docker run -it centos /bin/bash</span><br><span class="line"><span class="comment">#后台运行 </span></span><br><span class="line">docker run -dit centos /bin/bash</span><br><span class="line"><span class="comment">#列出容器 </span></span><br><span class="line">docker container ls 或者 docker ps</span><br><span class="line"><span class="comment">#终止容器 </span></span><br><span class="line">docker stop 852</span><br><span class="line"><span class="comment">##启动容器 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入容器 </span></span><br><span class="line">docker <span class="built_in">exec</span> -it 8529 bash</span><br><span class="line"><span class="comment">#导入导出 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除容器 d</span></span><br><span class="line">ocker container rm &lt;CONTAINER ID&gt;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
       </tags>
   </entry>
 </search>
