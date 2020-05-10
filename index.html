@@ -226,7 +226,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-05-10 23:06:36 / 修改时间：23:21:17" itemprop="dateCreated datePublished" datetime="2020-05-10T23:06:36+08:00">2020-05-10</time>
+              <time title="创建时间：2020-05-10 23:06:36 / 修改时间：23:26:13" itemprop="dateCreated datePublished" datetime="2020-05-10T23:06:36+08:00">2020-05-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,34 +276,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1><span id="docker已运行容器添加或修改端口映射">docker已运行容器添加或修改端口映射</span></h1><h2><span id="1-不推荐方法">1. 不推荐方法：</span></h2><ul>
-<li><strong>将原来的容器提交成镜像，然后利用新的建立的镜像重新建立一个带有端口映射的容器</strong><h2><span id="2-推荐方法">2.  推荐方法：</span></h2></li>
+          <!-- toc -->
+
+<ul>
+<li><a href="#docker已运行容器添加或修改端口映射">docker已运行容器添加或修改端口映射</a><ul>
+<li><a href="#1-不推荐方法">1. 不推荐方法：</a></li>
+<li><a href="#2-推荐方法">2. 推荐方法：</a></li>
 </ul>
-<ol>
-<li>查看容器的 <hash_of_the_container> 值:</hash_of_the_container></li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect &lt;container-name&gt;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>修改<code>hostconfig.json</code>文件：</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vim /var/lib/docker/containers/[hash_of_the_container]/hostconfig.json</span><br><span class="line"><span class="comment">#在 hostconfig.json 找到"PortBindings":&#123;&#125; 这个配置项</span></span><br><span class="line"><span class="comment">#可以照着这个模板添加多个端口映射</span></span><br><span class="line"><span class="string">"PortBindings"</span>:</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"80/tcp"</span>:[&#123;</span><br><span class="line">        <span class="string">"HostIp"</span>:<span class="string">""</span>,</span><br><span class="line">        <span class="string">"HostPort"</span>:<span class="string">"8080"</span></span><br><span class="line">    &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>修改<code>config.v2.json</code>文件：</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /var/lib/docker/containers/[hash_of_the_container]/config.v2.json</span><br><span class="line"><span class="comment">#在 config.v2.json 里面找到:</span></span><br><span class="line"><span class="string">"Tty"</span>: <span class="literal">true</span> <span class="comment">#在这之前添加一个配置项 :</span></span><br><span class="line"><span class="string">"ExposedPorts"</span>:&#123;<span class="string">"80/tcp"</span>:&#123;&#125;&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li><p>最后重启 <strong>docker</strong>的守护进程 </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service docker restart</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查看配置项已经修改成功</p>
-</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect &lt;container-name&gt;</span><br></pre></td></tr></table></figure>
-
-
+</ul>
+<!-- tocstop -->
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Docker-Config/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
