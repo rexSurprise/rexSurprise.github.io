@@ -62,6 +62,9 @@
 
 
 <h2><span id="14-textarea输入tab的处理">14. textarea输入Tab的处理</span></h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTabEvent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            $(<span class="string">"textarea"</span>).on(<span class="string">'keydown'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(e.keyCode === <span class="number">9</span>)&#123;</span><br><span class="line">                    e.preventDefault();</span><br><span class="line">                    <span class="keyword">let</span></span><br><span class="line">                        indent = <span class="string">'    '</span>, <span class="comment">//空格数可选</span></span><br><span class="line">                        start = <span class="keyword">this</span>.selectionStart,</span><br><span class="line">                        end = <span class="keyword">this</span>.selectionEnd,</span><br><span class="line">                        selected = <span class="built_in">window</span>.getSelection().toString();</span><br><span class="line">                    selected = indent + selected.replace(<span class="regexp">/\n/g</span>,<span class="string">'\n'</span>+indent);</span><br><span class="line">                    <span class="keyword">this</span>.value = <span class="keyword">this</span>.value.substring(<span class="number">0</span>,start) + selected + <span class="keyword">this</span>.value.substring(end);</span><br><span class="line">                    <span class="keyword">this</span>.setSelectionRange(start+indent.length,start+selected.length);</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
       <tags>
         <tag>JS</tag>
       </tags>
@@ -108,6 +111,9 @@
 <h2><span id="4-docker容器管理相关命令">4. docker容器管理相关命令</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#运行容器 </span></span><br><span class="line">docker run -it centos /bin/bash</span><br><span class="line"><span class="comment">#后台运行 </span></span><br><span class="line">docker run -dit centos /bin/bash</span><br><span class="line"><span class="comment">#列出容器 </span></span><br><span class="line">docker container ls 或者 docker ps</span><br><span class="line"><span class="comment">#终止容器 </span></span><br><span class="line">docker stop 852</span><br><span class="line"><span class="comment">##启动容器 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入容器 </span></span><br><span class="line">docker <span class="built_in">exec</span> -it 8529 bash</span><br><span class="line"><span class="comment">#导入导出 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除容器 d</span></span><br><span class="line">ocker container rm &lt;CONTAINER ID&gt;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
       <tags>
         <tag>Docker</tag>
       </tags>
