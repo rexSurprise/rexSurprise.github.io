@@ -392,11 +392,26 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Rex_Surprise"
+    <img class="site-author-image" id="author-image" itemprop="image" alt="Rex_Surprise"
       src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">Rex_Surprise</p>
   <div class="site-description" itemprop="description">Rex_Surprise的个人博客~</div>
 </div>
+<!-- 自己写的js代码 BGDIN-->
+<script type="text/javascript">
+	window.onload=function () {
+		var r = Math.random();
+		var show = document.getElementById('author-image');
+		var mfunc = function(){
+			var sy = '#'+(Math.cos(r)*127+128<<16 | Math.cos(r + Math.PI/3)*127+128<<8 | Math.cos(r + Math.PI/3*2)*127+128).toString(16);
+			r -= Math.PI / -50;
+			if(sy.length == 6) return mfunc();
+			show.style.background=sy;
+		}
+		setInterval(mfunc,50);
+	}
+</script>
+<!-- 自己写的js代码 END-->
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
