@@ -202,6 +202,240 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://atc96.top/ASP.NET_PPT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rex_Surprise">
+      <meta itemprop="description" content="Rex_Surprise的个人博客~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rex_Surprise">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/ASP.NET_PPT/" class="post-title-link" itemprop="url">ASP.NET知识点</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-27 18:39:42 / 修改时间：18:36:54" itemprop="dateCreated datePublished" datetime="2020-06-27T18:39:42+08:00">2020-06-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ASP-NET/" itemprop="url" rel="index"><span itemprop="name">ASP.NET</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/ASP.NET_PPT/" class="post-meta-item leancloud_visitors" data-flag-title="ASP.NET知识点" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/ASP.NET_PPT/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/ASP.NET_PPT/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- toc -->
+
+<ul>
+<li><a href="#aspnet知识点">ASP.NET知识点</a><ul>
+<li><a href="#第一章-aspnet简介">第一章 ASP.NET简介</a></li>
+<li><a href="#第二章-aspnet中的控件">第二章 ASP.NET中的控件</a><ul>
+<li><a href="#1-控件分类">1. 控件分类</a></li>
+<li><a href="#2-页面回发">2. 页面回发</a></li>
+<li><a href="#3-常用控件">3. 常用控件</a><ul>
+<li><a href="#1-label控件">1. <strong>Label控件</strong></a></li>
+<li><a href="#2-textbox控件"><strong>2. TextBox控件</strong></a></li>
+<li><a href="#3-image控件">3. <strong>Image控件</strong></a></li>
+<li><a href="#4-hyperlink控件">4. <strong>HyperLink控件</strong></a></li>
+<li><a href="#5-radiobutton控件">5. <strong>RadioButton控件</strong></a></li>
+<li><a href="#6-checkbox控件">6. <strong>CheckBox控件</strong></a></li>
+<li><a href="#7-列表控件">7. <strong>列表控件</strong></a></li>
+<li><a href="#8-hiddenfield控件">8. <strong>HiddenField控件</strong></a></li>
+</ul>
+</li>
+<li><a href="#4-服务器控件的客户端事件处理">4. 服务器控件的客户端事件处理</a></li>
+<li><a href="#5-总结">5. 总结</a></li>
+</ul>
+</li>
+<li><a href="#第三章-aspnet系统对象与状态管理">第三章 ASP.NET系统对象与状态管理</a><ul>
+<li><a href="#1-系统对象的概念">1. <strong>系统对象的概念</strong></a><ul>
+<li><a href="#1-page对象">1. Page对象</a></li>
+<li><a href="#2-response对象">2. Response对象</a></li>
+<li><a href="#3-server对象">3. Server对象</a></li>
+<li><a href="#4-aspnet中的状态管理">4. ASP.NET中的状态管理</a></li>
+<li><a href="#5-cookie对象">5. Cookie对象</a></li>
+<li><a href="#6-session对象">6. Session对象</a></li>
+<li><a href="#7-application对象">7. Application对象</a></li>
+<li><a href="#8-状态管理技术的区别">8. 状态管理技术的区别</a></li>
+</ul>
+</li>
+<li><a href="#2-总结">2. 总结</a></li>
+</ul>
+</li>
+<li><a href="#第四章-基于三层架构搭建系统">第四章 基于三层架构搭建系统</a><ul>
+<li><a href="#1-为什么需要分层架构">1. <strong>为什么需要分层架构</strong></a></li>
+<li><a href="#2-三层结构的优势">2. 三层结构的优势</a></li>
+<li><a href="#3-模型层">3. 模型层</a><ul>
+<li><a href="#3-1-创建模型层">3-1 创建模型层</a></li>
+</ul>
+</li>
+<li><a href="#4-数据访问层">4. 数据访问层</a><ul>
+<li><a href="#4-1-创建数据访问层">4-1 创建数据访问层</a></li>
+<li><a href="#4-2-添加依赖">4-2 添加依赖</a></li>
+</ul>
+</li>
+<li><a href="#5-业务逻辑层">5. 业务逻辑层</a><ul>
+<li><a href="#5-1-创建业务逻辑层">5-1 创建业务逻辑层</a></li>
+<li><a href="#5-2-添加依赖">5-2 添加依赖</a></li>
+</ul>
+</li>
+<li><a href="#6-表示层">6. 表示层</a><ul>
+<li><a href="#6-1-创建表示层">6-1 创建表示层</a></li>
+<li><a href="#6-2-添加依赖">6-2 添加依赖</a></li>
+</ul>
+</li>
+<li><a href="#7-目录结构">7. 目录结构</a></li>
+<li><a href="#8-总结">8. 总结</a></li>
+</ul>
+</li>
+<li><a href="#第五章-搭建风格统一的web站点">第五章 搭建风格统一的Web站点</a><ul>
+<li><a href="#1-母版页">1. 母版页</a></li>
+<li><a href="#2-母版页的优点">2. 母版页的优点</a></li>
+<li><a href="#3-创建母版页">3. 创建母版页</a><ul>
+<li><a href="#3-1-母版页的源文件">3-1 母版页的源文件</a></li>
+<li><a href="#3-2-普通页面与母版页的区别">3-2 普通页面与母版页的区别</a></li>
+</ul>
+</li>
+<li><a href="#4-创建内容页">4. 创建内容页</a><ul>
+<li><a href="#4-1-新创建的内容页代码">4-1 新创建的内容页代码</a></li>
+<li><a href="#4-2-将现有页面改为内容页">4-2 将现有页面改为内容页</a></li>
+</ul>
+</li>
+<li><a href="#5-站点地图">5. 站点地图</a></li>
+<li><a href="#6-treeview控件">6. TreeView控件</a></li>
+<li><a href="#7-sitemappath">7. SiteMapPath</a></li>
+<li><a href="#8-总结">8. <strong>总结</strong></a></li>
+</ul>
+</li>
+<li><a href="#第六章-验证控件和上传控件">第六章 验证控件和上传控件</a><ul>
+<li><a href="#1-数据验证控件">1. 数据验证控件</a><ul>
+<li><a href="#1-requiredfieldvalidator">1. <strong>RequiredFieldValidator</strong></a></li>
+<li><a href="#2-rangevalidator">2. <strong>RangeValidator</strong></a></li>
+<li><a href="#3-comparevalidator">3. <strong>CompareValidator</strong></a></li>
+<li><a href="#4-regularexpressionvalidator">4. <strong>RegularExpressionValidator</strong></a></li>
+<li><a href="#5-customvalidator">5. <strong>CustomValidator</strong></a></li>
+<li><a href="#6-validationsummary">6. <strong>ValidationSummary</strong></a></li>
+<li><a href="#7-pageisvalid">7. <strong>Page.IsValid</strong></a></li>
+<li><a href="#8-禁用验证">8. <strong>禁用验证</strong></a></li>
+<li><a href="#9-文件上传控件">9. <strong>文件上传控件</strong></a></li>
+</ul>
+</li>
+<li><a href="#2-总结-1">2. 总结</a></li>
+</ul>
+</li>
+<li><a href="#第七章-数据绑定和gridview控件">第七章-数据绑定和GridView控件</a><ul>
+<li><a href="#1-数据绑定">1. 数据绑定</a><ul>
+<li><a href="#1-1-数据绑定机制">1-1 数据绑定机制</a></li>
+<li><a href="#1-2-数据绑定表达式语法">1-2 数据绑定表达式语法</a></li>
+</ul>
+</li>
+<li><a href="#2-gridview控件">2. GridView控件</a><ul>
+<li><a href="#2-1-使用gridview控件呈现数据">2-1 使用GridView控件呈现数据</a></li>
+<li><a href="#2-2-手动创建gridview列">2-2 手动创建GridView列</a></li>
+<li><a href="#2-3-boundfield">2-3. BoundField</a></li>
+<li><a href="#2-4-imagefield">2-4 ImageField</a></li>
+<li><a href="#2-5-templatefield">2-5 TemplateField</a></li>
+<li><a href="#2-6-commandfield">2-6 CommandField</a></li>
+<li><a href="#2-7-hyperlinkfield">2-7 HyperLinkField</a></li>
+<li><a href="#2-8-gridview的分页">2-8 GridView的分页</a></li>
+<li><a href="#2-9-设置gridview的样式">2-9 设置GridView的样式</a></li>
+</ul>
+</li>
+<li><a href="#3-总结">3. <strong>总结</strong></a></li>
+</ul>
+</li>
+<li><a href="#第八章-gridview控件的使用二">第八章 GridView控件的使用（二）</a><ul>
+<li><a href="#1-gridview控件的编辑功能">1. GridView控件的编辑功能</a></li>
+<li><a href="#2-高亮显示鼠标悬浮的行数据">2. 高亮显示鼠标悬浮的行数据</a></li>
+<li><a href="#3-detailsview控件">3. DetailsView控件</a></li>
+<li><a href="#总结">总结</a></li>
+</ul>
+</li>
+<li><a href="#第九章-使用datalist和repeater绑定数据">第九章 使用DataList和Repeater绑定数据</a><ul>
+<li><a href="#1-datalist控件的使用">1. DataList控件的使用</a></li>
+<li><a href="#2-datalist控件的重要属性">2. DataList控件的重要属性</a></li>
+<li><a href="#3-实现datalist控件的分页">3. 实现DataList控件的分页</a></li>
+<li><a href="#4-repeater控件的使用">4. Repeater控件的使用</a></li>
+<li><a href="#总结-1">总结</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/ASP.NET_PPT/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://atc96.top/python-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -657,6 +891,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rex_Surprise">
+      <meta itemprop="description" content="Rex_Surprise的个人博客~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rex_Surprise">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/DC-5/" class="post-title-link" itemprop="url">DC-5 靶机渗透</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：18:15:58" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%B6%E6%9C%BA%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">靶机渗透</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/DC-5/" class="post-meta-item leancloud_visitors" data-flag-title="DC-5 靶机渗透" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/DC-5/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/DC-5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- toc -->
+
+<ul>
+<li><a href="#dc-5-靶机渗透">DC-5 靶机渗透</a><ul>
+<li><a href="#1渗透过程">1.渗透过程</a></li>
+<li><a href="#__theend__"><strong>THEEND!</strong></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/DC-5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -741,114 +1080,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/DC-1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rex_Surprise">
-      <meta itemprop="description" content="Rex_Surprise的个人博客~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rex_Surprise">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/DC-2/" class="post-title-link" itemprop="url">DC-2 靶机渗透</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：17:54:28" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%B6%E6%9C%BA%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">靶机渗透</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/DC-2/" class="post-meta-item leancloud_visitors" data-flag-title="DC-2 靶机渗透" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/DC-2/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/DC-2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!-- toc -->
-
-<ul>
-<li><a href="#dc-2靶机渗透">DC-2靶机渗透</a><ul>
-<li><a href="#1-渗透过程">1. 渗透过程</a></li>
-</ul>
-</li>
-<li><a href="#__the_ent__"><strong>!!!THE_ENT!!!</strong></a><ul>
-<li><a href="#2-重要信息">2. 重要信息</a></li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/DC-2/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -978,7 +1209,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-3/">
+    <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -992,7 +1223,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/DC-3/" class="post-title-link" itemprop="url">DC-3 靶机渗透</a>
+            <a href="/DC-9/" class="post-title-link" itemprop="url">DC-9 靶机渗透</a>
         </h2>
 
         <div class="post-meta">
@@ -1003,7 +1234,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：17:57:47" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
+              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：18:29:32" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1016,7 +1247,7 @@
             </span>
 
           
-            <span id="/DC-3/" class="post-meta-item leancloud_visitors" data-flag-title="DC-3 靶机渗透" title="阅读次数">
+            <span id="/DC-9/" class="post-meta-item leancloud_visitors" data-flag-title="DC-9 靶机渗透" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -1031,8 +1262,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/DC-3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/DC-3/" itemprop="commentCount"></span>
+    <a title="valine" href="/DC-9/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/DC-9/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1050,233 +1281,122 @@
           <!-- toc -->
 
 <ul>
-<li><a href="#dc-3靶机渗透">DC-3靶机渗透</a><ul>
-<li><a href="#1-渗透过程">1. 渗透过程</a><ul>
-<li><a href="#welcome-to-dc-3">Welcome to DC-3.</a></li>
-<li><a href="#欢迎来到dc-3">欢迎来到DC-3。</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/DC-3/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rex_Surprise">
-      <meta itemprop="description" content="Rex_Surprise的个人博客~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rex_Surprise">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/DC-5/" class="post-title-link" itemprop="url">DC-5 靶机渗透</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：18:15:58" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%B6%E6%9C%BA%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">靶机渗透</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/DC-5/" class="post-meta-item leancloud_visitors" data-flag-title="DC-5 靶机渗透" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/DC-5/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/DC-5/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!-- toc -->
-
-<ul>
-<li><a href="#dc-5-靶机渗透">DC-5 靶机渗透</a><ul>
-<li><a href="#1渗透过程">1.渗透过程</a></li>
-<li><a href="#__theend__"><strong>THEEND!</strong></a></li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/DC-5/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rex_Surprise">
-      <meta itemprop="description" content="Rex_Surprise的个人博客~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rex_Surprise">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/DC-7/" class="post-title-link" itemprop="url">DC-7 靶机渗透</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：18:23:54" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%B6%E6%9C%BA%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">靶机渗透</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/DC-7/" class="post-meta-item leancloud_visitors" data-flag-title="DC-7 靶机渗透" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/DC-7/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/DC-7/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!-- toc -->
-
-<ul>
-<li><a href="#dc-7-靶机渗透">DC-7 靶机渗透</a><ul>
+<li><a href="#dc-9-靶机渗透">DC-9 靶机渗透</a><ul>
 <li><a href="#1-渗透过程">1. 渗透过程</a></li>
-</ul>
-</li>
-<li><a href="#welcome-to-dc-7">Welcome to DC-7</a></li>
-<li><a href="#staffdb">staffdb</a><ul>
-<li><a href="#_the_end__"><em>THE_END!!!_</em></a></li>
+<li><a href="#__the_end__"><strong>THE_END!</strong></a></li>
 </ul>
 </li>
 </ul>
 <!-- tocstop -->
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/DC-7/#more" rel="contents">
+              <a class="btn" href="/DC-9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://atc96.top/DC-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rex_Surprise">
+      <meta itemprop="description" content="Rex_Surprise的个人博客~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rex_Surprise">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/DC-6/" class="post-title-link" itemprop="url">DC-6 靶机渗透</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-10 00:00:00 / 修改时间：18:18:52" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%B6%E6%9C%BA%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">靶机渗透</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/DC-6/" class="post-meta-item leancloud_visitors" data-flag-title="DC-6 靶机渗透" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/DC-6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/DC-6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- toc -->
+
+<ul>
+<li><a href="#dc-6靶机渗透">DC-6靶机渗透</a><ul>
+<li><a href="#1渗透过程">1.渗透过程</a></li>
+<li><a href="#2-重要信息">2. 重要信息:</a></li>
+<li><a href="#__~the~end~__"><strong><del>THE</del>END~</strong></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/DC-6/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1382,20 +1502,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1456,13 +1576,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">100k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:31</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
 
 
