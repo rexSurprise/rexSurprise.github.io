@@ -238,7 +238,13 @@ NexT.utils = {
       // TOC item animation navigate.
       link.addEventListener('click', event => {
         event.preventDefault();
-        var target = document.getElementById(event.currentTarget.getAttribute('href').replace('#', ''));
+		var str = event.currentTarget.innerText;
+		str = str.toLowerCase();
+		str = str.split(/ /).join('-');
+		str = str.split(/\t/).join('--');
+		str = str.split(/[|$&`~=\\\/@+*!?({[\]})<>=.,;:'"（）【】：；、^]/).join('');
+		if(str == '')return;
+        var target = document.getElementById(str);
         var offset = target.getBoundingClientRect().top + window.scrollY;
         window.anime({
           targets  : document.scrollingElement,
@@ -247,7 +253,8 @@ NexT.utils = {
           scrollTop: offset + 10
         });
       });
-      return document.getElementById(link.getAttribute('href').replace('#', ''));
+	  //为了去除警告,将链式编程的链子打断了...
+      //return document.getElementById(g_str);
     });
 
     var tocElement = document.querySelector('.post-toc-wrap');
